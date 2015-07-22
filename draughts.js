@@ -10,8 +10,10 @@ var Board = function () {
 
   for (var i = 0; i < TILES_COUNT; ++i) {
     this.tiles[i] = [];
-    for (var j = 0; j < TILES_COUNT / 2; ++j) {
-      if (i < 4)
+    for (var j = 0; j < TILES_COUNT; ++j) {
+      if ((i + j) % 2 == 0)
+        this.tiles[i][j] = Board.TileType.FORBIDDEN;
+      else if (i < 4)
         this.tiles[i][j] = Board.TileType.BLACK;
       else if (i < 6)
         this.tiles[i][j] = Board.TileType.BLANK;
@@ -24,7 +26,8 @@ var Board = function () {
 Board.TileType = {
   WHITE: 0,
   BLACK: 1,
-  BLANK: 2
+  BLANK: 2,
+  FORBIDDEN: 3
 };
 
 Board.prototype.draw = function() {
@@ -57,18 +60,18 @@ Board.prototype.drawBoardBase = function() {
 
 Board.prototype.drawMen = function() {
   for (var i = 0; i < 10; ++i) {
-    for (var j = 0; j < 5; ++j) {
+    for (var j = 0; j < 10; ++j) {
       switch (this.tiles[i][j]) {
         case Board.TileType.BLACK:
           ctx.fillStyle = "#2c2c2c";
           ctx.beginPath();
-          ctx.arc(2*j*tile + 0.5*tile + (1-i%2)*tile, i*tile + 0.5*tile, 13, 0, 2 * Math.PI, false);
+          ctx.arc(j*tile + 0.5*tile, i*tile + 0.5*tile, 13, 0, 2 * Math.PI, false);
           ctx.fill();
           break;
         case Board.TileType.WHITE:
           ctx.fillStyle = "#f0f0f0";
           ctx.beginPath();
-          ctx.arc(2*j*tile + 0.5*tile + (1-i%2)*tile, i*tile + 0.5*tile, 13, 0, 2 * Math.PI, false);
+          ctx.arc(j*tile + 0.5*tile, i*tile + 0.5*tile, 13, 0, 2 * Math.PI, false);
           ctx.fill();
           break;
         }
@@ -119,6 +122,7 @@ run();
 /*
   Każdy tile można podświetlać z osobna, czyli dla każdej płytki musi byc zapisywany stan podswietlenia,
   -> obiekt Tile lub -> lista tilów w Board
+
 */
 
 /*
