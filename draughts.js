@@ -2,13 +2,29 @@ var canvas = document.getElementById('draughts-canvas');
 var ctx = canvas.getContext('2d');
 GraphicsContext.setCanvasContext(ctx);
 var mousePos;
-var TILES_COUNT = 10;
-var tile = canvas.width / 10;
 var board;
-
+var Color = net.brehaut.Color;
+var previousX;
+var previousY;
 
 
 function draw() {
+  if (previousX) {
+    board.tiles[previousX][previousY].hover = false;
+  }
+  // TODO: here or in Board/somewhere else?
+  if (mousePos) {
+    var xTileHover = Math.floor((mousePos.x - 1) / Tile.size); // FIXME: not "-1"
+    var yTileHover = Math.floor((mousePos.y - 1) / Tile.size);
+    // console.log(xTileHover);
+    // console.log(yTileHover);
+    board.tiles[xTileHover][yTileHover].hover = true;
+    previousX = xTileHover;
+    previousY = yTileHover;
+  }
+  else {
+    console.log("no mouse");
+  }
   board.draw();
   window.requestAnimationFrame(draw);
 }
@@ -30,21 +46,15 @@ function getMousePos(canvas, event) {
 canvas.addEventListener('mousemove', function(event) {
   mousePos = getMousePos(canvas, event);
   var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-  console.log(message);
+  // console.log(message);
   // window.requestAnimationFrame(draw);
 }, false);
 
-function splitRGB(color) {
-  return color.substring(color.indexOf('(')+1, color.indexOf(')')).split(',');
-}
-
-function tint(color, factor) {
-  tintedColor = splitRGB(color);
-
-  for (var i = 0; i < tintedColor.length; ++i) {
-    tintedColor[0] = tintedColor[0] + (255 - tintedColor[0]) * factor;
-  }
-}
+canvas.addEventListener('mouseout', function(event) {
+  mousePos = undefined;
+  // console.log(message);
+  // window.requestAnimationFrame(draw);
+}, false);
 
 run();
 //window.requestAnimationFrame(draw);

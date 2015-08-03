@@ -14,4 +14,4 @@ Man.ManColor = {
 
 Man.prototype.draw = function() {
   console.log('sth');
-}
+};
