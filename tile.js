@@ -1,8 +1,22 @@
-var Tile = function (type) {
+var Tile = function (type, x, y) {
   this.type = type;
   this.tint = 0;
   this.hover = false;
   this.selected = false;
+  this.x = x;
+  this.y = y;
+
+  this.graphic = new fabric.Rect({
+    left: Tile.size * x,
+    top: Tile.size * y,
+    fill: type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed,
+    width: Tile.size,
+    height: Tile.size,
+    selectable: false,
+    obj: this
+  });
+
+  canvas.add(this.graphic);
 };
 
 Tile.size = undefined;
@@ -27,4 +41,22 @@ Tile.prototype.draw = function() {
   }
 
   GraphicsContext.drawRectangle(0, 0, Tile.size, Tile.size, actualColor);
+};
+
+Tile.prototype.onMouseOver = function() {
+  var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
+  this.graphic.fill = Color(actualColor).lightenByAmount(0.1).toString();
+};
+
+Tile.prototype.onMouseOut = function() {
+  var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
+  this.graphic.fill = actualColor;
+};
+
+Tile.prototype.onMouseDown = function() {
+  var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
+  var strokeWidth_ = 2;
+  this.graphic.set('fill', Color(actualColor).lightenByAmount(0.1).toString());
+  this.graphic.set({ width: Tile.size - strokeWidth_, height: Tile.size - strokeWidth_,
+    strokeWidth: 2, stroke: '#171717' });
 };

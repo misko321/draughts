@@ -1,0 +1,26 @@
+{
+  "name": "draughts",
+  "main": "draughts.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/misko321/draughts",
+  "authors": [
+    "Michal Patron <michal.patron@gmail.com>"
+  ],
+  "description": "International draughts game using 'fabricjs' for graphics and WebSockets for asynchronic communication",
+  "keywords": [
+    "draughts",
+    "fabricjs",
+    "websockets"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fabric": "~1.5.0"
+  }
+}

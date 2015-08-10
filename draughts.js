@@ -1,35 +1,17 @@
-var canvas = document.getElementById('draughts-canvas');
-var ctx = canvas.getContext('2d');
-GraphicsContext.setCanvasContext(ctx);
+var canvas = new fabric.Canvas('draughts-canvas');
+canvas.setBackgroundColor("#ffffff");
 var mousePos;
 var board;
 var Color = net.brehaut.Color;
-var previousX;
-var previousY;
 
 function draw() {
-  if (previousX) {
-    board.tiles[previousX][previousY].hover = false;
-  }
-
-  // TODO: here or in Board/somewhere else?
-  if (mousePos) {
-    var xTileHover = Math.floor((mousePos.x - 1) / Tile.size); // FIXME: not "-1", fails when pos === 0
-    var yTileHover = Math.floor((mousePos.y - 1) / Tile.size);
-    // console.log(xTileHover);
-    // console.log(yTileHover);
-    board.tiles[xTileHover][yTileHover].hover = true;
-    previousX = xTileHover;
-    previousY = yTileHover;
-  }
   board.draw();
-  window.requestAnimationFrame(draw);
+  // window.requestAnimationFrame(draw);
 }
 
 function run() {
   board = new Board();
   draw();
-  //window.requestAnimationFrame(draw);
 }
 
 function getMousePos(canvas, event) {
@@ -40,30 +22,40 @@ function getMousePos(canvas, event) {
   };
 }
 
-canvas.addEventListener('mousemove', function(event) {
-  mousePos = getMousePos(canvas, event);
-  var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-  // console.log(message);
-  // window.requestAnimationFrame(draw);
-}, false);
+canvas.on('mouse:over', function(e) {
+  if (e.target.obj.onMouseOver) {
+    e.target.obj.onMouseOver();
+    canvas.renderAll();
+  }
+});
 
-canvas.addEventListener('mouseout', function(event) {
-  mousePos = undefined;
-  // console.log(message);
-  // window.requestAnimationFrame(draw);
-}, false);
+canvas.on('mouse:out', function(e) {
+  if (e.target.obj.onMouseOut) {
+    e.target.obj.onMouseOut();
+    canvas.renderAll();
+  }
+});
 
-canvas.addEventListener('click', function(event) {
-  mousePos = getMousePos(canvas, event);
-  var xTileHover = Math.floor((mousePos.x - 1) / Tile.size); // FIXME: not "-1"
-  var yTileHover = Math.floor((mousePos.y - 1) / Tile.size);
-  board.tiles[xTileHover][yTileHover].selected = true;
-  // console.log(message);
-  // window.requestAnimationFrame(draw);
-}, false);
+canvas.on('mouse:down', function(e) {
+  if (e.target.obj.onMouseDown) {
+    e.target.obj.onMouseDown();
+    canvas.renderAll();
+  }
+});
+// canvas.addEventListener('mousemove', function(event) {
+//   mousePos = getMousePos(canvas, event);
+//   var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+// }, false);
+//
+// canvas.addEventListener('mouseout', function(event) {
+//   mousePos = undefined;
+// }, false);
+//
+// canvas.addEventListener('click', function(event) {
+//   mousePos = getMousePos(canvas, event);
+// }, false);
 
 run();
-//window.requestAnimationFrame(draw);
 
 /*
   Każdy tile można podświetlać z osobna, czyli dla każdej płytki musi byc zapisywany stan podswietlenia,

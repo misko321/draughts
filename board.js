@@ -1,17 +1,18 @@
 var Board = function () {
   this.tiles = [];
+  Tile.size = canvas.getWidth() / Board.tilesCount;
 
   for (var i = 0; i < Board.tilesCount; ++i) {
     this.tiles[i] = [];
     for (var j = 0; j < Board.tilesCount; ++j) {
       if ((i + j) % 2 === 0)
-        this.tiles[i][j] = new Tile(Tile.TileType.FORBIDDEN);
+        this.tiles[i][j] = new Tile(Tile.TileType.FORBIDDEN, i, j);
       else if (j < 4)
-        this.tiles[i][j] = new Tile(Tile.TileType.BLACK);
+        this.tiles[i][j] = new Tile(Tile.TileType.BLACK, i, j);
       else if (j < 6)
-        this.tiles[i][j] = new Tile(Tile.TileType.BLANK);
+        this.tiles[i][j] = new Tile(Tile.TileType.BLANK, i, j);
       else
-        this.tiles[i][j] = new Tile(Tile.TileType.WHITE);
+        this.tiles[i][j] = new Tile(Tile.TileType.WHITE, i, j);
     }
   }
 };
@@ -43,15 +44,25 @@ Board.prototype.drawBoardBase = function() {
   //   }
   // }
 
-  Tile.size = canvas.width / 10;
-  for (var i = 0; i < 10; ++i) {
-    for (var j = 0; j < 10; ++j) {
-      GraphicsContext.save();
-      GraphicsContext.translate(Tile.size*i, Tile.size*j);
-      this.tiles[i][j].draw();
-      GraphicsContext.restore();
-    }
-  }
+  // Tile.size = canvas.width / 10;
+  // for (var i = 0; i < 10; ++i) {
+  //   for (var j = 0; j < 10; ++j) {
+  //     GraphicsContext.save();
+  //     GraphicsContext.translate(Tile.size*i, Tile.size*j);
+  //     this.tiles[i][j].draw();
+  //     GraphicsContext.restore();
+  //   }
+  // }
+  // var rect = new fabric.Rect({
+  //   left: 100,
+  //   top: 100,
+  //   fill: 'red',
+  //   width: 20,
+  //   height: 20
+  // });
+  //
+  // // "add" rectangle onto canvas
+  // canvas.add(rect);
 };
 
 Board.prototype.drawMen = function() {
