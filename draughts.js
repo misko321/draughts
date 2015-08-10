@@ -7,23 +7,20 @@ var Color = net.brehaut.Color;
 var previousX;
 var previousY;
 
-
 function draw() {
   if (previousX) {
     board.tiles[previousX][previousY].hover = false;
   }
+
   // TODO: here or in Board/somewhere else?
   if (mousePos) {
-    var xTileHover = Math.floor((mousePos.x - 1) / Tile.size); // FIXME: not "-1"
+    var xTileHover = Math.floor((mousePos.x - 1) / Tile.size); // FIXME: not "-1", fails when pos === 0
     var yTileHover = Math.floor((mousePos.y - 1) / Tile.size);
     // console.log(xTileHover);
     // console.log(yTileHover);
     board.tiles[xTileHover][yTileHover].hover = true;
     previousX = xTileHover;
     previousY = yTileHover;
-  }
-  else {
-    console.log("no mouse");
   }
   board.draw();
   window.requestAnimationFrame(draw);
@@ -52,6 +49,15 @@ canvas.addEventListener('mousemove', function(event) {
 
 canvas.addEventListener('mouseout', function(event) {
   mousePos = undefined;
+  // console.log(message);
+  // window.requestAnimationFrame(draw);
+}, false);
+
+canvas.addEventListener('click', function(event) {
+  mousePos = getMousePos(canvas, event);
+  var xTileHover = Math.floor((mousePos.x - 1) / Tile.size); // FIXME: not "-1"
+  var yTileHover = Math.floor((mousePos.y - 1) / Tile.size);
+  board.tiles[xTileHover][yTileHover].selected = true;
   // console.log(message);
   // window.requestAnimationFrame(draw);
 }, false);
