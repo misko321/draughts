@@ -16,6 +16,19 @@ var Tile = function (type, x, y) {
     obj: this
   });
 
+  this.man = type === Tile.TileType
+
+  // this.graphic.setGradient('fill', {
+  //   x1: Tile.size / 2,
+  //   y1: 0,
+  //   x2: Tile.size / 2,
+  //   y2: Tile.size,
+  //   colorStops: {
+  //     0: '#4a4a4a',
+  //     1: '#d4d4d4'
+  //   }
+  // });
+
   canvas.add(this.graphic);
 };
 
@@ -24,39 +37,38 @@ Tile.colorAllowed = "#5d5d5d";
 Tile.colorForbidden = "#d9d9d9";
 
 Tile.TileType = {
-  MAN: 0,
-  BLANK: 1,
-  FORBIDDEN: 2
+  ALLOWED: 0,
+  FORBIDDEN: 1
 };
 
-Tile.prototype.draw = function() {
-  var actualColor = Tile.colorForbidden;
+// Tile.prototype.draw = function() {
+//   var actualColor = Tile.colorForbidden;
+//
+//   if (this.type !== Tile.TileType.FORBIDDEN) {
+//     actualColor = Tile.colorAllowed;
+//     if (this.hover)
+//       actualColor = Color(actualColor).lightenByRatio(0.1).toString();
+//     if (this.selected)
+//       actualColor = Color(actualColor).lightenByRatio(0.8).toString();
+//   }
+//
+//   GraphicsContext.drawRectangle(0, 0, Tile.size, Tile.size, actualColor);
+// };
 
-  if (this.type !== Tile.TileType.FORBIDDEN) {
-    actualColor = Tile.colorAllowed;
-    if (this.hover)
-      actualColor = Color(actualColor).lightenByRatio(0.1).toString();
-    if (this.selected)
-      actualColor = Color(actualColor).lightenByRatio(0.8).toString();
-  }
-
-  GraphicsContext.drawRectangle(0, 0, Tile.size, Tile.size, actualColor);
-};
-
-Tile.prototype.onMouseOver = function() {
-  var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
-  this.graphic.fill = Color(actualColor).lightenByAmount(0.1).toString();
-};
-
-Tile.prototype.onMouseOut = function() {
-  var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
-  this.graphic.fill = actualColor;
-};
-
-Tile.prototype.onMouseDown = function() {
-  var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
-  var strokeWidth_ = 2;
-  this.graphic.set('fill', Color(actualColor).lightenByAmount(0.1).toString());
-  this.graphic.set({ width: Tile.size - strokeWidth_, height: Tile.size - strokeWidth_,
-    strokeWidth: 2, stroke: '#171717' });
-};
+// Tile.prototype.onMouseOver = function() {
+//   var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
+//   this.graphic.fill = Color(actualColor).lightenByAmount(0.1).toString();
+// };
+//
+// Tile.prototype.onMouseOut = function() {
+//   var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
+//   this.graphic.fill = actualColor;
+// };
+//
+// Tile.prototype.onMouseDown = function() {
+//   var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
+//   var strokeWidth_ = 2;
+//   this.graphic.set('fill', Color(actualColor).lightenByAmount(0.1).toString());
+//   this.graphic.set({ width: Tile.size - strokeWidth_, height: Tile.size - strokeWidth_,
+//     strokeWidth: 2, stroke: '#171717' });
+// };

@@ -42,6 +42,13 @@ canvas.on('mouse:down', function(e) {
     canvas.renderAll();
   }
 });
+
+canvas.on('mouse:up', function(e) {
+  if (e.target.obj.onMouseDown) {
+    e.target.obj.onMouseDown();
+    canvas.renderAll();
+  }
+});
 // canvas.addEventListener('mousemove', function(event) {
 //   mousePos = getMousePos(canvas, event);
 //   var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;

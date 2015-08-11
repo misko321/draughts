@@ -5,15 +5,22 @@ var Board = function () {
   for (var i = 0; i < Board.tilesCount; ++i) {
     this.tiles[i] = [];
     for (var j = 0; j < Board.tilesCount; ++j) {
+      var man;
       if ((i + j) % 2 === 0)
         this.tiles[i][j] = new Tile(Tile.TileType.FORBIDDEN, i, j);
-      else if (j < 4)
-        this.tiles[i][j] = new Tile(Tile.TileType.BLACK, i, j);
+      else if (j < 4) {
+        // man = new Man(Man.ManColor.BLACK, i, j);
+        this.tiles[i][j] = new Tile(Tile.TileType.ALLOWED, i, j);
+        new Man(Man.ManColor.BLACK, this.tiles[i][j]);
+      }
       else if (j < 6)
-        this.tiles[i][j] = new Tile(Tile.TileType.BLANK, i, j);
-      else
-        this.tiles[i][j] = new Tile(Tile.TileType.WHITE, i, j);
-    }
+        this.tiles[i][j] = new Tile(Tile.TileType.ALLOWED, i, j);
+      else {
+        // man = new Man(Man.ManColor.WHITE, );
+        this.tiles[i][j] = new Tile(Tile.TileType.ALLOWED, i, j);
+        new Man(Man.ManColor.WHITE, this.tiles[i][j]);
+      }
+  }
   }
 };
 Board.tilesCount = 10;
