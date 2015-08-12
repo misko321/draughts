@@ -1,13 +1,13 @@
-var Man = function(color, tile) {
-  this.color = color;
+var Man = function(tile) {
+  // this.color = color;
   this.power = Man.ManPower.STANDARD;
+  this.tile = tile;
 
-  var radius_ = 15;
   this.graphic = new fabric.Circle({
-    radius: radius_,
-    fill: color === Man.ManColor.BLACK ? Man.ColorBlack : Man.ColorWhite,
-    left: Tile.size * (tile.x + 0.5) - radius_,
-    top: Tile.size * (tile.y +0.5) - radius_,
+    radius: Man.Radius,
+    fill: Object.getPrototypeOf(this).constructor.Color,
+    left: Tile.size * (tile.x + 0.5) - Man.Radius,
+    top: Tile.size * (tile.y +0.5) - Man.Radius,
     selectable: false,
     obj: this
   });
@@ -15,8 +15,8 @@ var Man = function(color, tile) {
   canvas.add(this.graphic);
 };
 
-Man.ColorBlack = '#262626';
-Man.ColorWhite = '#d0d0d0';
+Man.Radius = undefined;
+Man.StrokeWidth = undefined;
 
 Man.ManPower = {
   STANDARD: 0,
@@ -28,20 +28,24 @@ Man.ManColor = {
   BLACK: 1
 };
 
+Man.prototype.getColor = function() {
+  return undefined;
+};
+
 Man.prototype.onMouseOver = function() {
-  var actualColor = this.color === Man.ManColor.BLACK ? Man.ColorBlack : Man.ColorWhite;
-  this.graphic.fill = Color(actualColor).lightenByRatio(2).toString();
+  this.graphic.fill = Color(this.getColor()).lightenByRatio(2).toString();
 };
 
 Man.prototype.onMouseOut = function() {
-  var actualColor = this.color === Man.ManColor.BLACK ? Man.ColorBlack : Man.ColorWhite;
-  this.graphic.fill = actualColor;
+  this.graphic.fill = this.getColor();
 };
 
-// Man.prototype.onMouseDown = function() {
-//   var actualColor = this.color === Man.ManColor.BLACK ? Tile.colorForbidden : Tile.colorAllowed;
-//   var strokeWidth_ = 2;
-//   this.graphic.set('fill', Color(actualColor).lightenByAmount(0.1).toString());
-//   this.graphic.set({ width: Tile.size - strokeWidth_, height: Tile.size - strokeWidth_,
-//     strokeWidth: 2, stroke: '#171717' });
-// };
+Man.prototype.onMouseDown = function() {
+  // this.graphic.set('fill', Color(actualColor).lightenByRatio(2).toString());
+  this.graphic.set({
+    strokeWidth: Man.StrokeWidth,
+    stroke: this.getColorStroke(),
+    left: Tile.size * (this.tile.x + 0.5) - Man.Radius - Man.StrokeWidth / 2,
+    top: Tile.size * (this.tile.y +0.5) - Man.Radius - Man.StrokeWidth / 2
+  });
+};

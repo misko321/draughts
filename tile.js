@@ -16,7 +16,7 @@ var Tile = function (type, x, y) {
     obj: this
   });
 
-  this.man = type === Tile.TileType
+  // this.man = type === Tile.TileType;
 
   // this.graphic.setGradient('fill', {
   //   x1: Tile.size / 2,
@@ -39,6 +39,10 @@ Tile.colorForbidden = "#d9d9d9";
 Tile.TileType = {
   ALLOWED: 0,
   FORBIDDEN: 1
+};
+
+Tile.prototype.setMan = function(man) {
+  this.man = man;
 };
 
 // Tile.prototype.draw = function() {
