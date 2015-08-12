@@ -4,14 +4,14 @@ var mousePos;
 var board;
 var Color = net.brehaut.Color;
 
-function draw() {
-  board.draw();
-  // window.requestAnimationFrame(draw);
-}
+// function draw() {
+//   board.draw();
+//   // window.requestAnimationFrame(draw);
+// }
 
 function run() {
   board = new Board();
-  draw();
+  // draw();
 }
 
 function getMousePos(canvas, event) {
@@ -44,8 +44,8 @@ canvas.on('mouse:down', function(e) {
 });
 
 canvas.on('mouse:up', function(e) {
-  if (e.target.obj.onMouseDown) {
-    e.target.obj.onMouseDown();
+  if (e.target.obj.select) {
+    e.target.obj.select();
     canvas.renderAll();
   }
 });
