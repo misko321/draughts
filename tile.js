@@ -48,8 +48,16 @@ Tile.prototype.setMan = function(man) {
 };
 
 Tile.prototype.setAsAllowed = function() {
-  this.graphic.set({
-    fill: Tile.colorAllowed
+  // this.graphic.set({
+  //   fill: Tile.colorAllowed
+  // });
+  //TODO Extract common animation methods to other file? What about closures parameters?
+  var graphic = this.graphic;
+  fabric.util.animateColor(this.graphic.fill, Tile.colorAllowed, 150, {
+    onChange: function(val) {
+      graphic.setFill(val);
+      canvas.renderAll();
+    }
   });
   this.isAllowed = true;
 };
