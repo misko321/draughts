@@ -4,6 +4,8 @@ var Board = function () {
   Man.Radius = Tile.size * 0.4;
   Man.StrokeWidth = Man.Radius / 4;
   Man.board = this; //TODO capitalize or not?
+  Tile.board = this; //TODO capitalize or not?
+  this.selectedMan = undefined;
 
   for (var i = 0; i < Board.tilesCount; ++i) {
     this.tiles[i] = [];
@@ -28,20 +30,20 @@ var Board = function () {
 };
 
 Board.prototype.unselect = function() {
-  if (this.selected)
-    this.selected.unselect();
+  if (this.selectedMan)
+    this.selectedMan.unselect();
 };
 
 Board.prototype.select = function(man) {
 
   //clear previous selection
-  if (this.selected)
-    this.selected.unselect();
+  if (this.selectedMan)
+    this.selectedMan.unselect();
   for (var i in this.tilesAllowed)
-    this.tilesAllowed[i].unsetAsAllowed();
+    this.tilesAllowed[i].clearHighlights();
 
   //apply new selection
-  this.selected = man;
+  this.selectedMan = man;
   if (man instanceof ManWhite) {
     var allowed = this.findAllowedMovesForWhite(man);
     for (var j in allowed)
@@ -72,6 +74,30 @@ Board.prototype.findAllowedMovesForWhite = function(man) {
 
   console.log(allowed);
   return allowed;
+};
+
+Board.prototype.moveSelectedManTo = function(tile) {
+  //FIXME spaghetti code?
+
+  for (var i in this.tilesAllowed)
+    this.tilesAllowed[i].clearHighlights();
+  tile.setAsMovingToNow();
+
+  this.selectedMan.moveToTile(tile);
+  this.selectedMan.tile.man = undefined; //clear man from previous tile
+  tile.man = this.selectedMan; //set man at new tile
+  this.selectedMan.tile = tile;
+};
+
+Board.prototype.onMoveCompleted = function(tile) {
+  //FIXME DRY select() method
+  tile.clearHighlights();
+  var allowed = this.findAllowedMovesForWhite(this.selectedMan);
+  for (var j in allowed)
+    allowed[j].setAsAllowed();
+  // canvas.renderAll();
+  this.tilesAllowed = allowed;
+  console.log('onMoveCompleted');
 };
 
 // Board.prototype.getJumpCoords = function(x, y) {

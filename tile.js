@@ -33,9 +33,10 @@ var Tile = function (type, x, y) {
 };
 
 Tile.size = undefined;
-Tile.colorPlayable = "#5d5d5d";
+Tile.colorPlayable = "#717070";
 Tile.colorNonplayable = "#d9d9d9";
-Tile.colorAllowed = "#99e68a";
+Tile.colorAllowed = "#5fa153";
+Tile.colorMovingToNow = "#b8c153";
 
 Tile.TileType = {
   PLAYABLE: 0,
@@ -53,11 +54,32 @@ Tile.prototype.setAsAllowed = function() {
   this.isAllowed = true;
 };
 
-Tile.prototype.unsetAsAllowed = function() {
+Tile.prototype.clearHighlights = function() {
   this.graphic.set({
     fill: this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable
   });
   this.isAllowed = false;
+};
+
+Tile.prototype.setAsMovingToNow = function() {
+  this.graphic.fill = Tile.colorMovingToNow;
+};
+
+Tile.prototype.onMouseOver = function() {
+  if (this.isAllowed)
+    this.graphic.fill = Color(this.graphic.getFill()).lightenByRatio(0.2).toString();
+};
+
+Tile.prototype.onMouseOut = function() {
+  if (this.isAllowed)
+    this.graphic.setFill(Tile.colorAllowed); //FIXME setFill or fill everywhere
+};
+
+Tile.prototype.onMouseDown = function() {
+  //move men to selected (this) tile
+  if (this.isAllowed) {
+    Tile.board.moveSelectedManTo(this);
+  }
 };
 
 // Tile.prototype.draw = function() {
@@ -67,7 +89,7 @@ Tile.prototype.unsetAsAllowed = function() {
 //     actualColor = Tile.colorPlayable;
 //     if (this.hover)
 //       actualColor = Color(actualColor).lightenByRatio(0.1).toString();
-//     if (this.selected)
+//     if (this.selectedMan)
 //       actualColor = Color(actualColor).lightenByRatio(0.8).toString();
 //   }
 //
@@ -84,10 +106,3 @@ Tile.prototype.unsetAsAllowed = function() {
 //   this.graphic.fill = actualColor;
 // };
 //
-// Tile.prototype.onMouseDown = function() {
-//   var actualColor = this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable;
-//   var strokeWidth_ = 2;
-//   this.graphic.set('fill', Color(actualColor).lightenByAmount(0.1).toString());
-//   this.graphic.set({ width: Tile.size - strokeWidth_, height: Tile.size - strokeWidth_,
-//     strokeWidth: 2, stroke: '#171717' });
-// };

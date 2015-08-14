@@ -34,7 +34,7 @@ Man.prototype.getColor = function() {
 };
 
 Man.prototype.onMouseOver = function() {
-  this.graphic.fill = Color(this.getColor()).lightenByRatio(2).toString();
+  this.graphic.fill = Color(this.getColor()).lightenByRatio(1).toString();
 };
 
 Man.prototype.onMouseOut = function() {
@@ -53,11 +53,35 @@ Man.prototype.select = function() {
 };
 
 Man.prototype.unselect = function() {
-  // Man.board.selected = undefined; //TODO capitalize or not?
+  // Man.board.selectedMan = undefined; //TODO capitalize or not?
   // Man.board.unselect();
   this.graphic.set({
     strokeWidth: 0,
     left: Tile.size * (this.tile.x + 0.5) - Man.Radius,
     top: Tile.size * (this.tile.y +0.5) - Man.Radius
   });
+};
+
+Man.prototype.moveToTile = function(tile) {
+  canvas.bringToFront(this.graphic);
+  this.graphic.animate({
+    left: Tile.size * (tile.x + 0.5) - Man.Radius - Man.StrokeWidth / 2,
+    top: Tile.size * (tile.y + 0.5) - Man.Radius - Man.StrokeWidth / 2
+  }, {
+    onChange: canvas.renderAll.bind(canvas),
+    onComplete: function() {
+      Tile.board.onMoveCompleted(tile);
+      canvas.renderAll();
+    },
+    duration: 500,
+    easing: fabric.util.ease.easeInOutQuad
+  });
+  // this.graphic.set({
+  //   left: Tile.size * (tile.x + 0.5) - Man.Radius - Man.StrokeWidth / 2,
+  //   top: Tile.size * (tile.y + 0.5) - Man.Radius - Man.StrokeWidth / 2
+  // });
+  this.graphic.setCoords();
+  // canvas.renderAll();
+
+  // this.tile = tile; //FIXME
 };

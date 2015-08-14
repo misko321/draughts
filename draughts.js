@@ -49,6 +49,9 @@ canvas.on('mouse:up', function(e) {
     canvas.renderAll();
   }
 });
+// canvas.onMouseOut = function() {
+//   console.log('mouseOut');
+// };
 // canvas.addEventListener('mousemove', function(event) {
 //   mousePos = getMousePos(canvas, event);
 //   var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
