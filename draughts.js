@@ -2,7 +2,7 @@ var canvas = new fabric.Canvas('draughts-canvas');
 canvas.setBackgroundColor("#ffffff");
 var mousePos;
 var board;
-var Color = net.brehaut.Color;
+var Color = net.brehaut.Color; //TODO move to bower
 
 // function draw() {
 //   board.draw();

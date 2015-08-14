@@ -3,24 +3,24 @@ var Board = function () {
   Tile.size = canvas.getWidth() / Board.tilesCount;
   Man.Radius = Tile.size * 0.4;
   Man.StrokeWidth = Man.Radius / 4;
-  Man.board = this;
+  Man.board = this; //TODO capitalize or not?
 
   for (var i = 0; i < Board.tilesCount; ++i) {
     this.tiles[i] = [];
     for (var j = 0; j < Board.tilesCount; ++j) {
       var man;
       if ((i + j) % 2 === 0)
-        this.tiles[i][j] = new Tile(Tile.TileType.FORBIDDEN, i, j);
+        this.tiles[i][j] = new Tile(Tile.TileType.NONPLAYABLE, i, j);
       else if (j < 4) {
         // man = new Man(Man.ManColor.BLACK, i, j);
-        this.tiles[i][j] = new Tile(Tile.TileType.ALLOWED, i, j);
+        this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
         this.tiles[i][j].setMan(new ManBlack(this.tiles[i][j])); //TODO this.tiles[i][j].setMan...?
       }
       else if (j < 6)
-        this.tiles[i][j] = new Tile(Tile.TileType.ALLOWED, i, j);
+        this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
       else {
         // man = new Man(Man.ManColor.WHITE, );
-        this.tiles[i][j] = new Tile(Tile.TileType.ALLOWED, i, j);
+        this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
         this.tiles[i][j].setMan(new ManWhite(this.tiles[i][j]));
       }
   }
@@ -32,11 +32,61 @@ Board.prototype.unselect = function() {
     this.selected.unselect();
 };
 
+Board.prototype.select = function(man) {
+
+  //clear previous selection
+  if (this.selected)
+    this.selected.unselect();
+  for (var i in this.tilesAllowed)
+    this.tilesAllowed[i].unsetAsAllowed();
+
+  //apply new selection
+  this.selected = man;
+  if (man instanceof ManWhite) {
+    var allowed = this.findAllowedMovesForWhite(man);
+    for (var j in allowed)
+      allowed[j].setAsAllowed();
+    // canvas.renderAll();
+    this.tilesAllowed = allowed;
+  }
+};
+
 Board.tilesCount = 10;
 
-// Board.prototype.findAllowedMovesForWhite = function(man) {
-//   var x = man.tile.x - 1;
-//   var y = man.tile.y - 1; //upper left
+Board.prototype.findAllowedMovesForWhite = function(man) {
+  var relativePos = [ [-1, -1], [-1, 1], [1, -1], [1, 1] ];//, [-2, -2], [-2, 2], [2, -2], [2, 2] ];
+  var allowed = [];
+
+  for (var i in relativePos) {
+  var tileToCheck = {
+    x: man.tile.x + relativePos[i][0],
+    y: man.tile.y + relativePos[i][1]
+
+  };
+  if (this.areCoordsValid(tileToCheck.x, tileToCheck.y) &&
+    this.tiles[tileToCheck.x][tileToCheck.y].man === undefined)
+    allowed.push(this.tiles[tileToCheck.x][tileToCheck.y]);
+}
+
+  //TODO 8 separate functions?, have in mind multiple jumps
+
+  console.log(allowed);
+  return allowed;
+};
+
+// Board.prototype.getJumpCoords = function(x, y) {
+//   var x = man.tile.x + xRelative;
+//   var y = man.tile.y + yRelative;
 //
-//   if (this.tiles[x][y] )
+//   if (!areCoordsValid(x, y))
+//     return undefined;
+//
+//   return {
+//     x: x,
+//     y: y
+//   };
 // };
+
+Board.prototype.areCoordsValid = function(x, y) {
+  return (x >= 0 && x < 10 && y >= 0 && y < 10);
+};

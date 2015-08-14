@@ -2,14 +2,14 @@ var Tile = function (type, x, y) {
   this.type = type;
   this.tint = 0;
   this.hover = false;
-  this.selected = false;
+  this.isAllowed = undefined;
   this.x = x;
   this.y = y;
 
   this.graphic = new fabric.Rect({
     left: Tile.size * x,
     top: Tile.size * y,
-    fill: type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed,
+    fill: type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable,
     width: Tile.size,
     height: Tile.size,
     selectable: false,
@@ -33,23 +33,38 @@ var Tile = function (type, x, y) {
 };
 
 Tile.size = undefined;
-Tile.colorAllowed = "#5d5d5d";
-Tile.colorForbidden = "#d9d9d9";
+Tile.colorPlayable = "#5d5d5d";
+Tile.colorNonplayable = "#d9d9d9";
+Tile.colorAllowed = "#99e68a";
 
 Tile.TileType = {
-  ALLOWED: 0,
-  FORBIDDEN: 1
+  PLAYABLE: 0,
+  NONPLAYABLE: 1
 };
 
 Tile.prototype.setMan = function(man) {
   this.man = man;
 };
 
+Tile.prototype.setAsAllowed = function() {
+  this.graphic.set({
+    fill: Tile.colorAllowed
+  });
+  this.isAllowed = true;
+};
+
+Tile.prototype.unsetAsAllowed = function() {
+  this.graphic.set({
+    fill: this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable
+  });
+  this.isAllowed = false;
+};
+
 // Tile.prototype.draw = function() {
-//   var actualColor = Tile.colorForbidden;
+//   var actualColor = Tile.colorNonplayable;
 //
-//   if (this.type !== Tile.TileType.FORBIDDEN) {
-//     actualColor = Tile.colorAllowed;
+//   if (this.type !== Tile.TileType.NONPLAYABLE) {
+//     actualColor = Tile.colorPlayable;
 //     if (this.hover)
 //       actualColor = Color(actualColor).lightenByRatio(0.1).toString();
 //     if (this.selected)
@@ -60,17 +75,17 @@ Tile.prototype.setMan = function(man) {
 // };
 
 // Tile.prototype.onMouseOver = function() {
-//   var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
+//   var actualColor = this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable;
 //   this.graphic.fill = Color(actualColor).lightenByAmount(0.1).toString();
 // };
 //
 // Tile.prototype.onMouseOut = function() {
-//   var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
+//   var actualColor = this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable;
 //   this.graphic.fill = actualColor;
 // };
 //
 // Tile.prototype.onMouseDown = function() {
-//   var actualColor = this.type === Tile.TileType.FORBIDDEN ? Tile.colorForbidden : Tile.colorAllowed;
+//   var actualColor = this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable;
 //   var strokeWidth_ = 2;
 //   this.graphic.set('fill', Color(actualColor).lightenByAmount(0.1).toString());
 //   this.graphic.set({ width: Tile.size - strokeWidth_, height: Tile.size - strokeWidth_,

@@ -43,8 +43,7 @@ Man.prototype.onMouseOut = function() {
 
 Man.prototype.select = function() {
   // this.graphic.set('fill', Color(actualColor).lightenByRatio(2).toString());
-  Man.board.unselect();
-  Man.board.selected = this;
+  Man.board.select(this);
   this.graphic.set({
     strokeWidth: Man.StrokeWidth,
     stroke: this.getColorStroke(),
@@ -54,7 +53,8 @@ Man.prototype.select = function() {
 };
 
 Man.prototype.unselect = function() {
-  Man.board.selected = undefined; //TODO capitalize or not?
+  // Man.board.selected = undefined; //TODO capitalize or not?
+  // Man.board.unselect();
   this.graphic.set({
     strokeWidth: 0,
     left: Tile.size * (this.tile.x + 0.5) - Man.Radius,
