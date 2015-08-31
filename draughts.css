@@ -1,7 +1,41 @@
 body {
-  background-color: #ffdeb5;
+  background-color: #69d6d2;
+  margin: 30px;
 }
-
-canvas {
-  border: solid 1px black;
+.canvas-container {
+  margin: auto;
+}
+.game-panel {
+  background-color: white;
+  margin: auto;
+  width: 80%;
+  padding: 30px;
+  box-sizing: content-box;
+}
+.effect6 {
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.effect6:before, .effect6:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  top: 50%;
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+  border-radius: 100px / 10px;
+}
+.players-td {
+  width: 100%;
+  padding-left: 30px;
+  box-sizing: content-box;
+  font-family: sans-serif;
+}
+.players-panel {
+  height: 300px;
+}
+.players-panel > div {
+  padding: 40px;
 }

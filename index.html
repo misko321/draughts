@@ -4,18 +4,38 @@
 <head>
   <meta charset="UTF-8">
   <title>Draughts</title>
-  <link rel="stylesheet" type="text/css" href="draughts.css"/>
+  <link rel="stylesheet" type="text/css" href="draughts.css" />
   <link rel="icon" type="image/png" href="./favicon.png">
 </head>
 
 <body>
-  <canvas width="600px" height="600px" id="draughts-canvas">
-    Your browser doesn't support <code>canvas</code>.
-  </canvas>
+
+  <div class="game-panel effect6">
+    <table>
+      <tr>
+        <td>
+          <canvas width="500px" height="500px" id="draughts-canvas" class="effect6">
+            Your browser doesn't support
+            <code>canvas</code>.
+          </canvas>
+        </td>
+        <td class="players-td">
+          <div class="effect6 players-panel">
+            <div>
+              Player1
+            </div>
+            <div>
+              Player2
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="./websocket.js"></script>
   <script src="./vendor/color.js"></script>
-  <!-- <script src="./common-draw.js"></script> -->
   <script src="./bower_components/fabric/dist/fabric.js"></script>
   <script src="./polyfills.js"></script>
   <script src="./man.js"></script>
