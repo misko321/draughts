@@ -13,12 +13,16 @@ var Websocket = function(url) {
       client.emit('join-new-game', null);
       client.on('join-new-game-ack', function(msg) {
         console.log('Success: ' + msg.message + ', token: ' + msg.token);
+        board = new Board(msg.tiles);
         UrlManager.setToken(msg.token);
       });
     } else {
       client.emit('join-existing-game', { token: token });
       client.on('join-existing-game-ack', function(msg) {
-        console.log('Success: ' + msg.message + ', token: ' + msg.token);
+        //TODO Logger class?
+        console.log(msg.status + ": " + msg.message + ', token: ' + msg.token);
+        if (msg.status === "OK")
+          board = new Board(msg.tiles);
       });
     }
 

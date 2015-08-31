@@ -17,3 +17,4 @@
 + User can choose&change name
 + Take care of Socket.io automatic reconnection
 + Mark the label of player if it's his turn
++ Show message if game with given token doesn't exist

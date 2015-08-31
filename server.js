@@ -14,6 +14,7 @@ var options = {
 
 app.use(express.static('./public/'));
 app.use('/bower_components',  express.static('./bower_components/'));
+
 app.get('/[a-zA-Z0-9]+', function(req, res) {
   res.sendFile('./public/index.html', options);
 });
@@ -34,22 +35,25 @@ io.on('connection', function(socket) {
 
   //FIXME: throw everything to separate functions
   socket.on('join-new-game', function() {
+    var game;
     if (!someoneWaits) {
       lastFreeToken = randomstring.generate();
-      var game = new Game(lastFreeToken);
+      game = new Game(lastFreeToken);
       games[lastFreeToken] = game;
       game.join();
       console.log(games);
       someoneWaits = true; //I'm waiting
     } else {
-      games[lastFreeToken].join();
+      game = games[lastFreeToken];
+      game.join();
       someoneWaits = false;
       lastFreeToken = undefined;
     }
     socket.emit('join-new-game-ack', {
       status: 'OK',
       message: 'A new game was created',
-      token: lastFreeToken
+      token: lastFreeToken,
+      tiles: game.tiles
     });
   });
 
@@ -60,7 +64,8 @@ io.on('connection', function(socket) {
       socket.emit('join-existing-game-ack', {
         status: 'OK',
         message: 'You have successfully rejoined the game',
-        token: msg.token
+        token: msg.token,
+        tiles: game.tiles
       });
     } else {
       socket.emit('join-existing-game-ack', {

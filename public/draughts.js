@@ -15,10 +15,10 @@ var websocket = new Websocket(socketURL);
 //   // window.requestAnimationFrame(draw);
 // }
 
-function run() {
-  board = new Board();
-  // draw();
-}
+// function run() {
+//   board = new Board();
+//   // draw();
+// }
 
 canvas.on('mouse:over', function(e) {
   if (e.target.obj.onMouseOver) {
@@ -51,4 +51,4 @@ canvas.on('mouse:up', function(e) {
 //   console.log('mouseOut');
 // };
 
-run();
+// run();

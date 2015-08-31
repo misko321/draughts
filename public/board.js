@@ -1,4 +1,4 @@
-var Board = function () {
+var Board = function(tiles) {
   this.tiles = [];
   Tile.size = canvas.getWidth() / Board.tilesCount;
   Man.Radius = Tile.size * 0.4;
@@ -7,25 +7,30 @@ var Board = function () {
   Tile.board = this; //TODO capitalize or not?
   this.selectedMan = undefined;
 
-  for (var i = 0; i < Board.tilesCount; ++i) {
+  for (var i = 0; i < tiles.length; ++i) {
     this.tiles[i] = [];
-    for (var j = 0; j < Board.tilesCount; ++j) {
-      var man;
-      if ((i + j) % 2 === 0)
-        this.tiles[i][j] = new Tile(Tile.TileType.NONPLAYABLE, i, j);
-      else if (j < 4) {
-        // man = new Man(Man.ManColor.BLACK, i, j);
-        this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
-        this.tiles[i][j].setMan(new ManBlack(this.tiles[i][j])); //TODO this.tiles[i][j].setMan...?
+    for (var j = 0; j < tiles.length; ++j) {
+      switch (tiles[i][j]) {
+        case 'N': {
+            this.tiles[i][j] = new Tile(Tile.TileType.NONPLAYABLE, i, j);
+            break; }
+        case 'B': {
+            this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
+            this.tiles[i][j].setMan(new ManBlack(this.tiles[i][j])); //TODO this.tiles[i][j].setMan...?
+            break; }
+        case 'E': {
+            this.tiles[i][j] = new Tile(Tile.TileType.NONPLAYABLE, i, j);
+            this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
+            break; }
+        case 'W': {
+            this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
+            this.tiles[i][j].setMan(new ManWhite(this.tiles[i][j]));
+            break; }
+
+        default:
+          console.error("Incorrect tile type");
       }
-      else if (j < 6)
-        this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
-      else {
-        // man = new Man(Man.ManColor.WHITE, );
-        this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
-        this.tiles[i][j].setMan(new ManWhite(this.tiles[i][j]));
-      }
-  }
+    }
   }
   $('.fade-in').fadeTo(Board.FadeTime, 1);
 };
