@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
@@ -13,13 +14,13 @@
   <div class="game-panel effect6">
     <table>
       <tr>
-        <td>
-          <canvas width="500px" height="500px" id="draughts-canvas" class="effect6">
+        <td class="fade-in">
+          <canvas width="500px" height="500px" id="draughts-canvas" class="effect6 draughts-canvas">
             Your browser doesn't support
             <code>canvas</code>.
           </canvas>
         </td>
-        <td class="players-td">
+        <td class="players-td fade-in">
           <div class="effect6 players-panel">
             <div class="player player-black">
               <div class="player-label">Player1</div>
@@ -46,6 +47,7 @@
   <script src="./tile.js"></script>
   <script src="./board.js"></script>
   <script src="./draughts.js"></script>
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
 </body>
 

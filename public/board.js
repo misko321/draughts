@@ -27,7 +27,10 @@ var Board = function () {
       }
   }
   }
+  $('.fade-in').fadeTo(Board.FadeTime, 1);
 };
+
+Board.FadeTime = 500;
 
 Board.prototype.unselect = function() {
   if (this.selectedMan) {
@@ -63,15 +66,14 @@ Board.prototype.findAllowedMovesForWhite = function(man) {
   var allowed = [];
 
   for (var i in relativePos) {
-  var tileToCheck = {
-    x: man.tile.x + relativePos[i][0],
-    y: man.tile.y + relativePos[i][1]
-
-  };
-  if (this.areCoordsValid(tileToCheck.x, tileToCheck.y) &&
-    this.tiles[tileToCheck.x][tileToCheck.y].man === undefined)
-    allowed.push(this.tiles[tileToCheck.x][tileToCheck.y]);
-}
+    var tileToCheck = {
+      x: man.tile.x + relativePos[i][0],
+      y: man.tile.y + relativePos[i][1]
+    };
+    if (this.areCoordsValid(tileToCheck.x, tileToCheck.y) &&
+      this.tiles[tileToCheck.x][tileToCheck.y].man === undefined)
+        allowed.push(this.tiles[tileToCheck.x][tileToCheck.y]);
+  }
 
   //TODO 8 separate functions?, have in mind multiple jumps
 

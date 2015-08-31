@@ -22,6 +22,7 @@
   ],
   "dependencies": {
     "color-js": "~1.0.1",
-    "fabric": "~1.5.0"
+    "fabric": "~1.5.0",
+    "jquery": "~2.1.4"
   }
 }
