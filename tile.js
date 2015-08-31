@@ -118,35 +118,10 @@ Tile.prototype.onMouseDown = function() {
   // console.log('tile onMouseDown');
   if (this.isAllowed) {
     //move men to selected (this) tile
-    Websocket.emit(board.selectedMan.tile.x, board.selectedMan.tile.y, this.x, this.y);
+    Websocket.emit(board.selectedMan.tile, this);
     Tile.board.moveSelectedManTo(this);
   } else {
     //or unselect man, if clicked on empty tile
     Tile.board.unselect();
   }
 };
-
-// Tile.prototype.draw = function() {
-//   var actualColor = Tile.colorNonplayable;
-//
-//   if (this.type !== Tile.TileType.NONPLAYABLE) {
-//     actualColor = Tile.colorPlayable;
-//     if (this.hover)
-//       actualColor = Color(actualColor).lightenByRatio(0.1).toString();
-//     if (this.selectedMan)
-//       actualColor = Color(actualColor).lightenByRatio(0.8).toString();
-//   }
-//
-//   GraphicsContext.drawRectangle(0, 0, Tile.size, Tile.size, actualColor);
-// };
-
-// Tile.prototype.onMouseOver = function() {
-//   var actualColor = this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable;
-//   this.graphic.fill = Color(actualColor).lightenByAmount(0.1).toString();
-// };
-//
-// Tile.prototype.onMouseOut = function() {
-//   var actualColor = this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable;
-//   this.graphic.fill = actualColor;
-// };
-//

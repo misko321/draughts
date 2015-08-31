@@ -1,10 +1,10 @@
 var Websocket = function() { };
 
-Websocket.emit = function(fromX, fromY, toX, toY) {
+Websocket.emit = function(tileFrom, tileTo) {
   client.emit('move', {
-    fromX: fromX,
-    fromY: fromY,
-    toX: toX,
-    toY: toY
+    fromX: tileFrom.x,
+    fromY: tileFrom.y,
+    toX: tileTo.x,
+    toY: tileTo.y
   });
 };
