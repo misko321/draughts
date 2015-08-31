@@ -35,7 +35,7 @@ var Tile = function (type, x, y) {
 Tile.size = undefined;
 Tile.colorPlayable = "#717070";
 Tile.colorNonplayable = "#d9d9d9";
-Tile.colorAllowed = "#5fa153";
+Tile.colorAllowed = "#38b321";
 Tile.colorMovingToNow = "#b8c153";
 
 Tile.TileType = {
@@ -53,7 +53,7 @@ Tile.prototype.setAsAllowed = function() {
   // });
   //TODO Extract common animation methods to other file? What about closures parameters?
   var graphic = this.graphic;
-  fabric.util.animateColor(this.graphic.fill, Tile.colorAllowed, 150, {
+  fabric.util.animateColor(this.graphic.fill, Tile.colorAllowed, colorAnimationTime, {
     onChange: function(val) {
       graphic.setFill(val);
       canvas.renderAll();
@@ -63,30 +63,65 @@ Tile.prototype.setAsAllowed = function() {
 };
 
 Tile.prototype.clearHighlights = function() {
-  this.graphic.set({
-    fill: this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable
+  // this.graphic.set({
+  //   fill: this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable
+  // });
+  var graphic = this.graphic;
+  fabric.util.animateColor(this.graphic.fill, Tile.colorPlayable, colorAnimationTime, {
+    onChange: function(val) {
+      graphic.setFill(val);
+      canvas.renderAll();
+    }
   });
   this.isAllowed = false;
 };
 
 Tile.prototype.setAsMovingToNow = function() {
-  this.graphic.fill = Tile.colorMovingToNow;
+  // this.graphic.fill = Tile.colorMovingToNow;
+  var graphic = this.graphic;
+  fabric.util.animateColor(this.graphic.fill, Tile.colorMovingToNow, colorAnimationTime, {
+    onChange: function(val) {
+      graphic.setFill(val);
+      canvas.renderAll();
+    }
+  });
 };
 
 Tile.prototype.onMouseOver = function() {
-  if (this.isAllowed)
-    this.graphic.fill = Color(this.graphic.getFill()).lightenByRatio(0.2).toString();
+  if (this.isAllowed) {
+    // this.graphic.fill = Color(this.graphic.getFill()).lightenByRatio(0.2).toString();
+    var graphic = this.graphic;
+    fabric.util.animateColor(Tile.colorAllowed, //TODO: colorAllowed/this.fill
+      Color(Tile.colorAllowed).lightenByRatio(0.2).toString(), hoverAnimationTime, {
+      onChange: function(val) {
+        graphic.setFill(val);
+        canvas.renderAll();
+      }
+    });
+  }
 };
 
 Tile.prototype.onMouseOut = function() {
-  if (this.isAllowed)
-    this.graphic.setFill(Tile.colorAllowed); //FIXME setFill or fill everywhere
+  if (this.isAllowed) {
+    // this.graphic.setFill(Tile.colorAllowed); //FIXME setFill or fill everywhere
+    var graphic = this.graphic;
+    fabric.util.animateColor(this.graphic.fill, Tile.colorAllowed, hoverAnimationTime, {
+      onChange: function(val) {
+        graphic.setFill(val);
+        canvas.renderAll();
+      }
+    });
+  }
 };
 
 Tile.prototype.onMouseDown = function() {
-  //move men to selected (this) tile
+  console.log('tile onMouseDown');
   if (this.isAllowed) {
+    //move men to selected (this) tile
     Tile.board.moveSelectedManTo(this);
+  } else {
+    //or unselect man, if clicked on empty tile
+    Tile.board.unselect();
   }
 };
 

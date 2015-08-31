@@ -6,7 +6,7 @@
   "authors": [
     "Michal Patron <michal.patron@gmail.com>"
   ],
-  "description": "International draughts game using 'fabricjs' for graphics and WebSockets for asynchronic communication",
+  "description": "International draughts game using 'fabricjs' for graphics and WebSockets for asynchronous communication",
   "keywords": [
     "draughts",
     "fabricjs",

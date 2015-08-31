@@ -3,6 +3,9 @@ canvas.setBackgroundColor("#ffffff");
 var mousePos;
 var board;
 var Color = net.brehaut.Color; //TODO move to bower
+var hoverAnimationTime = 100;
+var colorAnimationTime = 300;
+var manAnimationTime = 700;
 
 // function draw() {
 //   board.draw();

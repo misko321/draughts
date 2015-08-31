@@ -1,3 +1,4 @@
 .tern-project
 bower_components/
 .tags*
+.imdone/

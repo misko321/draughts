@@ -30,17 +30,20 @@ var Board = function () {
 };
 
 Board.prototype.unselect = function() {
-  if (this.selectedMan)
+  if (this.selectedMan) {
     this.selectedMan.unselect();
+    this.selectedMan = undefined;
+  }
+  for (var i in this.tilesAllowed) {
+    this.tilesAllowed[i].clearHighlights();
+  }
+  this.tilesAllowed = [];
 };
 
 Board.prototype.select = function(man) {
 
   //clear previous selection
-  if (this.selectedMan)
-    this.selectedMan.unselect();
-  for (var i in this.tilesAllowed)
-    this.tilesAllowed[i].clearHighlights();
+  this.unselect();
 
   //apply new selection
   this.selectedMan = man;
