@@ -10,7 +10,6 @@ body {
   margin: auto;
   width: 80%;
   padding: 30px;
-  box-sizing: content-box;
 }
 .effect6 {
   position: relative;
@@ -30,12 +29,28 @@ body {
 .players-td {
   width: 100%;
   padding-left: 30px;
-  box-sizing: content-box;
   font-family: sans-serif;
 }
 .players-panel {
   height: 300px;
 }
-.players-panel > div {
-  padding: 40px;
+.player {
+  height: 50%;
+  width: 100%;
+  box-sizing: border-box;
+  font-weight: bold;
+  padding-left: 20px;
+  display: table;
+}
+.player-black {
+  background-color: #262626;
+  color: #e7e7e7;
+}
+.player-white {
+  background-color: #dfdcdc;
+  color: #222222;
+}
+.player-label {
+  vertical-align: middle;
+  display: table-cell;
 }
