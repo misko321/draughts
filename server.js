@@ -8,9 +8,15 @@ var Game = require('./game.js');
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 
+var options = {
+  root: __dirname
+};
 
 app.use(express.static('./public/'));
 app.use('/bower_components',  express.static('./bower_components/'));
+app.get('/[a-zA-Z0-9]+', function(req, res) {
+  res.sendFile('./public/index.html', options);
+});
 
 var someoneWaits = false;
 var lastFreeToken;
