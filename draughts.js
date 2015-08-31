@@ -8,27 +8,7 @@ var colorAnimationTime = 300;
 var manAnimationTime = 700;
 var socketURL = 'http://localhost:3000';
 
-var client = io.connect(socketURL);
-
-client.on('connect', function(socket) {
-  console.log('Trying to connect...');
-  client.on('connect-ack', function(msg) {
-    console.log('Success: ' + msg.message);
-  });
-
-  client.emit('join-game', null);
-  client.on('join-game-ack', function(msg) {
-    console.log('Success: ' + msg.message);
-  });
-
-  client.on('disconnect-ack', function(msg) {
-    console.log('Success: ' + msg.message);
-  });
-
-  client.on('move', function(msg) {
-    console.log(msg);
-  });
-});
+var websocket = new Websocket(socketURL);
 
 // function draw() {
 //   board.draw();
