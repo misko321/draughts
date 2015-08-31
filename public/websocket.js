@@ -8,11 +8,19 @@ var Websocket = function(url) {
       console.log('Success: ' + msg.message);
     });
 
-    client.emit('join-new-game', null);
-    client.on('join-new-game-ack', function(msg) {
-      console.log('Success: ' + msg.message + ', token: ' + msg.token);
-      UrlManager.setToken(msg.token);
-    });
+    var token = UrlManager.getToken();
+    if (token === undefined) {
+      client.emit('join-new-game', null);
+      client.on('join-new-game-ack', function(msg) {
+        console.log('Success: ' + msg.message + ', token: ' + msg.token);
+        UrlManager.setToken(msg.token);
+      });
+    } else {
+      client.emit('join-existing-game', { token: token });
+      client.on('join-existing-game-ack', function(msg) {
+        console.log('Success: ' + msg.message + ', token: ' + msg.token);
+      });
+    }
 
     client.on('disconnect-ack', function(msg) {
       console.log('Success: ' + msg.message);
