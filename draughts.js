@@ -11,13 +11,22 @@ var socketURL = 'http://localhost:3000';
 var client = io.connect(socketURL);
 
 client.on('connect', function(socket) {
-  console.log('trying to connect...');
-  client.on('connect_ack', function(msg) {
-    console.log('connected: ' + msg);
+  console.log('Trying to connect...');
+  client.on('connect-ack', function(msg) {
+    console.log('Success: ' + msg.message);
   });
+
+  client.emit('join-game', null);
+  client.on('join-game-ack', function(msg) {
+    console.log('Success: ' + msg.message);
+  });
+
+  client.on('disconnect-ack', function(msg) {
+    console.log('Success: ' + msg.message);
+  });
+
   client.on('move', function(msg) {
     console.log(msg);
-
   });
 });
 
