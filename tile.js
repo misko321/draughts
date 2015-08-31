@@ -118,7 +118,7 @@ Tile.prototype.onMouseDown = function() {
   // console.log('tile onMouseDown');
   if (this.isAllowed) {
     //move men to selected (this) tile
-    Websocket.emit(board.selectedMan.tile, this);
+    websocket.emit(board.selectedMan.tile, this);
     Tile.board.moveSelectedManTo(this);
   } else {
     //or unselect man, if clicked on empty tile

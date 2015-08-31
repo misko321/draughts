@@ -7,4 +7,6 @@ Game.prototype.join = function() {
   ++this.playersCount;
 };
 
+Game.prototype.rejoin = function() {};
+
 module.exports = Game;
