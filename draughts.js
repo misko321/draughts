@@ -6,6 +6,20 @@ var Color = net.brehaut.Color; //TODO move to bower
 var hoverAnimationTime = 100;
 var colorAnimationTime = 300;
 var manAnimationTime = 700;
+var socketURL = 'http://localhost:3000';
+
+var client = io.connect(socketURL);
+
+client.on('connect', function(socket) {
+  console.log('trying to connect...');
+  client.on('connect_ack', function(msg) {
+    console.log('connected: ' + msg);
+  });
+  client.on('move', function(msg) {
+    console.log(msg);
+
+  });
+});
 
 // function draw() {
 //   board.draw();
@@ -15,14 +29,6 @@ var manAnimationTime = 700;
 function run() {
   board = new Board();
   // draw();
-}
-
-function getMousePos(canvas, event) {
-  var rect = canvas.getBoundingClientRect();
-  return {
-    x: event.clientX - rect.left - 1, //exact position is a bit different that the one evaluated here
-    y: event.clientY - rect.top - 2
-  };
 }
 
 canvas.on('mouse:over', function(e) {
@@ -55,22 +61,5 @@ canvas.on('mouse:up', function(e) {
 // canvas.onMouseOut = function() {
 //   console.log('mouseOut');
 // };
-// canvas.addEventListener('mousemove', function(event) {
-//   mousePos = getMousePos(canvas, event);
-//   var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-// }, false);
-//
-// canvas.addEventListener('mouseout', function(event) {
-//   mousePos = undefined;
-// }, false);
-//
-// canvas.addEventListener('click', function(event) {
-//   mousePos = getMousePos(canvas, event);
-// }, false);
 
 run();
-
-/*
-  Każdy tile można podświetlać z osobna, czyli dla każdej płytki musi byc zapisywany stan podswietlenia,
-  -> obiekt Tile lub -> lista tilów w Board
-*/

@@ -115,9 +115,10 @@ Tile.prototype.onMouseOut = function() {
 };
 
 Tile.prototype.onMouseDown = function() {
-  console.log('tile onMouseDown');
+  // console.log('tile onMouseDown');
   if (this.isAllowed) {
     //move men to selected (this) tile
+    Websocket.emit(board.selectedMan.tile.x, board.selectedMan.tile.y, this.x, this.y);
     Tile.board.moveSelectedManTo(this);
   } else {
     //or unselect man, if clicked on empty tile

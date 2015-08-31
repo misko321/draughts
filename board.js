@@ -75,7 +75,7 @@ Board.prototype.findAllowedMovesForWhite = function(man) {
 
   //TODO 8 separate functions?, have in mind multiple jumps
 
-  console.log(allowed);
+  // console.log(allowed);
   return allowed;
 };
 
@@ -100,7 +100,7 @@ Board.prototype.onMoveCompleted = function(tile) {
     allowed[j].setAsAllowed();
   // canvas.renderAll();
   this.tilesAllowed = allowed;
-  console.log('onMoveCompleted');
+  // console.log('onMoveCompleted');
 };
 
 // Board.prototype.getJumpCoords = function(x, y) {
