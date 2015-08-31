@@ -21,6 +21,7 @@
     "tests"
   ],
   "dependencies": {
+    "color-js": "~1.0.1",
     "fabric": "~1.5.0"
   }
 }

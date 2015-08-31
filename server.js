@@ -9,7 +9,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.text());
 
 
-app.use(express.static('.'));
+app.use(express.static('./public/'));
+app.use('/bower_components',  express.static('./bower_components/'));
 
 var someoneWaits = false;
 var lastFreeToken;

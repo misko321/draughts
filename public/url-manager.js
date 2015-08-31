@@ -1,7 +1,9 @@
 var UrlManager = function() {};
 
 UrlManager.getToken = function() {
-  return window.location.href.split('/').last();
+  var array = window.location.href.split('/');
+  var token = array[array.length-1];
+  return token === "" ? undefined : token;
 };
 
 UrlManager.setToken = function(token) {

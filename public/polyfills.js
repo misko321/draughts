@@ -48,6 +48,6 @@
 
 })();
 
-Array.prototype.last = function() {
+Array.last = function() {
     return this[this.length-1];
 };
