@@ -1,13 +1,12 @@
 var canvas = new fabric.Canvas('draughts-canvas');
 canvas.setBackgroundColor("#ffffff");
-var mousePos;
 var board;
-var Color = net.brehaut.Color; //TODO move to bower
+var Color = net.brehaut.Color;
 var hoverAnimationTime = 100;
 var colorAnimationTime = 300;
 var manAnimationTime = 700;
-var socketURL = 'http://localhost:3000';
 
+var socketURL = document.location.origin;
 var websocket = new Websocket(socketURL);
 
 // function draw() {
