@@ -41,13 +41,11 @@ io.on('connection', function(socket) {
       game = new Game(lastFreeToken);
       games[lastFreeToken] = game;
       game.join();
-      console.log(games);
       someoneWaits = true; //I'm waiting
     } else {
       game = games[lastFreeToken];
       game.join();
       someoneWaits = false;
-      lastFreeToken = undefined;
     }
     socket.emit('join-new-game-ack', {
       status: 'OK',
