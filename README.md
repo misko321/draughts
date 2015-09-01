@@ -2,19 +2,14 @@
 
 #### TODO:
 
-+ null for forbidden tiles (instead of drawing graphic)?, but tile must draw itself...
-+ animate color change
-  + lower hover animation time
-  + hover allowed field animation
-+ unselect men when clicked on empty tile, some errors in highlighting selected man
-+ ~~disable highlight after completing move (in onComplete?)~~
-+ ~~place where another white man stands is not considered as not allowed -> update tile.man~~
 + draw objects with gradient
 + unhover objects when mouse leaves canvas
-+ Polymer GUI
++ ~~Polymer GUI~~
 + Game connects to server at startup
   When user clicks 'Play' -> A message 'Waiting for an opponent..' is shown -> A new game is created or user is connected to already existing game
 + User can choose&change name
 + Take care of Socket.io automatic reconnection
 + Mark the label of player if it's his turn
 + Show message if game with given token doesn't exist
++ Sometimes token is undefined (every two refreshes)
++ How to handle multistep moves in WebSocket?

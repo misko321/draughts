@@ -17,8 +17,6 @@ var Game = function(token) {
       }
     }
   }
-
-  console.log(JSON.stringify(this.tiles));
 };
 
 Game.tilesCount = 10;
