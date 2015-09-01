@@ -40,9 +40,12 @@ var Websocket = function(url) {
 
 Websocket.prototype.emit = function(tileFrom, tileTo) {
   this.client.emit('move', {
-    fromX: tileFrom.x,
-    fromY: tileFrom.y,
-    toX: tileTo.x,
-    toY: tileTo.y
+    token: UrlManager.getToken(),
+    move: {
+      fromX: tileFrom.x,
+      fromY: tileFrom.y,
+      toX: tileTo.x,
+      toY: tileTo.y
+    }
   });
 };

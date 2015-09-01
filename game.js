@@ -27,4 +27,11 @@ Game.prototype.join = function() {
 
 Game.prototype.rejoin = function() {};
 
+//TODO check server-side if move is allowed
+Game.prototype.makeMove = function(move) {
+  var man = this.tiles[move.fromX][move.fromY];
+  this.tiles[move.fromX][move.fromY] = 'E';
+  this.tiles[move.toX][move.toY] = man;
+};
+
 module.exports = Game;

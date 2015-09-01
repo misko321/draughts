@@ -70,8 +70,16 @@ io.on('connection', function(socket) {
         status: 'ERROR',
         message: 'A game with given token does not exist'
       });
-      console.log(games);
     }
+  });
+
+  socket.on('move', function(msg) {
+    var game = games[msg.token];
+    game.makeMove(msg.move);
+    socket.emit('move', {
+      status: 'OK',
+      move: msg.move
+    });
   });
 
   socket.on('disconnect', function() {
@@ -82,9 +90,9 @@ io.on('connection', function(socket) {
     console.log('user disconnected');
   });
 
-  socket.on('move', function(msg) {
-    io.emit('move', msg);
-  });
+  // socket.on('move', function(msg) {
+  //   io.emit('move', msg);
+  // });
 });
 
 http.listen(3000, function() {
