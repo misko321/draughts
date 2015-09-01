@@ -12,18 +12,18 @@ var Websocket = function(url) {
     if (token === undefined) {
       client.emit('join-new-game', null);
       client.on('join-new-game-ack', function(msg) {
-        console.log('Success: ' + msg.message + ', token: ' + msg.token);
+        console.log(msg.status + ': ' + msg.message + ', token: ' + msg.token);
         board = new Board(msg.tiles);
         UrlManager.setToken(msg.token);
+        initializeBoard(msg.status, msg.tiles);
       });
     } else {
       client.emit('join-existing-game', { token: token });
       client.on('join-existing-game-ack', function(msg) {
         //TODO Logger class?
         console.log(msg.status + ": " + msg.message + ', token: ' + msg.token);
-        if (msg.status === "OK")
-          board = new Board(msg.tiles);
-      });
+        initializeBoard(msg.status, msg.tiles);
+       });
     }
 
     client.on('disconnect-ack', function(msg) {

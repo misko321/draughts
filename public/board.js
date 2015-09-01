@@ -16,7 +16,7 @@ var Board = function(tiles) {
             break; }
         case 'B': {
             this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
-            this.tiles[i][j].setMan(new ManBlack(this.tiles[i][j])); //TODO this.tiles[i][j].setMan...?
+            this.tiles[i][j].setMan(new ManBlack(this.tiles[i][j]));
             break; }
         case 'E': {
             this.tiles[i][j] = new Tile(Tile.TileType.NONPLAYABLE, i, j);
@@ -35,7 +35,7 @@ var Board = function(tiles) {
   $('.fade-in').fadeTo(Board.FadeTime, 1);
 };
 
-Board.FadeTime = 500;
+Board.FadeTime = 600;
 
 Board.prototype.unselect = function() {
   if (this.selectedMan) {

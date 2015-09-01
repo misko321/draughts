@@ -19,6 +19,18 @@ var websocket = new Websocket(socketURL);
 //   // draw();
 // }
 
+function initializeBoard(status, tiles) {
+  if (status === "OK") {
+    board = new Board(tiles);
+    $(".game-not-found-tr").hide();
+    $(".game-tr").show();
+  }
+  else {
+    $(".game-tr").hide();
+    $(".game-not-found-tr").show();
+  }
+}
+
 canvas.on('mouse:over', function(e) {
   if (e.target.obj.onMouseOver) {
     e.target.obj.onMouseOver();

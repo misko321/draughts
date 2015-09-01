@@ -13,7 +13,7 @@
 
   <div class="game-panel effect6">
     <table>
-      <tr>
+      <tr class="game-tr">
         <td class="fade-in">
           <canvas width="500px" height="500px" id="draughts-canvas" class="effect6 draughts-canvas">
             Your browser doesn't support
@@ -30,6 +30,19 @@
             </div>
           </div>
         </td>
+      </tr>
+      <tr class="game-not-found-tr">
+        <td class="players-td" style="padding: 0; text-align: center">
+          <div class="game-not-found">
+            It seems that the game you're trying to join, <u>does not exist any more</u>
+            or the <u>token you use is invalid</u>.
+            <br/> Would you like to search for a new game?
+          </div>
+          <a class="new-game-button-a" href="/">
+            <div class="new-game-button">FIND NEW GAME</div>
+          </a>
+        </td>
+        <td></td>
       </tr>
     </table>
   </div>
