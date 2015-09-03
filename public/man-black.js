@@ -15,11 +15,3 @@ ManBlack.prototype.getColor = function() {
 ManBlack.prototype.getColorStroke = function() {
   return ManBlack.ColorStroke;
 };
-
-// ManBlack.prototype.onMouseOver = function() {
-//   this.graphic.fill = Color(ManBlack.Color).lightenByRatio(2).toString();
-// };
-//
-// Man.prototype.onMouseOut = function() {
-//   this.graphic.fill = ManBlack.Color;
-// };

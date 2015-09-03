@@ -16,19 +16,6 @@ var Tile = function (type, x, y) {
     obj: this
   });
 
-  // this.man = type === Tile.TileType;
-
-  // this.graphic.setGradient('fill', {
-  //   x1: Tile.size / 2,
-  //   y1: 0,
-  //   x2: Tile.size / 2,
-  //   y2: Tile.size,
-  //   colorStops: {
-  //     0: '#4a4a4a',
-  //     1: '#d4d4d4'
-  //   }
-  // });
-
   canvas.add(this.graphic);
 };
 
@@ -47,11 +34,11 @@ Tile.prototype.setMan = function(man) {
   this.man = man;
 };
 
+Tile.prototype.clearMan = function() {
+  this.man = undefined; //TODO null?
+};
+
 Tile.prototype.setAsAllowed = function() {
-  // this.graphic.set({
-  //   fill: Tile.colorAllowed
-  // });
-  //TODO Extract common animation methods to other file? What about closures parameters?
   var graphic = this.graphic;
   fabric.util.animateColor(this.graphic.fill, Tile.colorAllowed, colorAnimationTime, {
     onChange: function(val) {
@@ -63,9 +50,6 @@ Tile.prototype.setAsAllowed = function() {
 };
 
 Tile.prototype.clearHighlights = function() {
-  // this.graphic.set({
-  //   fill: this.type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable
-  // });
   var graphic = this.graphic;
   fabric.util.animateColor(this.graphic.fill, Tile.colorPlayable, colorAnimationTime, {
     onChange: function(val) {
@@ -77,7 +61,6 @@ Tile.prototype.clearHighlights = function() {
 };
 
 Tile.prototype.setAsMovingToNow = function() {
-  // this.graphic.fill = Tile.colorMovingToNow;
   var graphic = this.graphic;
   fabric.util.animateColor(this.graphic.fill, Tile.colorMovingToNow, colorAnimationTime, {
     onChange: function(val) {
@@ -89,7 +72,6 @@ Tile.prototype.setAsMovingToNow = function() {
 
 Tile.prototype.onMouseOver = function() {
   if (this.isAllowed) {
-    // this.graphic.fill = Color(this.graphic.getFill()).lightenByRatio(0.2).toString();
     var graphic = this.graphic;
     fabric.util.animateColor(Tile.colorAllowed, //TODO: colorAllowed/this.fill
       Color(Tile.colorAllowed).lightenByRatio(0.2).toString(), hoverAnimationTime, {
@@ -103,7 +85,6 @@ Tile.prototype.onMouseOver = function() {
 
 Tile.prototype.onMouseOut = function() {
   if (this.isAllowed) {
-    // this.graphic.setFill(Tile.colorAllowed); //FIXME setFill or fill everywhere
     var graphic = this.graphic;
     fabric.util.animateColor(this.graphic.fill, Tile.colorAllowed, hoverAnimationTime, {
       onChange: function(val) {
@@ -115,7 +96,6 @@ Tile.prototype.onMouseOut = function() {
 };
 
 Tile.prototype.onMouseDown = function() {
-  // console.log('tile onMouseDown');
   if (this.isAllowed) {
     //move men to selected (this) tile
     websocket.emit(board.selectedMan.tile, this);

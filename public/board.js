@@ -94,9 +94,6 @@ Board.prototype.moveSelectedManTo = function(tile) {
   tile.setAsMovingToNow();
 
   this.selectedMan.moveToTile(tile);
-  this.selectedMan.tile.man = undefined; //clear man from previous tile
-  tile.man = this.selectedMan; //set man at new tile
-  this.selectedMan.tile = tile;
 };
 
 Board.prototype.onMoveCompleted = function(tile) {

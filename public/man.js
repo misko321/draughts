@@ -1,5 +1,4 @@
 var Man = function(tile) {
-  // this.color = color;
   this.power = Man.ManPower.STANDARD;
   this.tile = tile;
 
@@ -16,7 +15,7 @@ var Man = function(tile) {
 };
 
 Man.Radius = undefined;
-Man.StrokeWidth = undefined;
+Man.StrokeWidth = undefined; //TODO capitalize or not?
 Man.board = undefined; //TODO capitalize or not?
 
 Man.ManPower = {
@@ -34,7 +33,6 @@ Man.prototype.getColor = function() {
 };
 
 Man.prototype.onMouseOver = function() {
-  // this.graphic.fill = Color(this.getColor()).lightenByRatio(1).toString();
   var graphic = this.graphic;
   fabric.util.animateColor(this.graphic.fill, Color(this.getColor()).lightenByRatio(1).toString(),
     hoverAnimationTime, {
@@ -46,7 +44,6 @@ Man.prototype.onMouseOver = function() {
 };
 
 Man.prototype.onMouseOut = function() {
-  // this.graphic.fill = this.getColor();
   var graphic = this.graphic;
   fabric.util.animateColor(this.graphic.fill, this.getColor(), hoverAnimationTime, {
     onChange: function(val) {
@@ -57,8 +54,6 @@ Man.prototype.onMouseOut = function() {
 };
 
 Man.prototype.select = function() {
-  // this.graphic.set('fill', Color(actualColor).lightenByRatio(2).toString());
-
   //if already selected, don't play animation
   if (Man.board.selectedMan === this)
     return;
@@ -66,7 +61,6 @@ Man.prototype.select = function() {
   Man.board.select(this);
   this.graphic.set({
     stroke: this.getColorStroke(),
-    // strokeWidth: Man.StrokeWidth / 2
   });
   this.graphic.animate({
     strokeWidth: Man.StrokeWidth,
@@ -80,13 +74,6 @@ Man.prototype.select = function() {
 };
 
 Man.prototype.unselect = function() {
-  // Man.board.selectedMan = undefined; //TODO capitalize or not?
-  // Man.board.unselect();
-  // this.graphic.set({
-  //   strokeWidth: 0,
-  //   left: Tile.size * (this.tile.x + 0.5) - Man.Radius,
-  //   top: Tile.size * (this.tile.y +0.5) - Man.Radius
-  // });
   this.graphic.animate({
     strokeWidth: 0,
     left: Tile.size * (this.tile.x + 0.5) - Man.Radius,
@@ -98,26 +85,31 @@ Man.prototype.unselect = function() {
   });
 };
 
-Man.prototype.moveToTile = function(tile) {
+Man.prototype.moveToTile = function(tileTo) {
+  this.moveToTileAnimation(tileTo);
+  this.moveToTileLogic(tileTo);
+};
+
+Man.prototype.moveToTileAnimation = function(tileTo) {
+  //due to drawing order some men might end up hidden beneath tiles
   canvas.bringToFront(this.graphic);
   this.graphic.animate({
-    left: Tile.size * (tile.x + 0.5) - Man.Radius - Man.StrokeWidth / 2,
-    top: Tile.size * (tile.y + 0.5) - Man.Radius - Man.StrokeWidth / 2
+    left: Tile.size * (tileTo.x + 0.5) - Man.Radius - Man.StrokeWidth / 2,
+    top: Tile.size * (tileTo.y + 0.5) - Man.Radius - Man.StrokeWidth / 2
   }, {
     onChange: canvas.renderAll.bind(canvas),
     onComplete: function() {
-      Tile.board.onMoveCompleted(tile);
+      Tile.board.onMoveCompleted(tileTo);
       canvas.renderAll();
     },
     duration: manAnimationTime,
     easing: fabric.util.ease.easeInOutQuad
   });
-  // this.graphic.set({
-  //   left: Tile.size * (tile.x + 0.5) - Man.Radius - Man.StrokeWidth / 2,
-  //   top: Tile.size * (tile.y + 0.5) - Man.Radius - Man.StrokeWidth / 2
-  // });
-  this.graphic.setCoords();
-  // canvas.renderAll();
+  this.graphic.setCoords(); //required by Fabric.js after programmatic move of object
+};
 
-  // this.tile = tile; //FIXME
+Man.prototype.moveToTileLogic = function(tileTo) {
+  this.tile.clearMan(); //clear man from previous tile
+  tileTo.setMan(this); //set man at new tile
+  this.tile = tileTo;
 };
