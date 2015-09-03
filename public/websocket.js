@@ -41,7 +41,7 @@ Websocket.prototype.joinNewGame = function() {
     console.log(msg.status + ': ' + msg.message + ', token: ' + msg.token);
     board = new Board(msg.tiles);
     UrlManager.setToken(msg.token);
-    initializeBoard(msg.status, msg.tiles);
+    initializeGame(msg.status, msg.tiles);
   });
 };
 
@@ -50,9 +50,9 @@ Websocket.prototype.joinExistingGame = function(token) {
     token: token
   });
   this.client.on('join-existing-game-ack', function(msg) {
-    //TODO Logger class?
+    //TODO Logger class? +ADD_FEATURE
     console.log(msg.status + ": " + msg.message + ', token: ' + msg.token);
-    initializeBoard(msg.status, msg.tiles);
+    initializeGame(msg.status, msg.tiles);
   });
 };
 
