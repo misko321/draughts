@@ -18,9 +18,9 @@ app.use('/bower_components',  express.static('./bower_components/'));
 app.get('/[a-zA-Z0-9]+', function(req, res) {
   res.sendFile('./public/index.html', options);
 });
-app.get('/*', function(req, res) {
-  res.redirect('/');
-});
+// app.get('/*', function(req, res) {
+//   res.redirect('/');
+// });
 
 var someoneWaits = false;
 var lastFreeToken;
