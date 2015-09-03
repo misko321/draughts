@@ -2,7 +2,7 @@ var Websocket = function(url) {
   this.url = url;
   this.client = io.connect(url);
 
-  var ws = this;
+  var ws = this; //TODO this way or bind()? +RETHINK
   this.client.on('connect', function(socket) {
 
     ws.connect();
@@ -17,7 +17,6 @@ var Websocket = function(url) {
       ws.disconnectAck(msg);
     });
   });
-  // this.client = client;
 };
 
 Websocket.prototype.connect = function() {
