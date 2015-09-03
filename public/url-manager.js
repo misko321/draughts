@@ -7,7 +7,7 @@ UrlManager.getToken = function() {
 };
 
 UrlManager.setToken = function(token) {
-  //TODO recognize if the URL already has the token set?
+  //TODO recognize if the URL already has the token set? +ADD_FEATURE
   if (typeof(history.pushState) != "undefined") {
     var obj = {
       title: 'Draughts #' + token,

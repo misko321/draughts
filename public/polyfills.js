@@ -1,3 +1,7 @@
+/*Adds color animations
+Not available in main release of Fabric.js as for version 1.5.0.
+Retrieved form an issue at [https://github.com/kangax/fabric.js/pull/2328].
+*/
 (function() {
   // Calculate an in-between color. Returns a "rgba()" string.
   // Credit: Edwin Martin <edwin@bitstorm.org>
@@ -47,7 +51,3 @@
   fabric.util.animateColor = animateColor;
 
 })();
-
-Array.last = function() {
-    return this[this.length-1];
-};
