@@ -15,8 +15,8 @@ var Man = function(tile) {
 };
 
 Man.Radius = undefined;
-Man.StrokeWidth = undefined; //TODO capitalize or not?
-Man.board = undefined; //TODO capitalize or not?
+Man.StrokeWidth = undefined; //TODO capitalize or not? +REFACTOR
+Man.board = undefined; //TODO capitalize or not? +REFACTOR
 
 Man.ManPower = {
   STANDARD: 0,
@@ -85,17 +85,19 @@ Man.prototype.unselect = function() {
   });
 };
 
-Man.prototype.moveToTile = function(tileTo) {
-  this.moveToTileAnimation(tileTo);
+//TODO isSelected as a parameter or Man's property? +RETHINK +REFACTOR
+Man.prototype.moveToTile = function(tileTo, isSelected) {
+  this.moveToTileAnimation(tileTo, isSelected);
   this.moveToTileLogic(tileTo);
 };
 
-Man.prototype.moveToTileAnimation = function(tileTo) {
+Man.prototype.moveToTileAnimation = function(tileTo, isSelected) {
   //due to drawing order some men might end up hidden beneath tiles
   canvas.bringToFront(this.graphic);
+  //TODO change object center? +REFACTOR +MINOR
   this.graphic.animate({
-    left: Tile.size * (tileTo.x + 0.5) - Man.Radius - Man.StrokeWidth / 2,
-    top: Tile.size * (tileTo.y + 0.5) - Man.Radius - Man.StrokeWidth / 2
+    left: Tile.size * (tileTo.x + 0.5) - Man.Radius - (isSelected ? Man.StrokeWidth / 2 : 0),
+    top: Tile.size * (tileTo.y + 0.5) - Man.Radius - (isSelected ? Man.StrokeWidth / 2 : 0)
   }, {
     onChange: canvas.renderAll.bind(canvas),
     onComplete: function() {

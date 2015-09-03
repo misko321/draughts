@@ -12,7 +12,7 @@ var Websocket = function(url) {
       ws.applyMove(msg);
     });
 
-    //TODO move to disconnect method
+    //TODO move to disconnect method +RETHINK
     ws.client.on('disconnect-ack', function(msg) {
       ws.disconnectAck(msg);
     });
@@ -65,6 +65,8 @@ Websocket.prototype.disconnectAck = function (msg) {
 };
 
 Websocket.prototype.applyMove = function(msg) {
+  //TODO don't perform action if it came out of this host +RETHINK +STD_FEATURE
+  board.moveMan(msg.move.fromX, msg.move.fromY, msg.move.toX, msg.move.toY);
   console.log('move');
 };
 

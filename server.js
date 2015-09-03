@@ -33,7 +33,7 @@ io.on('connection', function(socket) {
     message: 'You have successfully connected to the server'
   });
 
-  //FIXME: throw everything to separate functions
+  //FIXME: throw everything to separate functions +REFACTOR
   socket.on('join-new-game', function() {
     var game;
     if (!someoneWaits) {
@@ -76,7 +76,7 @@ io.on('connection', function(socket) {
   socket.on('move', function(msg) {
     var game = games[msg.token];
     game.makeMove(msg.move);
-    socket.emit('move', {
+    io.emit('move', {
       status: 'OK',
       move: msg.move
     });

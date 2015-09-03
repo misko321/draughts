@@ -27,7 +27,7 @@ Game.prototype.join = function() {
 
 Game.prototype.rejoin = function() {};
 
-//TODO check server-side if move is allowed
+//TODO check server-side if move is allowed +STD_FEATURE
 Game.prototype.makeMove = function(move) {
   var man = this.tiles[move.fromX][move.fromY];
   this.tiles[move.fromX][move.fromY] = 'E';

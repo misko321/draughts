@@ -10,6 +10,9 @@
 + User can choose&change name
 + Take care of Socket.io automatic reconnection
 + Mark the label of player if it's his turn
-+ Show message if game with given token doesn't exist
-+ Sometimes token is undefined (every two refreshes)
 + How to handle multistep moves in WebSocket?
++ Private matches
++ Highlight possible moves (the best moves)
++ Show message if 2 players already connected to a game
++ Allow spectating for other players
++ If one player make more than 1 move, the other player sees it as one

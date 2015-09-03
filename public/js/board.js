@@ -77,29 +77,27 @@ Board.prototype.findAllowedMovesForWhite = function(man) {
         allowed.push(this.tiles[tileToCheck.x][tileToCheck.y]);
   }
 
-  //TODO 8 separate functions?, have in mind multiple jumps +STD_FEATURE
+  //TODO 8 separate functions? Have in mind multiple jumps +STD_FEATURE
 
   return allowed;
 };
 
+//TODO ->moveManTo(selectedMan, tile) +RETHINK +REFACTOR
 Board.prototype.moveSelectedManTo = function(tile) {
   for (var i in this.tilesAllowed)
     this.tilesAllowed[i].clearHighlights();
   tile.setAsMovingToNow();
 
-  this.selectedMan.moveToTile(tile);
+  this.selectedMan.moveToTile(tile, true);
 };
 
-//TODO +RETHINK
+//TODO -> moveManTo(man, tile) +RETHINK +REFACTOR
 Board.prototype.moveMan = function(fromX, fromY, toX, toY) {
   var fromTile = this.tiles[fromX][fromY];
   var toTile = this.tiles[toX][toY];
 
-  if (fromTile.man !== undefined) {
-    fromTile.man.moveToTile(toTile);
-    toTile.man = fromTile.man;
-    fromTile.man = undefined;
-  }
+  if (fromTile.man !== undefined)
+    fromTile.man.moveToTile(toTile, false);
 };
 
 Board.prototype.onMoveCompleted = function(tile) {

@@ -35,7 +35,7 @@ Tile.prototype.setMan = function(man) {
 };
 
 Tile.prototype.clearMan = function() {
-  this.man = undefined; //TODO null?
+  this.man = undefined; //TODO null? +RETHINK
 };
 
 Tile.prototype.setAsAllowed = function() {
@@ -73,7 +73,7 @@ Tile.prototype.setAsMovingToNow = function() {
 Tile.prototype.onMouseOver = function() {
   if (this.isAllowed) {
     var graphic = this.graphic;
-    fabric.util.animateColor(Tile.colorAllowed, //TODO: colorAllowed/this.fill
+    fabric.util.animateColor(Tile.colorAllowed, //TODO: colorAllowed/this.fill +REFACTOR
       Color(Tile.colorAllowed).lightenByRatio(0.2).toString(), hoverAnimationTime, {
       onChange: function(val) {
         graphic.setFill(val);
