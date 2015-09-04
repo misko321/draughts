@@ -5,6 +5,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Draughts</title>
+  <link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="./css/bootstrap-overrides.css" />
   <link rel="stylesheet" type="text/css" href="./css/draughts.css" />
   <link rel="icon" type="image/png" href="./img/favicon.png">
 </head>
@@ -31,11 +33,11 @@
           </div>
         </td>
       </tr>
+      <!-- TODO bootstrap alert? +RETHINK +ADD_FEATURE -->
       <tr class="game-not-found-tr">
         <td class="players-td" style="padding: 0; text-align: center">
           <div class="game-not-found">
-            It seems that the game you're trying to join, <u>does not exist any more</u>
-            or the <u>token you use is invalid</u>.
+            It seems that the game you're trying to join, <u>does not exist any more</u> or the <u>token you use is invalid</u>.
             <br/> Would you like to search for a new game?
           </div>
           <a class="new-game-button-a" href="/">
@@ -45,11 +47,34 @@
         <td></td>
       </tr>
     </table>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#waitingForOtherPlayerModal">
+      Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="waitingForOtherPlayerModal" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Waiting for an opponent...</h4>
+          </div>
+          <div class="modal-body modal-center">
+            <div>Please, hang tight while we're looking for an opponent for you...</div>
+            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="/socket.io/socket.io.js"></script>
+  <script src="./bower_components/jquery/dist/jquery.min.js"></script>
   <script src="./bower_components/fabric/dist/fabric.js"></script>
   <script src="./bower_components/color-js/color.js"></script>
+  <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="./js/polyfills.js"></script>
 
   <script src="./js/websocket.js"></script>
@@ -60,7 +85,6 @@
   <script src="./js/tile.js"></script>
   <script src="./js/board.js"></script>
   <script src="./js/draughts.js"></script>
-  <script src="./bower_components/jquery/dist/jquery.min.js"></script>
 
 </body>
 

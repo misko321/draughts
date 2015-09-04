@@ -7,7 +7,7 @@ var Game = function(token) {
     this.tiles[i] = [];
     for (var j = 0; j < Game.tilesCount; ++j) {
       if ((i + j) % 2 === 0)
-        this.tiles[i][j] = 'N';
+        this.tiles[i][j] = 'N'; //TODO enum instead of char? +RETHINK
       else if (j < 4)
         this.tiles[i][j] = 'B';
       else if (j < 6)
@@ -23,6 +23,8 @@ Game.tilesCount = 10;
 
 Game.prototype.join = function() {
   ++this.playersCount;
+
+  return this.playersCount;
 };
 
 Game.prototype.rejoin = function() {};

@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.text());
 
 var options = {
-  root: __dirname
+  root: __dirname + "/../"
 };
 
 app.use(express.static('./public/'));
@@ -18,9 +18,9 @@ app.use('/bower_components',  express.static('./bower_components/'));
 app.get('/[a-zA-Z0-9]+', function(req, res) {
   res.sendFile('./public/index.html', options);
 });
-// app.get('/*', function(req, res) {
-//   res.redirect('/');
-// });
+app.get('/*', function(req, res) {
+  res.redirect('/');
+});
 
 var someoneWaits = false;
 var lastFreeToken;
@@ -58,7 +58,7 @@ io.on('connection', function(socket) {
   socket.on('join-existing-game', function(msg) {
     var game = games[msg.token];
     if (game) {
-      game.rejoin();
+      var playersCount = game.rejoin(); //TODO would be more reliable if white/blackPresent was used +RETHINK
       socket.emit('join-existing-game-ack', {
         status: 'OK',
         message: 'You have successfully rejoined the game',
@@ -82,6 +82,7 @@ io.on('connection', function(socket) {
     });
   });
 
+  //TODO notify the other player if connection with the first one is broken +STD_FEATURE
   socket.on('disconnect', function() {
     socket.emit('disconnect-ack', {
       status: 'OK',
