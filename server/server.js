@@ -22,7 +22,7 @@ app.get('/*', function(req, res) {
   res.redirect('/');
 });
 
-var someoneWaits = false;
+var someoneWaitsInQueue = false;
 var lastFreeToken;
 var games = [];
 
@@ -36,16 +36,16 @@ io.on('connection', function(socket) {
   //FIXME: throw everything to separate functions +REFACTOR
   socket.on('join-new-game', function() {
     var game;
-    if (!someoneWaits) {
+    if (!someoneWaitsInQueue) {
       lastFreeToken = randomstring.generate();
       game = new Game(lastFreeToken);
       games[lastFreeToken] = game;
       game.join();
-      someoneWaits = true; //I'm waiting
+      someoneWaitsInQueue = true; //I'm waiting
     } else {
       game = games[lastFreeToken];
       game.join();
-      someoneWaits = false;
+      someoneWaitsInQueue = false;
     }
     socket.emit('join-new-game-ack', {
       status: 'OK',
@@ -53,6 +53,13 @@ io.on('connection', function(socket) {
       token: lastFreeToken,
       tiles: game.tiles
     });
+
+    if (someoneWaitsInQueue === false) {
+      io.emit('second-player-joins', {
+        status: 'OK',
+        message: 'Your opponent has joined the game',
+      });
+    }
   });
 
   socket.on('join-existing-game', function(msg) {

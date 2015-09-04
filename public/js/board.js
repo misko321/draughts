@@ -13,19 +13,19 @@ var Board = function(tiles) {
     for (var j = 0; j < tiles.length; ++j) {
       switch (tiles[i][j]) {
         case 'N': {
-            this.tiles[i][j] = new Tile(Tile.TileType.NONPLAYABLE, i, j);
-            break; }
+          this.tiles[i][j] = new Tile(Tile.TileType.NONPLAYABLE, i, j);
+          break; }
         case 'B': {
-            this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
-            this.tiles[i][j].setMan(new ManBlack(this.tiles[i][j]));
-            break; }
+          this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
+          this.tiles[i][j].setMan(new ManBlack(this.tiles[i][j]));
+          break; }
         case 'E': {
-            this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
-            break; }
+          this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
+          break; }
         case 'W': {
-            this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
-            this.tiles[i][j].setMan(new ManWhite(this.tiles[i][j]));
-            break; }
+          this.tiles[i][j] = new Tile(Tile.TileType.PLAYABLE, i, j);
+          this.tiles[i][j].setMan(new ManWhite(this.tiles[i][j]));
+          break; }
 
         default:
           console.error("Incorrect tile type");
@@ -36,7 +36,7 @@ var Board = function(tiles) {
 };
 
 Board.tilesCount = 10;
-Board.FadeTime = 600;
+Board.FadeTime = 1500;
 
 Board.prototype.unselect = function() {
   if (this.selectedMan) {

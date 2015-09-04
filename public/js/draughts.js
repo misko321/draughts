@@ -23,6 +23,15 @@ function initializeGame(status, tiles) {
   }
 }
 
+function showModal() {
+  $('#waitingForOtherPlayerModal').modal('show');
+}
+showModal();
+
+function hideModal() {
+  $('#waitingForOtherPlayerModal').modal('hide');
+}
+
 //TODO DRY +REFACTOR
 canvas.on('mouse:over', function(e) {
   if (e.target.obj.onMouseOver) {

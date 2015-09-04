@@ -2,19 +2,23 @@ var Websocket = function(url) {
   this.url = url;
   this.client = io.connect(url);
 
-  var ws = this; //TODO this way or bind()? +RETHINK
+  var that = this;
   this.client.on('connect', function(socket) {
 
-    ws.connect();
-    ws.joinGame();
+    that.connect();
+    that.joinGame();
 
-    ws.client.on('move', function(msg) {
-      ws.applyMove(msg);
+    that.client.on('move', function(msg) {
+      that.applyMove(msg);
     });
 
     //TODO move to disconnect method +RETHINK
-    ws.client.on('disconnect-ack', function(msg) {
-      ws.disconnectAck(msg);
+    that.client.on('disconnect-ack', function(msg) {
+      that.disconnectAck(msg);
+    });
+
+    that.client.on('second-player-joins', function(msg) {
+      hideModal();
     });
   });
 };
