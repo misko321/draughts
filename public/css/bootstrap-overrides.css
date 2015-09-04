@@ -11,7 +11,7 @@
   background-color: #98d5d3;
 }
 .modal-body {
-  min-height: 150px;
+  min-height: 170px;
 }
 .modal-open {
   padding-right: 0 !important;
@@ -23,12 +23,15 @@
 }
 
 /*TODO prefixes +REFACTOR*/
-
 .glyphicon-refresh-animate {
   -animation: spin 3s infinite linear;
   -webkit-animation: spin 3s infinite linear;
   -moz-animation: spin 3s infinite linear;
 
+  color: #4299c3;
+}
+
+.glyphicon {
   font-size: 40px;
   padding: 20px;
   display: block;
