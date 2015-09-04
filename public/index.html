@@ -49,16 +49,20 @@
     </table>
 
     <!-- modal shown when waiting for the second player to join -->
-    <div class="modal fade" id="waitingForOtherPlayerModal" tabindex="-1" role="dialog"
-    aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" >
+    <div class="modal fade" id="waitingForOtherPlayerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel">Waiting for an opponent...</h4>
           </div>
           <div class="modal-body modal-center">
-            <div>Please, hang tight while we're looking for an opponent for you...</div>
-            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" />
+            <div id="modalWait">Please, hang tight while we're looking for an opponent for you...
+              <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+            </div>
+            <!-- TODO show name of the user who just connected +ADD_FEATURE -->
+            <div id="modalEnjoy" style="display: none; padding-top: 20px;"><u>The second player just joined!</u>
+              <br />Enjoy the game!
+            </div>
           </div>
         </div>
       </div>

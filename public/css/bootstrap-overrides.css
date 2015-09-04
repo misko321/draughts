@@ -10,6 +10,12 @@
 .modal-header {
   background-color: #98d5d3;
 }
+.modal-body {
+  min-height: 150px;
+}
+.modal-open {
+  padding-right: 0 !important;
+}
 @media screen and (max-width: 1000px) {
   .modal {
     padding-right: 0 !important;
@@ -25,6 +31,7 @@
 
   font-size: 40px;
   padding: 20px;
+  display: block;
 }
 @-webkit-keyframes spin {
   from {

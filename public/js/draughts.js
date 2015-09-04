@@ -27,9 +27,19 @@ function showModal() {
   $('#waitingForOtherPlayerModal').modal('show');
 }
 showModal();
+setTimeout(showPlayerJoinedOnModal, 2000);
 
-function hideModal() {
-  $('#waitingForOtherPlayerModal').modal('hide');
+function showPlayerJoinedOnModal() {
+  var fadeTime = 500;
+  var msgTime = 2000;
+
+  $('#modalWait').fadeOut(fadeTime, function() {
+    $('#modalEnjoy').fadeIn(fadeTime, function() {
+      setTimeout(function() {
+        $('#waitingForOtherPlayerModal').modal('hide');
+      }, msgTime);
+    });
+  });
 }
 
 //TODO DRY +REFACTOR
