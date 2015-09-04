@@ -18,7 +18,7 @@ var Websocket = function(url) {
     });
 
     that.client.on('second-player-joins', function(msg) {
-      hideModal();
+      showPlayerJoinedOnModal();
     });
   });
 };

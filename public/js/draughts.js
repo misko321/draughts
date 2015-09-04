@@ -12,6 +12,7 @@ var socketURL = document.location.origin;
 //TODO will 'window.requestAnimationFrame(draw)' ever be needed? +RETHINK
 //TODO make clear where's the entire application's entry point +STD_FEATURE
 var websocket = new Websocket(socketURL);
+
 function initializeGame(status, tiles) {
   if (status === "OK") {
     board = new Board(tiles);
@@ -26,12 +27,11 @@ function initializeGame(status, tiles) {
 function showModal() {
   $('#waitingForOtherPlayerModal').modal('show');
 }
-showModal();
-setTimeout(showPlayerJoinedOnModal, 2000);
+// setTimeout(showPlayerJoinedOnModal, 2000);
 
 function showPlayerJoinedOnModal() {
   var fadeTime = 500;
-  var msgTime = 2000;
+  var msgTime = 2500;
 
   $('#modalWait').fadeOut(fadeTime, function() {
     $('#modalEnjoy').fadeIn(fadeTime, function() {
@@ -41,6 +41,12 @@ function showPlayerJoinedOnModal() {
     });
   });
 }
+
+//TODO don't show when game doesn't exist +STD_FEATURE
+$(document).ready(function() {
+  var waitTillMsgTime = 1500;
+  setTimeout(showModal, waitTillMsgTime);
+});
 
 //TODO DRY +REFACTOR
 canvas.on('mouse:over', function(e) {
