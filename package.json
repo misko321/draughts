@@ -1,7 +1,7 @@
 {
   "name": "draughts",
   "version": "0.0.0",
-  "description": "#### TODO:",
+  "description": "International draughts game using 'fabricjs' for graphics and WebSockets for asynchronous communication",
   "main": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
