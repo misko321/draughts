@@ -20,3 +20,5 @@
 + Cancel joining a new game?
 + html -> aria, role
 + i18n
++ google chrome preloading problem when joining a Game
++ modal width when on half screen, join game only on demand or POST (not GET!)

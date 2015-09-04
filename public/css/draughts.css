@@ -12,6 +12,14 @@ body {
   padding: 30px;
   min-height: 500px;
 }
+@media screen and (max-width: 1000px) {
+    .game-panel {
+      width: 560px;
+    }
+    .players-td {
+      display: none !important;
+    }
+}
 .fade-in {
   opacity: 0;
 }

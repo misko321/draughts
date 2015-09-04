@@ -7,7 +7,17 @@
 .modal-dialog {
   margin-top: 70px;
 }
+.modal-header {
+  background-color: #98d5d3;
+}
+@media screen and (max-width: 1000px) {
+  .modal {
+    padding-right: 0 !important;
+  }
+}
+
 /*TODO prefixes +REFACTOR*/
+
 .glyphicon-refresh-animate {
   -animation: spin 3s infinite linear;
   -webkit-animation: spin 3s infinite linear;
