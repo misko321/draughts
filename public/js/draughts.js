@@ -24,6 +24,10 @@ function initializeGame(status, tiles) {
   }
 }
 
+function showModalUsername() {
+  $('#joinGameModal').modal('show');
+}
+
 function showModal() {
   $('#waitingForOtherPlayerModal').modal('show');
 }
@@ -45,7 +49,7 @@ function showPlayerJoinedOnModal() {
 //TODO don't show when game doesn't exist +STD_FEATURE
 $(document).ready(function() {
   var waitTillMsgTime = 1500;
-  setTimeout(showModal, waitTillMsgTime);
+  setTimeout(showModalUsername, waitTillMsgTime);
 });
 
 //TODO DRY +REFACTOR

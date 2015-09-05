@@ -16,6 +16,9 @@
 .modal-open {
   padding-right: 0 !important;
 }
+.btn:hover, .btn:active {
+  color: white;
+}
 @media screen and (max-width: 1000px) {
   .modal {
     padding-right: 0 !important;
@@ -31,10 +34,13 @@
   color: #4299c3;
 }
 
-.glyphicon {
+.glyphicon-status {
   font-size: 40px;
   padding: 20px;
   display: block;
+}
+.input-group-addon, .form-control {
+  border-radius: 1px;
 }
 @-webkit-keyframes spin {
   from {

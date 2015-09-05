@@ -81,24 +81,21 @@ body {
   font-size: 17px;
   font-weight: bold;
 }
-.new-game-button-a {
-  text-decoration: none;
-}
 .new-game-button {
   background-color: #4d9e9b;
-  padding: 15px;
-  border: solid 3px #1c7572;
-  border-radius: 6px;
-  width: 25%;
+  padding: 10px;
+  border: solid 2px #1c7572;
+  border-radius: 2px;
+  width: 200px;
   text-align: center;
   -webkit-transition: 0.3s;
           transition: 0.3s;
   color: white;
-  font-size: 24px;
+  font-size: 18px;
   font-family: sans-serif;
   font-weight: bold;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 30px;
 }
 .new-game-button:hover {
   background-color: #84ccc9;

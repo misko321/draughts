@@ -40,29 +40,53 @@
             It seems that the game you're trying to join, <u>does not exist any more</u> or the <u>token you use is invalid</u>.
             <br/> Would you like to search for a new game?
           </div>
-          <a class="new-game-button-a" href="/">
-            <div class="new-game-button">FIND NEW GAME</div>
-          </a>
+          <a class="btn new-game-button" href="/">FIND NEW GAME</a>
         </td>
         <td></td>
       </tr>
     </table>
+
+    <!-- modal with username input -->
+    <div class="modal fade" id="joinGameModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Start a new game...</h4>
+          </div>
+          <div class="modal-body modal-center">
+            <form role="form" class="form-inline">
+              <div class="form-group">
+                <!-- <label for="username-input">Username</label> -->
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-user"></span>
+                  </div>
+                  <input class="form-control" id="username-input" type="text" placeholder="Your username" style="min-width: 300px;">
+                </div>
+              </div>
+            </form>
+            <button id="joinGame" class="btn new-game-button" href="/">JOIN GAME</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- modal shown when waiting for the second player to join -->
     <div class="modal fade" id="waitingForOtherPlayerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Waiting for an opponent...</h4>
+            <h4 class="modal-title">Waiting for an opponent...</h4>
           </div>
           <div class="modal-body modal-center">
             <div id="modalWait" style="padding-top: 20px;">Please, hang tight while we're looking for an opponent for you...
-              <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+              <span class="glyphicon glyphicon-status glyphicon-refresh glyphicon-refresh-animate"></span>
             </div>
             <!-- TODO show name of the user who just connected +ADD_FEATURE -->
             <div id="modalEnjoy" style="display: none; padding-top: 20px;"><u>The second player just joined!</u>
               <br />Enjoy the game!
-              <span class="glyphicon glyphicon-ok" style="color: #52b43e"></span>
+              <span class="glyphicon glyphicon-status glyphicon-ok" style="color: #52b43e"></span>
+            </div>
           </div>
         </div>
       </div>
