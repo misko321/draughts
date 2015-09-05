@@ -47,12 +47,15 @@ io.on('connection', function(socket) {
       game.join();
       someoneWaitsInQueue = false;
     }
+
+    socket.join(lastFreeToken);
     socket.emit('join-new-game-ack', {
       status: 'OK',
       message: 'A new game was created',
       token: lastFreeToken,
       tiles: game.tiles
     });
+
 
     if (someoneWaitsInQueue === false) {
       io.emit('second-player-joins', {
@@ -83,7 +86,7 @@ io.on('connection', function(socket) {
   socket.on('move', function(msg) {
     var game = games[msg.token];
     game.makeMove(msg.move);
-    io.emit('move', {
+    io.to(msg.token).emit('move', {
       status: 'OK',
       move: msg.move
     });
