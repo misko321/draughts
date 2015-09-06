@@ -13,12 +13,12 @@ body {
   min-height: 500px;
 }
 @media screen and (max-width: 1000px) {
-    .game-panel {
-      width: 560px;
-    }
-    .players-td {
-      display: none !important;
-    }
+  .game-panel {
+    width: 560px;
+  }
+  .players-td {
+    display: none !important;
+  }
 }
 .fade-in {
   opacity: 0;
@@ -29,6 +29,8 @@ body {
 }
 
 /* Causes problems when opacity changes */
+
+
 /*.effect6:before, .effect6:after {
   content: "";
   position: absolute;
@@ -89,7 +91,7 @@ body {
   width: 200px;
   text-align: center;
   -webkit-transition: 0.3s;
-          transition: 0.3s;
+  transition: 0.3s;
   color: white;
   font-size: 18px;
   font-family: sans-serif;
@@ -99,4 +101,21 @@ body {
 }
 .new-game-button:hover {
   background-color: #84ccc9;
+}
+.opponent {
+  font-weight: bold;
+  font-size: 16px;
+}
+.color {
+  border-radius: 2px;
+  padding: 1px 8px;
+  font-weight: bold
+}
+.color-white {
+  color: black;
+  background-color: #e7e7e7;
+}
+.color-black {
+  color: #e7e7e7;
+  background-color: black;
 }

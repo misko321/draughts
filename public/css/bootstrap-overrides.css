@@ -10,8 +10,11 @@
 .modal-header {
   background-color: #98d5d3;
 }
-.modal-body {
+#joinGameModal .modal-body {
   min-height: 170px;
+}
+#waitingForOtherPlayerModal .modal-body {
+  min-height: 235px;
 }
 .modal-open, .modal {
   padding-right: 0 !important;
@@ -32,6 +35,7 @@
   -moz-animation: spin 3s infinite linear;
 
   color: #4299c3;
+  margin-top: 40px;
 }
 
 .glyphicon-status {

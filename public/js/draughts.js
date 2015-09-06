@@ -45,7 +45,7 @@ function showPlayerJoinedOnModal(username, color) {
   var msgTime = 2500;
 
   $("#opponentUsername").html(username);
-  $("#yourColor").html(color);
+  $("#yourColor").html(color).addClass("color-" + color);
 
   $('#modalWait').fadeOut(fadeTime, function() {
     $('#modalEnjoy').fadeIn(fadeTime, function() {
