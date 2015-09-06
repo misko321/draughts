@@ -22,6 +22,7 @@ Websocket.prototype.connect = function(gameUsername) {
     });
 
     that.client.on('second-player-joins', function(msg) {
+      board.setPlayerColor(msg.color);
       showPlayerJoinedOnModal(msg.username, msg.color);
     });
   });

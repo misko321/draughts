@@ -32,6 +32,13 @@ Man.prototype.getColor = function() {
   return undefined;
 };
 
+Man.prototype.disableSelectable = function() {
+  this.onMouseOver = null;
+  this.onMouseOut = null;
+  this.onMouseDown = null;
+  this.select = null;
+};
+
 Man.prototype.onMouseOver = function() {
   var graphic = this.graphic;
   fabric.util.animateColor(this.graphic.fill, Color(this.getColor()).lightenByRatio(1).toString(),

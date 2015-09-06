@@ -66,7 +66,7 @@ $(document).ready(function() {
       showModal();
     }
   });
-  var waitTillMsgTime = 1000;
+  var waitTillMsgTime = 0;
   setTimeout(showModalUsername, waitTillMsgTime);
 });
 

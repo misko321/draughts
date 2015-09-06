@@ -49,6 +49,31 @@ Board.prototype.unselect = function() {
   this.tilesAllowed = [];
 };
 
+Board.prototype.getMen = function(type) {
+  var men = [];
+  for (var i = 0; i < this.tiles.length; ++i) {
+    for (var j = 0; j < this.tiles.length; ++j) {
+      if (this.tiles[i][j].man !== undefined && this.tiles[i][j].man instanceof type)
+        men.push(this.tiles[i][j].man);
+    }
+  }
+
+  return men;
+};
+
+Board.prototype.setPlayerColor = function(opponentColor) {
+
+  this.playerColor = opponentColor === "black" ? "white" : "black";
+  var men;
+  if (this.playerColor === "black")
+    men = this.getMen(ManBlack);
+  else
+    men = this.getMen(ManWhite);
+
+  for (var i = 0; i < men.length; ++i)
+    men[i].disableSelectable();
+};
+
 Board.prototype.select = function(man) {
   //clear previous selection
   this.unselect();
