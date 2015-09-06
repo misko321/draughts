@@ -80,16 +80,38 @@ Board.prototype.select = function(man) {
 
   //apply new selection
   this.selectedMan = man;
-  if (man instanceof ManWhite) {
-    var allowed = this.findAllowedMovesForWhite(man);
-    for (var j in allowed)
-      allowed[j].setAsAllowed();
-    this.tilesAllowed = allowed;
-  }
+  var allowed;
+  if (man instanceof ManWhite)
+    allowed = this.findAllowedMovesForWhite(man);
+  else
+    allowed = this.findAllowedMovesForBlack(man);
+
+  for (var j in allowed)
+    allowed[j].setAsAllowed();
+  this.tilesAllowed = allowed;
 };
 
 Board.prototype.findAllowedMovesForWhite = function(man) {
-  var relativePos = [ [-1, -1], [-1, 1], [1, -1], [1, 1] ];//, [-2, -2], [-2, 2], [2, -2], [2, 2] ];
+  var relativePos = [ [1, -1], [-1, -1] ];//, [-2, -2], [-2, 2], [2, -2], [2, 2] ];
+  var allowed = [];
+
+  for (var i in relativePos) {
+    var tileToCheck = {
+      x: man.tile.x + relativePos[i][0],
+      y: man.tile.y + relativePos[i][1]
+    };
+    if (this.areCoordsValid(tileToCheck.x, tileToCheck.y) &&
+      this.tiles[tileToCheck.x][tileToCheck.y].man === undefined)
+        allowed.push(this.tiles[tileToCheck.x][tileToCheck.y]);
+  }
+
+  //TODO 8 separate functions? Have in mind multiple jumps +STD_FEATURE
+
+  return allowed;
+};
+
+Board.prototype.findAllowedMovesForBlack = function(man) {
+  var relativePos = [ [1, 1], [-1, 1] ];//, [-2, -2], [-2, 2], [2, -2], [2, 2] ];
   var allowed = [];
 
   for (var i in relativePos) {
