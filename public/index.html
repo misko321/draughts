@@ -56,16 +56,15 @@
           <div class="modal-body modal-center">
             <form role="form" class="form-inline">
               <div class="form-group">
-                <!-- <label for="username-input">Username</label> -->
                 <div class="input-group">
                   <div class="input-group-addon">
                     <span class="glyphicon glyphicon-user"></span>
                   </div>
-                  <input class="form-control" id="username-input" type="text" placeholder="Your username" style="min-width: 300px;">
+                  <input class="form-control" id="usernameInput" type="text" placeholder="Your username" style="min-width: 300px;">
                 </div>
               </div>
             </form>
-            <button id="joinGame" class="btn new-game-button" href="/">JOIN GAME</button>
+            <button id="joinGameButton" class="btn new-game-button" href="/">JOIN GAME</button>
           </div>
         </div>
       </div>
@@ -84,6 +83,8 @@
             </div>
             <!-- TODO show name of the user who just connected +ADD_FEATURE -->
             <div id="modalEnjoy" style="display: none; padding-top: 20px;"><u>The second player just joined!</u>
+              <div id="opponentUsername" class="opponent"></div>
+              <div>You play with <span id="yourColor"></span></div>
               <br />Enjoy the game!
               <span class="glyphicon glyphicon-status glyphicon-ok" style="color: #52b43e"></span>
             </div>

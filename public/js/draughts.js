@@ -31,11 +31,21 @@ function showModalUsername() {
 function showModal() {
   $('#waitingForOtherPlayerModal').modal('show');
 }
+
+//TODO rename methods, @object +REFACTOR
+$("#joinGameButton").click(function() {
+  websocket.connect($("#usernameInput").val());
+  $('#joinGameModal').modal('hide');
+  showModal();
+});
 // setTimeout(showPlayerJoinedOnModal, 2000);
 
-function showPlayerJoinedOnModal() {
+function showPlayerJoinedOnModal(username, color) {
   var fadeTime = 500;
   var msgTime = 2500;
+
+  $("#opponentUsername").html(username);
+  $("#yourColor").html(color);
 
   $('#modalWait').fadeOut(fadeTime, function() {
     $('#modalEnjoy').fadeIn(fadeTime, function() {
@@ -48,7 +58,7 @@ function showPlayerJoinedOnModal() {
 
 //TODO don't show when game doesn't exist +STD_FEATURE
 $(document).ready(function() {
-  var waitTillMsgTime = 1500;
+  var waitTillMsgTime = 1000;
   setTimeout(showModalUsername, waitTillMsgTime);
 });
 

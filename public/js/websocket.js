@@ -1,11 +1,15 @@
 var Websocket = function(url) {
   this.url = url;
-  this.client = io.connect(url);
+};
+
+Websocket.prototype.connect = function(gameUsername) {
+  this.gameUsername = gameUsername;
+  this.client = io.connect(this.url);
 
   var that = this;
   this.client.on('connect', function(socket) {
 
-    that.connect();
+    that.connectToServer();
     that.joinGame();
 
     that.client.on('move', function(msg) {
@@ -18,12 +22,13 @@ var Websocket = function(url) {
     });
 
     that.client.on('second-player-joins', function(msg) {
-      showPlayerJoinedOnModal();
+      showPlayerJoinedOnModal(msg.username, msg.color);
     });
   });
 };
 
-Websocket.prototype.connect = function() {
+Websocket.prototype.connectToServer = function() {
+  var that = this;
   console.log('Trying to connect...');
   this.client.on('connect-ack', function(msg) {
     console.log(msg.status + ': ' + msg.message);
@@ -40,7 +45,9 @@ Websocket.prototype.joinGame = function() {
 };
 
 Websocket.prototype.joinNewGame = function() {
-  this.client.emit('join-new-game', null);
+  this.client.emit('join-new-game', {
+    "username": this.gameUsername
+  });
   this.client.on('join-new-game-ack', function(msg) {
     console.log(msg.status + ': ' + msg.message + ', token: ' + msg.token);
     board = new Board(msg.tiles);
@@ -60,11 +67,11 @@ Websocket.prototype.joinExistingGame = function(token) {
   });
 };
 
-Websocket.prototype.disconnect = function (msg) {
+Websocket.prototype.disconnect = function(msg) {
   console.log('Success: ' + msg.message);
 };
 
-Websocket.prototype.disconnectAck = function (msg) {
+Websocket.prototype.disconnectAck = function(msg) {
   console.log('Success: ' + msg.message);
 };
 

@@ -5,6 +5,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var randomstring = require("randomstring");
 var Game = require('./game.js');
+var Player = require('./player.js');
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 
@@ -34,17 +35,19 @@ io.on('connection', function(socket) {
   });
 
   //FIXME: throw everything to separate functions +REFACTOR
-  socket.on('join-new-game', function() {
+  socket.on('join-new-game', function(msg) {
     var game;
+    var player = new Player(msg.username, socket);
+
     if (!someoneWaitsInQueue) {
       lastFreeToken = randomstring.generate();
       game = new Game(lastFreeToken);
       games[lastFreeToken] = game;
-      game.join();
+      game.join(player);
       someoneWaitsInQueue = true; //I'm waiting
     } else {
       game = games[lastFreeToken];
-      game.join();
+      game.join(player);
       someoneWaitsInQueue = false;
     }
 
@@ -56,11 +59,19 @@ io.on('connection', function(socket) {
       tiles: game.tiles
     });
 
-
+    //if two players joined and game can be started
     if (someoneWaitsInQueue === false) {
-      io.emit('second-player-joins', {
+      game.start();
+      sendSecondPlayerJoins(game.players[0], game.players[1].username);
+      sendSecondPlayerJoins(game.players[1], game.players[0].username);
+    }
+
+    function sendSecondPlayerJoins(player, opponentUsername) {
+      player.socket.emit('second-player-joins', {
         status: 'OK',
         message: 'Your opponent has joined the game',
+        color: player.color,
+        "username": opponentUsername
       });
     }
   });

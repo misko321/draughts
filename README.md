@@ -22,3 +22,4 @@
 + i18n
 + google chrome preloading problem when joining a Game
 + modal width when on half screen, join game only on demand or POST (not GET!)
++ first player joins and leaves, server state should reset -> player gets out of queue

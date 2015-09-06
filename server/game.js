@@ -2,6 +2,7 @@ var Game = function(token) {
   this.token = token;
   this.playersCount = 0;
   this.tiles = [];
+  this.players = [];
 
   for (var i = 0; i < Game.tilesCount; ++i) {
     this.tiles[i] = [];
@@ -21,13 +22,18 @@ var Game = function(token) {
 
 Game.tilesCount = 10;
 
-Game.prototype.join = function() {
+Game.prototype.join = function(player) {
   ++this.playersCount;
-
-  return this.playersCount;
+  this.players.push(player);
 };
 
 Game.prototype.rejoin = function() {};
+
+Game.prototype.start = function() {
+  var rand = Math.floor(Math.random() * 2);
+  this.players[rand].color = "black";
+  this.players[1 - rand].color = "white";
+};
 
 //TODO check server-side if move is allowed +STD_FEATURE
 Game.prototype.makeMove = function(move) {
