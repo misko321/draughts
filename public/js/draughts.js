@@ -58,6 +58,14 @@ function showPlayerJoinedOnModal(username, color) {
 
 //TODO don't show when game doesn't exist +STD_FEATURE
 $(document).ready(function() {
+  $("#usernameInput").keypress(function(e) {
+    if (e.which == 13) {
+      e.preventDefault();
+      websocket.connect($("#usernameInput").val());
+      $('#joinGameModal').modal('hide');
+      showModal();
+    }
+  });
   var waitTillMsgTime = 1000;
   setTimeout(showModalUsername, waitTillMsgTime);
 });
