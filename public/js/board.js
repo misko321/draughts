@@ -6,6 +6,7 @@ var Board = function(tiles) {
   Man.board = this; //TODO capitalize or not? +REFACTOR
   Tile.board = this; //TODO capitalize or not? +REFACTOR
   this.selectedMan = undefined;
+  this.myMove = undefined;
 
   //TODO method too long? +REFACTOR
   for (var i = 0; i < tiles.length; ++i) {
@@ -61,14 +62,18 @@ Board.prototype.getMen = function(type) {
   return men;
 };
 
-Board.prototype.setPlayerColor = function(opponentColor) {
-
-  this.playerColor = opponentColor === "black" ? "white" : "black";
+Board.prototype.setPlayerColor = function(color) {
+  this.playerColor = color;
   var men;
-  if (this.playerColor === "black")
-    men = this.getMen(ManBlack);
-  else
+
+  if (this.playerColor === "black") {
     men = this.getMen(ManWhite);
+    this.myMove = false;
+  }
+  else {
+    men = this.getMen(ManBlack);
+    this.myMove = true;
+  }
 
   for (var i = 0; i < men.length; ++i)
     men[i].disableSelectable();

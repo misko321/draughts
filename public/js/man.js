@@ -5,8 +5,8 @@ var Man = function(tile) {
   this.graphic = new fabric.Circle({
     radius: Man.Radius,
     fill: Object.getPrototypeOf(this).constructor.Color,
-    left: Tile.size * (tile.x + 0.5) - Man.Radius,
-    top: Tile.size * (tile.y +0.5) - Man.Radius,
+    left: Tile.size * (tile.x + 0.5) - Man.Radius, //TODO originX, originY +REFACTOR
+    top: Tile.size * (tile.y + 0.5) - Man.Radius,
     selectable: false,
     obj: this
   });
@@ -62,7 +62,7 @@ Man.prototype.onMouseOut = function() {
 
 Man.prototype.select = function() {
   //if already selected, don't play animation
-  if (Man.board.selectedMan === this)
+  if (!Man.board.myMove || Man.board.selectedMan === this)
     return;
 
   Man.board.select(this);
@@ -72,7 +72,7 @@ Man.prototype.select = function() {
   this.graphic.animate({
     strokeWidth: Man.StrokeWidth,
     left: Tile.size * (this.tile.x + 0.5) - Man.Radius - Man.StrokeWidth / 2,
-    top: Tile.size * (this.tile.y +0.5) - Man.Radius - Man.StrokeWidth / 2
+    top: Tile.size * (this.tile.y + 0.5) - Man.Radius - Man.StrokeWidth / 2
   }, {
     onChange: canvas.renderAll.bind(canvas),
     duration: 100,
@@ -84,7 +84,7 @@ Man.prototype.unselect = function() {
   this.graphic.animate({
     strokeWidth: 0,
     left: Tile.size * (this.tile.x + 0.5) - Man.Radius,
-    top: Tile.size * (this.tile.y +0.5) - Man.Radius
+    top: Tile.size * (this.tile.y + 0.5) - Man.Radius
   }, {
     onChange: canvas.renderAll.bind(canvas),
     duration: 500,
@@ -108,8 +108,10 @@ Man.prototype.moveToTileAnimation = function(tileTo, isSelected) {
   }, {
     onChange: canvas.renderAll.bind(canvas),
     onComplete: function() {
-      Tile.board.onMoveCompleted(tileTo);
-      canvas.renderAll();
+      if (isSelected) {
+        Tile.board.onMoveCompleted(tileTo);
+        canvas.renderAll();
+      }
     },
     duration: manAnimationTime,
     easing: fabric.util.ease.easeInOutQuad
