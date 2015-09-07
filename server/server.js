@@ -112,6 +112,13 @@ function joinExistingGame(socket, msg) {
   if (game) {
     console.log('rejoin ' + msg.color);
     var player = game.rejoin(msg.color); //TODO would be more reliable if white/blackPresent was used +RETHINK
+    if (player === undefined) {
+      socket.emit('join-existing-game-ack', {
+        status: 'ERROR',
+        message: 'Someone already connected with this URL'
+      });
+      return;
+    }
     socket.player = player;
     player.socket = socket;
     socket.join(game.token);

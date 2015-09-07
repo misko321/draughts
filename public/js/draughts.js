@@ -83,7 +83,7 @@ $(document).ready(function() {
   });
   var waitTillMsgTime = 0;
   if (UrlManager.getToken()) {
-    showWaitingModal();
+    // showWaitingModal();
     websocket.connect();
   }
   else
