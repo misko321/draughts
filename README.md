@@ -24,3 +24,4 @@
 + Change GUI, show whose turn it is, which color is user's, name of the opponent +STD_FEATURE
 + rotate canvas for black? +ADD_FEATURE
 + user enters name only once +STD_FEATURE
++ game is considered started only with both url parts

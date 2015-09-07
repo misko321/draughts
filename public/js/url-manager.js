@@ -1,17 +1,22 @@
-var UrlManager = function() {};
-
-UrlManager.getToken = function() {
-  var array = window.location.href.split('/');
-  var token = array[array.length-1];
-  return token === "" ? undefined : token;
+var UrlManager = function() {
+  UrlManager.token = undefined;
+  UrlManager.color = undefined;
 };
 
-UrlManager.setToken = function(token) {
+UrlManager.getToken = function() {
+  var array = window.location.pathname.replace(/\/$/, '').split('/');
+  var token = array[array.length-2];
+  UrlManager.token = (token === "" ? undefined : token);
+
+  return UrlManager.token;
+};
+
+UrlManager.applyUrl = function() {
   //TODO recognize if the URL already has the token set? +ADD_FEATURE
   if (typeof(history.pushState) != "undefined") {
     var obj = {
-      title: 'Draughts #' + token,
-      url: token
+      title: 'Draughts #' + UrlManager.token + '(' + UrlManager.color + ')',
+      url: UrlManager.token + '/' + UrlManager.color
     };
     history.pushState(obj, obj.title, obj.url);
   } else {

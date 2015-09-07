@@ -28,6 +28,14 @@ Game.prototype.join = function(player) {
   player.game = this;
 };
 
+Game.prototype.leave = function(player) {
+  --this.playersCount;
+  var index = this.players.indexOf(player);
+  if (index > -1)
+    this.players.splice(index, 1);
+  player.game = this;
+};
+
 Game.prototype.rejoin = function() {};
 
 Game.prototype.start = function() {

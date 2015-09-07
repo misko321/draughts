@@ -29,6 +29,8 @@ Websocket.prototype.connect = function(gameUsername) {
       if (board.playerColor === undefined) //false if opponent reconnected
         board.setPlayerColor(msg.color);
       showPlayerJoinedOnModal(msg.username, msg.color);
+      UrlManager.color = msg.color;
+      UrlManager.applyUrl();
     });
   });
 };
@@ -57,7 +59,7 @@ Websocket.prototype.joinNewGame = function() {
   this.client.on('join-new-game-ack', function(msg) {
     console.log(msg.status + ': ' + msg.message + ', token: ' + msg.token);
     board = new Board(msg.tiles);
-    UrlManager.setToken(msg.token);
+    UrlManager.token = msg.token;
     initializeGame(msg.status, msg.tiles);
   });
 };
