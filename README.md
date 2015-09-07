@@ -22,5 +22,4 @@
 + first player joins and leaves, server state should reset -> player gets out of queue +STD_FEATURE
 + moves validity is checked server-side +STD_FEATURE
 + Change GUI, show whose turn it is, which color is user's, name of the opponent +STD_FEATURE
-+ user enters name only once +STD_FEATURE
 + URL with bad color

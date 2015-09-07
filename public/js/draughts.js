@@ -25,6 +25,7 @@ function initializeGame(status, tiles) {
 }
 
 function showModalUsername() {
+  $("#usernameInput").val(localStorage.getItem('username'));
   $('#joinGameModal').modal('show');
   setTimeout(function() {
     $("#usernameInput").focus();
@@ -34,8 +35,9 @@ function showModalUsername() {
 function opponentDisconnectIssue() {
   $("#waitingForOtherPlayerModal .modal-title").html("Your opponent has disconnected...");
   $("#modalEnjoy").hide();
-  $("#modalWaitSpan").html("It seems that your opponent has some problems with Internet connection.<br>" +
-    "Please, wait a moment until your opponent rejoins the game.");
+  $("#modalWaitSpan").html("It seems that your opponent has some problems with Internet connection <br>" +
+    "or has abandoned the game.<br />" +
+    "Please, wait a moment until your opponent rejoins the game or find a <a href='/'>new one</a>.");
   $("#modalWait").show();
   $("#waitingForOtherPlayerModal").modal('show');
 }
@@ -46,11 +48,15 @@ function showWaitingModal() {
 
 //TODO rename methods, \@object +REFACTOR
 $("#joinGameButton").click(function() {
+  joinGame();
+});
+
+function joinGame() {
+  localStorage.setItem('username', $("#usernameInput").val());
   websocket.connect($("#usernameInput").val());
   $('#joinGameModal').modal('hide');
   showWaitingModal();
-});
-// setTimeout(showPlayerJoinedOnModal, 2000);
+}
 
 function showPlayerJoinedOnModal(username, color) {
   var fadeTime = 500;
@@ -72,9 +78,7 @@ $(document).ready(function() {
   $("#usernameInput").keypress(function(e) {
     if (e.which == 13) {
       e.preventDefault();
-      websocket.connect($("#usernameInput").val());
-      $('#joinGameModal').modal('hide');
-      showWaitingModal();
+      joinGame();
     }
   });
   var waitTillMsgTime = 0;
