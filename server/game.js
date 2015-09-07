@@ -38,16 +38,18 @@ Game.prototype.leave = function(player) {
 };
 
 Game.prototype.rejoin = function(color) {
-  ++this.playersCount;
+  // console.log(this.playersCount);
   if (color === "white") {
-    console.log('1');
+    // console.log('c white');
     if (this.playerWhite.disconnected) {
+      ++this.playersCount;
       this.playerWhite.disconnected = false;
       return this.playerWhite;
     }
   } else {
-    console.log('2');
+    // console.log('c black');
     if (this.playerBlack.disconnected) {
+      ++this.playersCount;
       this.playerBlack.disconnected = false;
       return this.playerBlack;
     }
