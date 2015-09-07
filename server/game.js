@@ -3,6 +3,7 @@ var Game = function(token) {
   this.playersCount = 0;
   this.tiles = [];
   this.players = [];
+  this.hasStarted = false;
 
   for (var i = 0; i < Game.tilesCount; ++i) {
     this.tiles[i] = [];
@@ -35,7 +36,10 @@ Game.prototype.join = function(player) {
 
 Game.prototype.leave = function(player) {
   --this.playersCount;
-  player.disconnected = true;
+  if (this.hasStarted)
+    player.disconnected = true;
+  else  //TODO needed?, there can be only one player in this situation?
+    this.players = [];
 };
 
 Game.prototype.rejoin = function(color) {
@@ -64,6 +68,7 @@ Game.prototype.start = function() {
   this.players[1 - rand].color = "white";
   this.playerWhite = this.players[1 - rand];
   this.players = undefined;
+  this.hasStarted = true;
 };
 
 //TODO check server-side if move is allowed +STD_FEATURE

@@ -29,6 +29,7 @@ app.get('/*', function(req, res) {
 
 var someoneWaitsInQueue = false;
 var lastFreeToken;
+var lastGame;
 var games = [];
 
 io.on('connection', function(socket) {
@@ -68,9 +69,9 @@ function joinNewGame(socket, msg) {
   var player = new Player(msg.username, socket);
   socket.player = player;
 
-  if (!someoneWaitsInQueue) {
+  if (lastGame === undefined || lastGame.playersCount == 2) {
     lastFreeToken = randomstring.generate();
-    game = new Game(lastFreeToken);
+    lastGame = game = new Game(lastFreeToken);
     games[lastFreeToken] = game;
     game.join(player);
     someoneWaitsInQueue = true; //I'm waiting

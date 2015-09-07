@@ -18,10 +18,9 @@
 + Show message if 2 players already connected to a game*/join as spectator +STD_FEATURE
 
 #### TODO:
-+ first player joins and leaves, server state should reset -> player gets out of queue +STD_FEATURE
 + moves validity is checked server-side +STD_FEATURE
 + Change GUI, show whose turn it is, which color is user's, name of the opponent +STD_FEATURE
 + rules, jumping over, taking turns, not-must: KINGS, FINAL_RESULT
 + store whose turn it is server-side
 + rotate canvas for black? +ADD_FEATURE
-+ opponentUsername not restored after rejoin
++ socket.io show when problem with connection, server is down
