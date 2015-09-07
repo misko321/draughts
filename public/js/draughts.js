@@ -31,6 +31,15 @@ function showModalUsername() {
   }, 500);
 }
 
+function opponentDisconnectIssue() {
+  $("#waitingForOtherPlayerModal .modal-title").html("Your opponent has disconnected...");
+  $("#modalEnjoy").hide();
+  $("#modalWaitSpan").html("It seems that your opponent has some problems with Internet connection.<br>" +
+    "Please, wait a moment until your opponent rejoins the game.");
+  $("#modalWait").show();
+  $("#waitingForOtherPlayerModal").modal('show');
+}
+
 function showModal() {
   $('#waitingForOtherPlayerModal').modal('show');
 }

@@ -25,6 +25,7 @@ Game.tilesCount = 10;
 Game.prototype.join = function(player) {
   ++this.playersCount;
   this.players.push(player);
+  player.game = this;
 };
 
 Game.prototype.rejoin = function() {};

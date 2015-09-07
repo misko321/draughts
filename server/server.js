@@ -122,14 +122,16 @@ function joinExistingGame(socket, msg) {
 function move(socket, msg) {
   var game = games[msg.token];
   game.makeMove(msg.move);
-  io.to(msg.token).emit('move', {
+  socket.broadcast.to(msg.token).emit('move', {
     status: 'OK',
     move: msg.move
   });
 }
 
 function disconnect(socket, msg) {
-  
+  //TODO 5 sec timeout +ADD_FEATURE
+  socket.broadcast.to(socket.player.game.token).emit('disconnect-issue', null);
+  // console.log('disconnect issue, ' + socket + ", " + socket.player.game.token);
   socket.emit('disconnect-ack', {
     status: 'OK',
     message: 'You have been disconnected from the server'

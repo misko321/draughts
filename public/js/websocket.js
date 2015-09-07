@@ -16,13 +16,18 @@ Websocket.prototype.connect = function(gameUsername) {
       that.applyMove(msg);
     });
 
+    that.client.on('disconnect-issue', function(msg) {
+      that.disconnectIssue(msg);
+    });
+
     //TODO move to disconnect method +RETHINK
     that.client.on('disconnect-ack', function(msg) {
       that.disconnectAck(msg);
     });
 
     that.client.on('second-player-joins', function(msg) {
-      board.setPlayerColor(msg.color);
+      if (board.playerColor === undefined) //false if opponent reconnected
+        board.setPlayerColor(msg.color);
       showPlayerJoinedOnModal(msg.username, msg.color);
     });
   });
@@ -66,6 +71,11 @@ Websocket.prototype.joinExistingGame = function(token) {
     console.log(msg.status + ": " + msg.message + ', token: ' + msg.token);
     initializeGame(msg.status, msg.tiles);
   });
+};
+
+Websocket.prototype.disconnectIssue = function(msg) {
+  console.log('disconnect issue');
+  opponentDisconnectIssue();
 };
 
 Websocket.prototype.disconnect = function(msg) {
