@@ -26,13 +26,16 @@ function initializeGame(status, tiles) {
 
 function showModalUsername() {
   $('#joinGameModal').modal('show');
+  setTimeout(function() {
+    $("#usernameInput").focus();
+  }, 500);
 }
 
 function showModal() {
   $('#waitingForOtherPlayerModal').modal('show');
 }
 
-//TODO rename methods, @object +REFACTOR
+//TODO rename methods, \@object +REFACTOR
 $("#joinGameButton").click(function() {
   websocket.connect($("#usernameInput").val());
   $('#joinGameModal').modal('hide');
