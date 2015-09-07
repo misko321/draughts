@@ -15,7 +15,6 @@
 + html -> aria, role
 + i18n
 + Show if one of the player disconnects & connects again (5 sec timeout?) +STD_FEATURE
-+ rotate canvas for black? +ADD_FEATURE
 + Show message if 2 players already connected to a game*/join as spectator +STD_FEATURE
 
 #### TODO:
@@ -24,3 +23,5 @@
 + Change GUI, show whose turn it is, which color is user's, name of the opponent +STD_FEATURE
 + rules, jumping over, taking turns, not-must: KINGS, FINAL_RESULT
 + store whose turn it is server-side
++ rotate canvas for black? +ADD_FEATURE
++ opponentUsername not restored after rejoin

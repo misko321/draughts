@@ -110,7 +110,7 @@ function joinExistingGame(socket, msg) {
   // socket.player = player;
   var game = games[msg.token];
   if (game) {
-    console.log('rejoin ' + msg.color);
+    // console.log('rejoin ' + msg.color);
     var player = game.rejoin(msg.color); //TODO would be more reliable if white/blackPresent was used +RETHINK
     if (player === undefined) {
       socket.emit('join-existing-game-ack', {
@@ -143,7 +143,7 @@ function joinExistingGame(socket, msg) {
 }
 
 function move(socket, msg) {
-  console.log(msg.token);
+  // console.log(msg.token);
   var game = games[msg.token];
   game.makeMove(msg.move);
   socket.broadcast.to(msg.token).emit('move', {

@@ -8,7 +8,7 @@ body {
 .game-panel {
   background-color: white;
   margin: auto;
-  width: 80%;
+  width: 70%;
   padding: 30px;
   min-height: 500px;
 }
@@ -49,7 +49,7 @@ body {
   font-family: sans-serif;
 }
 .players-panel {
-  height: 300px;
+  height: 150px;
 }
 .player {
   height: 50%;
@@ -70,6 +70,11 @@ body {
 .player-label {
   vertical-align: middle;
   display: table-cell;
+  padding-left: 20px;
+}
+.player-label > span:last-child {
+  position: absolute;
+  margin: 8px;
 }
 .game-tr, .game-not-found-tr {
   display: none;
@@ -118,4 +123,12 @@ body {
 .color-black {
   color: #e7e7e7;
   background-color: black;
+}
+.glyphicon-turn {
+  color: #ebae12;
+  padding-right: 10px;
+  font-size: 30px;
+}
+#turnBlackGlyph {
+  opacity: 0;
 }

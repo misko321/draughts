@@ -75,7 +75,8 @@ Websocket.prototype.joinExistingGame = function(token, color) {
     //TODO Logger class? +ADD_FEATURE
     console.log(msg.status + ": " + msg.message + ', token: ' + msg.token);
     initializeGame(msg.status, msg.tiles);
-    that.gameUsername = msg.username;
+    that.gameUsername = msg.username; //TODO username spaghetti +REFACTOR
+    username = msg.username;
     if (msg.status === "OK")
       showWaitingModal();
     // if (board.playerColor === undefined) //false if opponent reconnected

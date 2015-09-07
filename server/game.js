@@ -22,14 +22,15 @@ var Game = function(token) {
 
 Game.tilesCount = 10;
 
+//TODO array[color] +REFACTOR
 Game.prototype.join = function(player) {
   ++this.playersCount;
   this.players.push(player);
   player.game = this;
-  // if (player.color === "white")
-  //   this.playerWhite = player;
-  // else
-  //   this.playerBlack = player;
+  if (player.color === "white")
+    this.playerWhite = player;
+  else
+    this.playerBlack = player;
 };
 
 Game.prototype.leave = function(player) {

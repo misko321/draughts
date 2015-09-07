@@ -6,6 +6,8 @@ var Color = net.brehaut.Color;
 var hoverAnimationTime = 100;
 var colorAnimationTime = 300;
 var manAnimationTime = 700;
+var username;
+var turn = "#turnWhiteGlyph";
 
 var socketURL = document.location.origin;
 
@@ -52,26 +54,42 @@ $("#joinGameButton").click(function() {
 });
 
 function joinGame() {
-  localStorage.setItem('username', $("#usernameInput").val());
-  websocket.connect($("#usernameInput").val());
+  username = $("#usernameInput").val();
+  localStorage.setItem('username', username);
+  websocket.connect(username);
   $('#joinGameModal').modal('hide');
   showWaitingModal();
 }
 
-function showPlayerJoinedOnModal(username, color) {
+function showPlayerJoinedOnModal(opponentUsername, yourColor) {
   var fadeTime = 500;
-  var msgTime = 2500;
+  var msgTime = 1000;
 
-  $("#opponentUsername").html(username);
-  $("#yourColor").html(color).addClass("color-" + color);
+  if (yourColor === "white") {
+    $("#turnWhite").html(username);
+    $("#turnBlack").html(opponentUsername);
+  } else {
+    $("#turnBlack").html(username);
+    $("#turnWhite").html(opponentUsername);
+  }
+
+  $("#opponentUsername").html(opponentUsername);
+  $("#yourColor").html(yourColor).addClass("color-" + yourColor);
 
   $('#modalWait').fadeOut(fadeTime, function() {
     $('#modalEnjoy').fadeIn(fadeTime, function() {
       setTimeout(function() {
         $('#waitingForOtherPlayerModal').modal('hide');
+        $('body').css('padding-left', '0 !important');
       }, msgTime);
     });
   });
+}
+
+function changeTurn() {
+  $(turn).fadeTo(500, 0); //TODO turn +REFACTOR
+  turn = (turn === "#turnWhiteGlyph" ? "#turnBlackGlyph" : "#turnWhiteGlyph");
+  $(turn).fadeTo(500, 1);
 }
 
 $(document).ready(function() {
