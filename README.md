@@ -14,14 +14,13 @@
 + Cancel joining a new game?
 + html -> aria, role
 + i18n
++ Show if one of the player disconnects & connects again (5 sec timeout?) +STD_FEATURE
++ rotate canvas for black? +ADD_FEATURE
 
 #### TODO:
 + Show message if 2 players already connected to a game*/join as spectator +STD_FEATURE
-+ Show if one of the player disconnects & connects again (5 sec timeout?) +STD_FEATURE
-+ Save username and color, so it's still there after reconnecting +STD_FEATURE
 + first player joins and leaves, server state should reset -> player gets out of queue +STD_FEATURE
 + moves validity is checked server-side +STD_FEATURE
 + Change GUI, show whose turn it is, which color is user's, name of the opponent +STD_FEATURE
-+ rotate canvas for black? +ADD_FEATURE
 + user enters name only once +STD_FEATURE
-+ game is considered started only with both url parts
++ URL with bad color

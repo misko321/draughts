@@ -40,7 +40,7 @@ function opponentDisconnectIssue() {
   $("#waitingForOtherPlayerModal").modal('show');
 }
 
-function showModal() {
+function showWaitingModal() {
   $('#waitingForOtherPlayerModal').modal('show');
 }
 
@@ -48,7 +48,7 @@ function showModal() {
 $("#joinGameButton").click(function() {
   websocket.connect($("#usernameInput").val());
   $('#joinGameModal').modal('hide');
-  showModal();
+  showWaitingModal();
 });
 // setTimeout(showPlayerJoinedOnModal, 2000);
 
@@ -68,18 +68,22 @@ function showPlayerJoinedOnModal(username, color) {
   });
 }
 
-//TODO don't show when game doesn't exist +STD_FEATURE
 $(document).ready(function() {
   $("#usernameInput").keypress(function(e) {
     if (e.which == 13) {
       e.preventDefault();
       websocket.connect($("#usernameInput").val());
       $('#joinGameModal').modal('hide');
-      showModal();
+      showWaitingModal();
     }
   });
   var waitTillMsgTime = 0;
-  setTimeout(showModalUsername, waitTillMsgTime);
+  if (UrlManager.getToken()) {
+    showWaitingModal();
+    websocket.connect();
+  }
+  else
+    setTimeout(showModalUsername, waitTillMsgTime);
 });
 
 //TODO DRY +REFACTOR

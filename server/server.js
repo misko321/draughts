@@ -20,7 +20,7 @@ app.get('/', function(req, res) {
   res.sendFile('./public/index.html', options);
 });
 app.get('/[a-zA-Z0-9]+/:color(black|white)', function(req, res) {
-  console.log(req.params.color);
+  // console.log(req.params.color);
   res.sendFile('./public/index.html', options);
 });
 app.get('/*', function(req, res) {
@@ -89,32 +89,44 @@ function joinNewGame(socket, msg) {
   });
 
   //if two players joined and game can be started
-  if (someoneWaitsInQueue === false) {
+  if (game.playersCount === 2) {
     game.start();
-    sendSecondPlayerJoins(game.players[0], game.players[1].username);
-    sendSecondPlayerJoins(game.players[1], game.players[0].username);
-  }
-
-  function sendSecondPlayerJoins(player, opponentUsername) {
-    player.socket.emit('second-player-joins', {
-      status: 'OK',
-      message: 'Your opponent has joined the game',
-      color: player.color,
-      "username": opponentUsername
-    });
+    sendSecondPlayerJoins(game.playerWhite, game.playerBlack.username);
+    sendSecondPlayerJoins(game.playerBlack, game.playerWhite.username);
   }
 }
 
+function sendSecondPlayerJoins(player, opponentUsername) {
+  player.socket.emit('second-player-joins', {
+    status: 'OK',
+    message: 'Your opponent has joined the game',
+    color: player.color,
+    "username": opponentUsername
+  });
+}
+
 function joinExistingGame(socket, msg) {
+  // var player = new Player(msg.username, socket);
+  // socket.player = player;
   var game = games[msg.token];
   if (game) {
-    var playersCount = game.rejoin(); //TODO would be more reliable if white/blackPresent was used +RETHINK
+    console.log('rejoin ' + msg.color);
+    var player = game.rejoin(msg.color); //TODO would be more reliable if white/blackPresent was used +RETHINK
+    socket.player = player;
+    player.socket = socket;
+    socket.join(game.token);
     socket.emit('join-existing-game-ack', {
       status: 'OK',
       message: 'You have successfully rejoined the game',
       token: msg.token,
+      "username": player.username,
+      color: player.color,
       tiles: game.tiles
     });
+    if (game.playersCount === 2) {
+      sendSecondPlayerJoins(game.playerWhite, game.playerBlack.username);
+      sendSecondPlayerJoins(game.playerBlack, game.playerWhite.username);
+    }
   } else {
     socket.emit('join-existing-game-ack', {
       status: 'ERROR',

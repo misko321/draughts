@@ -26,6 +26,7 @@ Websocket.prototype.connect = function(gameUsername) {
     });
 
     that.client.on('second-player-joins', function(msg) {
+      console.log('second-player-joins');
       if (board.playerColor === undefined) //false if opponent reconnected
         board.setPlayerColor(msg.color);
       showPlayerJoinedOnModal(msg.username, msg.color);
@@ -45,10 +46,11 @@ Websocket.prototype.connectToServer = function() {
 
 Websocket.prototype.joinGame = function() {
   var token = UrlManager.getToken();
+  var color = UrlManager.getColor();
   if (token === undefined) {
     this.joinNewGame();
   } else {
-    this.joinExistingGame(token);
+    this.joinExistingGame(token, color);
   }
 };
 
@@ -64,14 +66,20 @@ Websocket.prototype.joinNewGame = function() {
   });
 };
 
-Websocket.prototype.joinExistingGame = function(token) {
+Websocket.prototype.joinExistingGame = function(token, color) {
+  var that = this;
   this.client.emit('join-existing-game', {
-    token: token
+    token: token,
+    color: color
   });
   this.client.on('join-existing-game-ack', function(msg) {
     //TODO Logger class? +ADD_FEATURE
     console.log(msg.status + ": " + msg.message + ', token: ' + msg.token);
     initializeGame(msg.status, msg.tiles);
+    that.gameUsername = msg.username;
+    // if (board.playerColor === undefined) //false if opponent reconnected
+    // board.setPlayerColor(msg.color);
+    // showPlayerJoinedOnModal(msg.username, msg.color);
   });
 };
 

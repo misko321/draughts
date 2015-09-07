@@ -26,22 +26,41 @@ Game.prototype.join = function(player) {
   ++this.playersCount;
   this.players.push(player);
   player.game = this;
+  // if (player.color === "white")
+  //   this.playerWhite = player;
+  // else
+  //   this.playerBlack = player;
 };
 
 Game.prototype.leave = function(player) {
   --this.playersCount;
-  var index = this.players.indexOf(player);
-  if (index > -1)
-    this.players.splice(index, 1);
-  player.game = this;
+  player.disconnected = true;
 };
 
-Game.prototype.rejoin = function() {};
+Game.prototype.rejoin = function(color) {
+  ++this.playersCount;
+  if (color === "white") {
+    console.log('1');
+    if (this.playerWhite.disconnected) {
+      this.playerWhite.disconnected = false;
+      return this.playerWhite;
+    }
+  } else {
+    console.log('2');
+    if (this.playerBlack.disconnected) {
+      this.playerBlack.disconnected = false;
+      return this.playerBlack;
+    }
+  }
+};
 
 Game.prototype.start = function() {
   var rand = Math.floor(Math.random() * 2);
   this.players[rand].color = "black";
+  this.playerBlack = this.players[rand];
   this.players[1 - rand].color = "white";
+  this.playerWhite = this.players[1 - rand];
+  this.players = undefined;
 };
 
 //TODO check server-side if move is allowed +STD_FEATURE

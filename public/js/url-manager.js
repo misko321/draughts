@@ -6,13 +6,22 @@ var UrlManager = function() {
 UrlManager.getToken = function() {
   var array = window.location.pathname.replace(/\/$/, '').split('/');
   var token = array[array.length-2];
-  UrlManager.token = (token === "" ? undefined : token);
+  token = (token === "" ? undefined : token);
 
-  return UrlManager.token;
+  return token;
+};
+
+UrlManager.getColor = function() {
+  var array = window.location.pathname.replace(/\/$/, '').split('/');
+  var color = array[array.length-1];
+  color = (color === "" ? undefined : color);
+
+  return color;
 };
 
 UrlManager.applyUrl = function() {
-  //TODO recognize if the URL already has the token set? +ADD_FEATURE
+  if (UrlManager.getToken())
+    return;
   if (typeof(history.pushState) != "undefined") {
     var obj = {
       title: 'Draughts #' + UrlManager.token + '(' + UrlManager.color + ')',
