@@ -101,7 +101,7 @@ function sendSecondPlayerJoins(player, opponentUsername) {
   player.socket.emit('second-player-joins', {
     status: 'OK',
     message: 'Your opponent has joined the game',
-    color: player.color,
+    color: player.color === 'W' ? 'white' : 'black',
     "username": opponentUsername
   });
 }
@@ -128,7 +128,7 @@ function joinExistingGame(socket, msg) {
       message: 'You have successfully rejoined the game',
       token: msg.token,
       "username": player.username,
-      color: player.color,
+      color: player.color === 'W' ? 'white' : 'black',
       tiles: game.tiles
     });
     if (game.playersCount === 2) {
@@ -146,12 +146,20 @@ function joinExistingGame(socket, msg) {
 function move(socket, msg) {
   // console.log(msg.token);
   var game = games[msg.token];
-  var processedMove = game.makeMove(msg.move);
-  socket.broadcast.to(msg.token).emit('move', {
-    status: 'OK',
-    move: processedMove,
-    changeTurn: true
-  });
+  var processedMove = game.makeMove(msg.move, socket.player);
+  if (processedMove) {
+    socket.broadcast.to(msg.token).emit('move', {
+      status: 'OK',
+      move: processedMove,
+      changeTurn: true
+    });
+  } else {
+    console.log('disallowed move');
+    socket.emit('move', {
+      status: 'ERROR',
+      msg: 'Disallowed move'
+    });
+  }
 }
 
 function disconnect(socket, msg) {

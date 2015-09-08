@@ -21,7 +21,16 @@
 + socket.io show when problem with connection, server is down
 
 #### TODO:
-+ moves validity is checked server-side +STD_FEATURE
-+ rules, jumping over, taking turns, not-must: KINGS, FINAL_RESULT
++ moves validity is checked server-side, send error if move disallowed, only to console +STD_FEATURE
++ taking turns server-side, beating server-side
 + store whose turn it is server-side
-+ disable selection of man after turn ends
+
+
+make move [tylko w przód lub jeśli bicie to w tył]
+if (move is bicie) {
+  zbij();
+  while (can bić)
+    next move, ale tylko ten z biciem [w przód lub w tył], tylko tym samym pionkiem, nie można
+    go odselectować
+}
+finish move
