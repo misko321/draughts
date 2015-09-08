@@ -7,6 +7,7 @@ var Board = function(tiles) {
   Tile.board = this; //TODO capitalize or not? +REFACTOR
   this.selectedMan = undefined;
   this.myTurn = undefined;
+  this.lastMoveWasBeat = undefined;
 
   //TODO method too long? +REFACTOR
   for (var i = 0; i < tiles.length; ++i) {
@@ -40,12 +41,14 @@ Board.tilesCount = 10;
 Board.FadeTime = 1500;
 
 Board.prototype.unselect = function() {
-  if (this.selectedMan) {
-    this.selectedMan.unselect();
-    this.selectedMan = undefined;
+  if (this.lastMoveWasBeat === undefined) {
+    if (this.selectedMan) {
+      this.selectedMan.unselect();
+      this.selectedMan = undefined;
+    }
+    this.clearAllHighlights();
+    this.tilesAllowed = [];
   }
-  this.clearAllHighlights();
-  this.tilesAllowed = [];
 };
 
 Board.prototype.getMen = function(type) {
@@ -79,19 +82,24 @@ Board.prototype.setPlayerColor = function(color) {
 };
 
 Board.prototype.select = function(man) {
+  //if already selected, don't play animation
+  if (!this.myTurn || this.selectedMan === man)
+    return;
+
   //clear previous selection
   this.unselect();
 
   //apply new selection
-  this.selectedMan = man;
-  this.findAllowedMoves(this.selectedMan);
+  if (this.selectedMan === undefined) {
+    man.selectAnimation();
+    this.selectedMan = man;
+    this.findAllowedMoves(this.selectedMan);
+  }
 };
 
 Board.prototype.onMoveCompleted = function(tile) {
   tile.clearHighlights();
   this.findAllowedMoves(this.selectedMan);
-
-  // this.selectedMan.unselect();
 };
 
 Board.prototype.findAllowedMoves = function(man) {
@@ -104,15 +112,24 @@ Board.prototype.findAllowedMoves = function(man) {
   else
     relativePos = [ [1, 1], [-1, 1] ];
 
+
   allowedForBeat = this.findAllowedMovesBeat(man);
-  if (allowedForBeat.length === 0) //if beat is possible, disallow simple moves
+  if (allowedForBeat.length === 0 && !this.lastMoveWasBeat) //if beat is possible, disallow simple moves
     allowed = this.findAllowedMovesNoBeat(man, relativePos);
 
-  for (var j in allowedForBeat)
-    allowedForBeat[j].setAsAllowedForBeat();
-  for (var i in allowed)
-    allowed[i].setAsAllowed();
   this.tilesAllowed = allowed.concat(allowedForBeat);
+
+  if (this.tilesAllowed.length === 0 || this.lastMoveWasBeat === false) { //finish move
+    this.selectedMan.unselect();
+    this.selectedMan = undefined;
+    this.lastMoveWasBeat = undefined;
+    // changeTurn();
+  } else {
+    for (var j in allowedForBeat)
+      allowedForBeat[j].setAsAllowedForBeat();
+    for (var i in allowed)
+      allowed[i].setAsAllowed();
+  }
 };
 
 Board.prototype.findAllowedMovesNoBeat = function(man, relativePos) {
@@ -160,6 +177,7 @@ Board.prototype.canBeat = function(tile, oppTile, man) {
 
 //TODO ->moveManTo(selectedMan, tile) +RETHINK +REFACTOR
 Board.prototype.moveSelectedManTo = function(tile) {
+  this.lastMoveWasBeat = (tile.isAllowedForBeat ? true : false);
   if (tile.isAllowedForBeat) {
     var oppX = this.selectedMan.tile.x + (tile.x - this.selectedMan.tile.x) / 2;
     var oppY = this.selectedMan.tile.y + (tile.y - this.selectedMan.tile.y) / 2;
@@ -169,8 +187,6 @@ Board.prototype.moveSelectedManTo = function(tile) {
   this.selectedMan.moveToTile(tile, true);
   this.clearAllHighlights();
   tile.setAsMovingToNow();
-
-  // changeTurn();
 };
 
 Board.prototype.destroyMan = function(man) {

@@ -79,11 +79,10 @@ Man.prototype.onMouseOut = function() {
 };
 
 Man.prototype.select = function() {
-  //if already selected, don't play animation
-  if (!Man.board.myTurn || Man.board.selectedMan === this)
-    return;
-
   Man.board.select(this);
+};
+
+Man.prototype.selectAnimation = function() {
   this.graphic.set({
     stroke: this.getColorStroke(),
   });
