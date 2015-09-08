@@ -95,19 +95,23 @@ Board.prototype.onMoveCompleted = function(tile) {
 };
 
 Board.prototype.findAllowedMoves = function(man) {
-  var relativePos;
+  var relativePos,
+      allowed = [],
+      allowedForBeat = [];
 
   if (man instanceof ManWhite)
     relativePos = [ [1, -1], [-1, -1] ];
   else
     relativePos = [ [1, 1], [-1, 1] ];
 
-  var allowed = this.findAllowedMovesNoBeat(man, relativePos);
-  var allowedForBeat = this.findAllowedMovesBeat(man);
-  for (var i in allowed)
-    allowed[i].setAsAllowed();
+  allowedForBeat = this.findAllowedMovesBeat(man);
+  if (allowedForBeat.length === 0) //if beat is possible, disallow simple moves
+    allowed = this.findAllowedMovesNoBeat(man, relativePos);
+
   for (var j in allowedForBeat)
     allowedForBeat[j].setAsAllowedForBeat();
+  for (var i in allowed)
+    allowed[i].setAsAllowed();
   this.tilesAllowed = allowed.concat(allowedForBeat);
 };
 
