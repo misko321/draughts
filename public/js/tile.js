@@ -104,7 +104,7 @@ Tile.prototype.isAllowedForMove = function() {
 Tile.prototype.onMouseOut = function() {
   if (this.isAllowedForMove()) {
     var graphic = this.graphic;
-    fabric.util.animateColor(graphic.fill, Color(graphic.fill).darkenByRatio(0.2).toString(),
+    fabric.util.animateColor(graphic.fill, Color(graphic.fill).darkenByRatio(0.1666).toString(),
      hoverAnimationTime, {
       onChange: function(val) {
         graphic.setFill(val);

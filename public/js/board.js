@@ -160,11 +160,22 @@ Board.prototype.canBeat = function(tile, oppTile, man) {
 
 //TODO ->moveManTo(selectedMan, tile) +RETHINK +REFACTOR
 Board.prototype.moveSelectedManTo = function(tile) {
+  if (tile.isAllowedForBeat) {
+    var oppX = this.selectedMan.tile.x + (tile.x - this.selectedMan.tile.x) / 2;
+    var oppY = this.selectedMan.tile.y + (tile.y - this.selectedMan.tile.y) / 2;
+
+    this.destroyMan(this.tiles[oppX][oppY].man);
+  }
+  this.selectedMan.moveToTile(tile, true);
   this.clearAllHighlights();
   tile.setAsMovingToNow();
 
-  this.selectedMan.moveToTile(tile, true);
   // changeTurn();
+};
+
+Board.prototype.destroyMan = function(man) {
+  man.tile.clearMan();
+  man.destroy();
 };
 
 Board.prototype.clearAllHighlights = function() {

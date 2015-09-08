@@ -43,6 +43,20 @@ Man.prototype.disableSelectable = function() {
   this.select = null;
 };
 
+Man.prototype.destroy = function() {
+  var graphic = this.graphic;
+  this.graphic.animate({
+    opacity: 0
+  }, {
+    onChange: canvas.renderAll.bind(canvas),
+    duration: 500,
+    easing: fabric.util.ease.easeInSine,
+    onComplete: function() {
+      canvas.remove(graphic);
+    }
+  });
+};
+
 Man.prototype.onMouseOver = function() {
   var graphic = this.graphic;
   fabric.util.animateColor(this.graphic.fill, Color(this.getColor()).lightenByRatio(1).toString(),
