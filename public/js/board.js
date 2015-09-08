@@ -123,7 +123,7 @@ Board.prototype.findAllowedMoves = function(man) {
     this.selectedMan.unselect();
     this.selectedMan = undefined;
     this.lastMoveWasBeat = undefined;
-    // changeTurn();
+    changeTurn();
   } else {
     for (var j in allowedForBeat)
       allowedForBeat[j].setAsAllowedForBeat();

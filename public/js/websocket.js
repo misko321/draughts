@@ -74,7 +74,7 @@ Websocket.prototype.joinExistingGame = function(token, color) {
   this.client.on('join-existing-game-ack', function(msg) {
     //TODO Logger class? +ADD_FEATURE
     console.log(msg.status + ": " + msg.message + ', token: ' + msg.token);
-    initializeGame(msg.status, msg.tiles);
+    initializeGame(msg.status, msg.tiles);//, msg.turn);
     that.gameUsername = msg.username; //TODO username spaghetti +REFACTOR
     username = msg.username;
     if (msg.status === "OK")
@@ -102,8 +102,10 @@ Websocket.prototype.applyMove = function(move) {
   //TODO don't perform action if it came out of this host +RETHINK +STD_FEATURE
   board.moveMan({ x: move.from.x, y: move.from.y}, { x: move.to.x, y: move.to.y },
     { x: move.manToBeat.x, y: move.manToBeat.y });
-  if (move.changeTurn)
+  if (move.changeTurn) {
+    console.log('change turn');
     changeTurn();
+  }
   console.log('move');
 };
 

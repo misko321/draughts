@@ -129,7 +129,8 @@ function joinExistingGame(socket, msg) {
       token: msg.token,
       "username": player.username,
       color: player.color === 'W' ? 'white' : 'black',
-      tiles: game.tiles
+      tiles: game.tiles,
+      turn: game.turn
     });
     if (game.playersCount === 2) {
       sendSecondPlayerJoins(game.playerWhite, game.playerBlack.username);

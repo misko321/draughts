@@ -15,7 +15,7 @@ var socketURL = document.location.origin;
 //TODO make clear where's the entire application's entry point +STD_FEATURE
 var websocket = new Websocket(socketURL);
 
-function initializeGame(status, tiles) {
+function initializeGame(status, tiles) {//}, turn) {
   if (status === "OK") {
     board = new Board(tiles);
     $(".game-not-found-tr").hide();
@@ -24,6 +24,8 @@ function initializeGame(status, tiles) {
     $(".game-tr").hide();
     $(".game-not-found-tr").show();
   }
+
+  // board.myTurn = (board.myTurn ? false : true);
 }
 
 function showModalUsername() {

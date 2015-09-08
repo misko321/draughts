@@ -5,6 +5,7 @@ var Game = function(token) {
   this.players = [];
   this.hasStarted = false;
   this.turn = 'W';
+  this.lastBeatMove = undefined;
 
   // for (var i = 0; i < Game.tilesCount; ++i) {
   //   this.tiles[i] = [];
@@ -50,7 +51,7 @@ Game.prototype.join = function(player) {
 };
 
 Game.prototype.changeTurn = function() {
-  this.turn = (this.turn === 'W' ? 'B' : 'W');
+  this.turn = this.oppositeColor(this.turn);
 };
 
 Game.prototype.leave = function(player) {
@@ -125,6 +126,14 @@ Game.prototype.makeMove = function(move, player) {
   if (absStepY === 1 && player.color === 'W' && stepY !== -1) return false;
   if (absStepY === 1 && player.color === 'B' && stepY !== 1) return false;
   console.log('4');
+  console.log(this.lastBeatMove);
+  console.log(move.from);
+
+  if (this.lastBeatMove && (move.from.x !== this.lastBeatMove.x || move.from.y !== this.lastBeatMove.y ||
+                            absStepX !== 2))
+    return false;
+
+  console.log('5');
 
   //two step move
   var opp, oppX, oppY;
@@ -137,7 +146,7 @@ Game.prototype.makeMove = function(move, player) {
     if (player.color === 'W' && opp !== 'B') return false;
     if (player.color === 'B' && opp !== 'W') return false;
   }
-  console.log('5');
+  console.log('6');
   var man = from;
   console.log(from + ', ' + to);
   this.tiles[move.from.x][move.from.y] = 'E';
@@ -145,10 +154,55 @@ Game.prototype.makeMove = function(move, player) {
   to = man;
   if (absStepX === 2) {
     this.tiles[oppX][oppY] = 'E';
+    if (this.moreMovesAvailable(move.to.x, move.to.y, player.color) > 0) {
+      this.lastBeatMove = { x: move.to.x, y: move.to.y, color: player.color };
+    } else {
+      this.changeTurn();
+      move.changeTurn = true;
+      this.lastBeatMove = undefined;
+    }
     move.manToBeat = { x: oppX, y: oppY };
   }
 
   return move;
+};
+
+Game.prototype.moreMovesAvailable = function(x, y, color) {
+  var relativePosBeat = [ [-2, -2], [-2, 2], [2, -2], [ 2, 2] ]; //always the same
+  var allowed = 0;
+  console.log('moreMovesAvailable 1:' + x + ', ' + y);
+  for (var i in relativePosBeat) {
+    var tileToCheck = {
+      'x': +x + relativePosBeat[i][0],
+      'y': +y + relativePosBeat[i][1]
+    };
+    var oppTileToCheck = {
+      'x': +x + relativePosBeat[i][0] / 2,
+      'y': +y + relativePosBeat[i][1] / 2,
+    };
+    if (this.areCoordsValid(tileToCheck) &&
+      this.canBeat(tileToCheck, oppTileToCheck, color))
+        ++allowed;
+  }
+  console.log('moreMovesAvailable ' + allowed);
+  return allowed > 0;
+};
+
+Game.prototype.canBeat = function(tile, oppTile, color) {
+  var res =  this.tiles[tile.x][tile.y] === 'E' &&
+    this.tiles[oppTile.x][oppTile.y] === this.oppositeColor(color);
+  console.log('canBeat ' + res);
+  return res;
+};
+
+Game.prototype.oppositeColor = function(color) {
+  return (color === 'W' ? 'B' : 'W');
+};
+
+Game.prototype.areCoordsValid = function(tile) {
+  var res =   (tile.x >= 0 && tile.x < 10 && tile.y >= 0 && tile.y < 10);
+  console.log('areCoordsValid ' + tile.x + ', ' + tile.y + res);
+  return res;
 };
 
 module.exports = Game;
