@@ -63,7 +63,7 @@ function joinGame() {
 
 function showPlayerJoinedOnModal(opponentUsername, yourColor) {
   var fadeTime = 500;
-  var msgTime = 2500;
+  var msgTime = 500;
 
   if (yourColor === "white") {
     $("#turnWhite").html(username);

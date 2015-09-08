@@ -64,19 +64,20 @@ Board.prototype.getMen = function(type) {
 
 Board.prototype.setPlayerColor = function(color) {
   this.playerColor = color;
-  var men;
-
-  if (this.playerColor === "black") {
-    men = this.getMen(ManWhite);
-    this.myMove = false;
-  }
-  else {
-    men = this.getMen(ManBlack);
-    this.myMove = true;
-  }
-
-  for (var i = 0; i < men.length; ++i)
-    men[i].disableSelectable();
+  this.myTurn = true;
+  // var men;
+  //
+  // if (this.playerColor === "black") {
+  //   men = this.getMen(ManWhite);
+  //   this.myTurn = false;
+  // }
+  // else {
+  //   men = this.getMen(ManBlack);
+  //   this.myTurn = true;
+  // }
+  //
+  // for (var i = 0; i < men.length; ++i)
+  //   men[i].disableSelectable();
 };
 
 Board.prototype.select = function(man) {
@@ -96,42 +97,53 @@ Board.prototype.select = function(man) {
   this.tilesAllowed = allowed;
 };
 
-Board.prototype.findAllowedMovesForWhite = function(man) {
-  var relativePos = [ [1, -1], [-1, -1] ];//, [-2, -2], [-2, 2], [2, -2], [2, 2] ];
+Board.prototype.findAllowedMovesForWhite = function(man, beat) {
+  var relativePos = [ [1, -1], [-1, -1] ];
+  return this.checkIfMovesPossible(man, relativePos, beat);
+};
+
+Board.prototype.findAllowedMovesForBlack = function(man, beat) {
+  var relativePos = [ [1, 1], [-1, 1] ];
+  return this.checkIfMovesPossible(man, relativePos, beat);
+};
+
+Board.prototype.checkIfMovesPossible = function(man, relativePos, beat) {
+  var relativePosBeat = [ [-2, -2], [-2, 2], [2, -2], [ 2, 2] ]; //always the same
   var allowed = [];
 
+  var tileToCheck,
+      oppTileToCheck;
   for (var i in relativePos) {
-    var tileToCheck = {
+    tileToCheck = {
       x: man.tile.x + relativePos[i][0],
       y: man.tile.y + relativePos[i][1]
     };
-    if (this.areCoordsValid(tileToCheck.x, tileToCheck.y) &&
+    if (this.areCoordsValid(tileToCheck) &&
       this.tiles[tileToCheck.x][tileToCheck.y].man === undefined)
         allowed.push(this.tiles[tileToCheck.x][tileToCheck.y]);
   }
 
-  //TODO 8 separate functions? Have in mind multiple jumps +STD_FEATURE
+  for (var j in relativePosBeat) {
+    tileToCheck = {
+      x: man.tile.x + relativePosBeat[j][0],
+      y: man.tile.y + relativePosBeat[j][1]
+    };
+    oppTileToCheck = {
+      x: man.tile.x + relativePosBeat[j][0] / 2,
+      y: man.tile.y + relativePosBeat[j][1] / 2,
+    };
+    if (this.areCoordsValid(tileToCheck) &&
+      this.canBeat(tileToCheck, oppTileToCheck, man))
+      allowed.push(this.tiles[tileToCheck.x][tileToCheck.y]);
+  }
 
   return allowed;
 };
 
-Board.prototype.findAllowedMovesForBlack = function(man) {
-  var relativePos = [ [1, 1], [-1, 1] ];//, [-2, -2], [-2, 2], [2, -2], [2, 2] ];
-  var allowed = [];
-
-  for (var i in relativePos) {
-    var tileToCheck = {
-      x: man.tile.x + relativePos[i][0],
-      y: man.tile.y + relativePos[i][1]
-    };
-    if (this.areCoordsValid(tileToCheck.x, tileToCheck.y) &&
-      this.tiles[tileToCheck.x][tileToCheck.y].man === undefined)
-        allowed.push(this.tiles[tileToCheck.x][tileToCheck.y]);
-  }
-
-  //TODO 8 separate functions? Have in mind multiple jumps +STD_FEATURE
-
-  return allowed;
+Board.prototype.canBeat = function(tile, oppTile, man) {
+  return this.tiles[tile.x][tile.y].man === undefined &&
+    this.tiles[oppTile.x][oppTile.y].man !== undefined &&
+    this.tiles[oppTile.x][oppTile.y].man.Color === man.oppositeColor();
 };
 
 //TODO ->moveManTo(selectedMan, tile) +RETHINK +REFACTOR
@@ -141,7 +153,7 @@ Board.prototype.moveSelectedManTo = function(tile) {
   tile.setAsMovingToNow();
 
   this.selectedMan.moveToTile(tile, true);
-  changeTurn();
+  // changeTurn();
 };
 
 //TODO -> moveManTo(man, tile) +RETHINK +REFACTOR
@@ -161,7 +173,7 @@ Board.prototype.onMoveCompleted = function(tile) {
     allowed[j].setAsAllowed();
   this.tilesAllowed = allowed;
 
-  this.selectedMan.unselect();
+  // this.selectedMan.unselect();
 };
 
 // Board.prototype.getJumpCoords = function(x, y) {
@@ -177,6 +189,6 @@ Board.prototype.onMoveCompleted = function(tile) {
 //   };
 // };
 
-Board.prototype.areCoordsValid = function(x, y) {
-  return (x >= 0 && x < 10 && y >= 0 && y < 10);
+Board.prototype.areCoordsValid = function(tile) {
+  return (tile.x >= 0 && tile.x < 10 && tile.y >= 0 && tile.y < 10);
 };

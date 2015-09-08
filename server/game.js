@@ -5,17 +5,31 @@ var Game = function(token) {
   this.players = [];
   this.hasStarted = false;
 
+  // for (var i = 0; i < Game.tilesCount; ++i) {
+  //   this.tiles[i] = [];
+  //   for (var j = 0; j < Game.tilesCount; ++j) {
+  //     if ((i + j) % 2 === 0)
+  //       this.tiles[i][j] = 'N'; //TODO enum instead of char? +RETHINK
+  //     else if (j < 4)
+  //       this.tiles[i][j] = 'B';
+  //     else if (j < 6)
+  //       this.tiles[i][j] = 'E';
+  //     else {
+  //       this.tiles[i][j] = 'W';
+  //     }
+  //   }
+  // }
   for (var i = 0; i < Game.tilesCount; ++i) {
     this.tiles[i] = [];
     for (var j = 0; j < Game.tilesCount; ++j) {
       if ((i + j) % 2 === 0)
         this.tiles[i][j] = 'N'; //TODO enum instead of char? +RETHINK
-      else if (j < 4)
+      else if (j === 2 || j === 4 || j === 0)
         this.tiles[i][j] = 'B';
-      else if (j < 6)
-        this.tiles[i][j] = 'E';
-      else {
+      else if (j === 5 || j === 7 || j === 9)
         this.tiles[i][j] = 'W';
+      else {
+        this.tiles[i][j] = 'E';
       }
     }
   }

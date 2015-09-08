@@ -28,6 +28,10 @@ Man.ManColor = {
   BLACK: 1
 };
 
+Man.prototype.oppositeColor = function() {
+  return (this.Color === Man.ManColor.WHITE ? Man.ManColor.BLACK : Man.ManColor.WHITE);
+};
+
 Man.prototype.getColor = function() {
   return undefined;
 };

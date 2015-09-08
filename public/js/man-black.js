@@ -1,5 +1,7 @@
 var ManBlack = function(tile) {
   Man.call(this, tile);
+
+  this.Color = Man.ManColor.BLACK;
 };
 
 ManBlack.Color = '#262626';

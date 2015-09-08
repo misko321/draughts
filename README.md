@@ -24,3 +24,4 @@
 + rules, jumping over, taking turns, not-must: KINGS, FINAL_RESULT
 + store whose turn it is server-side
 + socket.io show when problem with connection, server is down
++ disable selection of man after turn ends
