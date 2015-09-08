@@ -87,9 +87,11 @@ Game.prototype.start = function() {
 
 //TODO check server-side if move is allowed +STD_FEATURE
 Game.prototype.makeMove = function(move) {
-  var man = this.tiles[move.fromX][move.fromY];
-  this.tiles[move.fromX][move.fromY] = 'E';
-  this.tiles[move.toX][move.toY] = man;
+  var man = this.tiles[move.from.x][move.from.y];
+  this.tiles[move.from.x][move.from.y] = 'E';
+  this.tiles[move.to.x][move.to.y] = man;
+
+  return move;
 };
 
 module.exports = Game;

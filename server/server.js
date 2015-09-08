@@ -146,10 +146,10 @@ function joinExistingGame(socket, msg) {
 function move(socket, msg) {
   // console.log(msg.token);
   var game = games[msg.token];
-  game.makeMove(msg.move);
+  var processedMove = game.makeMove(msg.move);
   socket.broadcast.to(msg.token).emit('move', {
     status: 'OK',
-    move: msg.move,
+    move: processedMove,
     changeTurn: true
   });
 }

@@ -13,7 +13,7 @@ Websocket.prototype.connect = function(gameUsername) {
     that.joinGame();
 
     that.client.on('move', function(msg) {
-      that.applyMove(msg);
+      that.applyMove(msg.move, msg.changeTurn);
     });
 
     that.client.on('disconnect-issue', function(msg) {
@@ -98,22 +98,20 @@ Websocket.prototype.disconnectAck = function(msg) {
   console.log('Success: ' + msg.message);
 };
 
-Websocket.prototype.applyMove = function(msg) {
+Websocket.prototype.applyMove = function(move, change) {
   //TODO don't perform action if it came out of this host +RETHINK +STD_FEATURE
-  board.moveMan(msg.move.fromX, msg.move.fromY, msg.move.toX, msg.move.toY);
-  if (msg.changeTurn)
+  board.moveMan({ x: move.from.x, y: move.from.y}, { x: move.to.x, y: move.to.y });
+  if (change)
     changeTurn();
   console.log('move');
 };
 
-Websocket.prototype.emit = function(tileFrom, tileTo) {
+Websocket.prototype.emit = function(from, to) {
   this.client.emit('move', {
     token: UrlManager.getToken(),
     move: {
-      fromX: tileFrom.x,
-      fromY: tileFrom.y,
-      toX: tileTo.x,
-      toY: tileTo.y
+      'from': { x: from.x, y: from.y },
+      'to': { x: to.x, y: to.y }
     }
   });
 };

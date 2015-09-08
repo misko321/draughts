@@ -200,12 +200,13 @@ Board.prototype.clearAllHighlights = function() {
 };
 
 //TODO -> moveManTo(man, tile) +RETHINK +REFACTOR
-Board.prototype.moveMan = function(fromX, fromY, toX, toY) {
-  var fromTile = this.tiles[fromX][fromY];
-  var toTile = this.tiles[toX][toY];
+Board.prototype.moveMan = function(from, to, manToBeat) {
+  var fromTile = this.tiles[from.x][from.y];
+  var toTile = this.tiles[to.x][to.y];
 
-  if (fromTile.man !== undefined)
-    fromTile.man.moveToTile(toTile, false);
+  fromTile.man.moveToTile(toTile, false);
+  if (manToBeat)
+    this.destroy(this.tiles[manToBeat.x][manToBeat.y].man);
 };
 
 
