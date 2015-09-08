@@ -44,9 +44,7 @@ Board.prototype.unselect = function() {
     this.selectedMan.unselect();
     this.selectedMan = undefined;
   }
-  for (var i in this.tilesAllowed) {
-    this.tilesAllowed[i].clearHighlights();
-  }
+  this.clearAllHighlights();
   this.tilesAllowed = [];
 };
 
@@ -97,28 +95,27 @@ Board.prototype.onMoveCompleted = function(tile) {
 };
 
 Board.prototype.findAllowedMoves = function(man) {
-  var allowed,
-      relativePos;
+  var relativePos;
 
   if (man instanceof ManWhite)
     relativePos = [ [1, -1], [-1, -1] ];
   else
     relativePos = [ [1, 1], [-1, 1] ];
 
-  allowed = this.findAllowedMovesForMan(man, relativePos, null);
-  for (var j in allowed)
-    allowed[j].setAsAllowed();
-  this.tilesAllowed = allowed;
+  var allowed = this.findAllowedMovesNoBeat(man, relativePos);
+  var allowedForBeat = this.findAllowedMovesBeat(man);
+  for (var i in allowed)
+    allowed[i].setAsAllowed();
+  for (var j in allowedForBeat)
+    allowedForBeat[j].setAsAllowedForBeat();
+  this.tilesAllowed = allowed.concat(allowedForBeat);
 };
 
-Board.prototype.findAllowedMovesForMan = function(man, relativePos, beat) {
-  var relativePosBeat = [ [-2, -2], [-2, 2], [2, -2], [ 2, 2] ]; //always the same
+Board.prototype.findAllowedMovesNoBeat = function(man, relativePos) {
   var allowed = [];
 
-  var tileToCheck,
-      oppTileToCheck;
   for (var i in relativePos) {
-    tileToCheck = {
+    var tileToCheck = {
       x: man.tile.x + relativePos[i][0],
       y: man.tile.y + relativePos[i][1]
     };
@@ -127,14 +124,21 @@ Board.prototype.findAllowedMovesForMan = function(man, relativePos, beat) {
         allowed.push(this.tiles[tileToCheck.x][tileToCheck.y]);
   }
 
-  for (var j in relativePosBeat) {
-    tileToCheck = {
-      x: man.tile.x + relativePosBeat[j][0],
-      y: man.tile.y + relativePosBeat[j][1]
+  return allowed;
+};
+
+Board.prototype.findAllowedMovesBeat = function(man) {
+  var relativePosBeat = [ [-2, -2], [-2, 2], [2, -2], [ 2, 2] ]; //always the same
+  var allowed = [];
+
+  for (var i in relativePosBeat) {
+    var tileToCheck = {
+      x: man.tile.x + relativePosBeat[i][0],
+      y: man.tile.y + relativePosBeat[i][1]
     };
-    oppTileToCheck = {
-      x: man.tile.x + relativePosBeat[j][0] / 2,
-      y: man.tile.y + relativePosBeat[j][1] / 2,
+    var oppTileToCheck = {
+      x: man.tile.x + relativePosBeat[i][0] / 2,
+      y: man.tile.y + relativePosBeat[i][1] / 2,
     };
     if (this.areCoordsValid(tileToCheck) &&
       this.canBeat(tileToCheck, oppTileToCheck, man))
@@ -152,12 +156,16 @@ Board.prototype.canBeat = function(tile, oppTile, man) {
 
 //TODO ->moveManTo(selectedMan, tile) +RETHINK +REFACTOR
 Board.prototype.moveSelectedManTo = function(tile) {
-  for (var i in this.tilesAllowed)
-    this.tilesAllowed[i].clearHighlights();
+  this.clearAllHighlights();
   tile.setAsMovingToNow();
 
   this.selectedMan.moveToTile(tile, true);
   // changeTurn();
+};
+
+Board.prototype.clearAllHighlights = function() {
+  for (var i in this.tilesAllowed)
+    this.tilesAllowed[i].clearHighlights();
 };
 
 //TODO -> moveManTo(man, tile) +RETHINK +REFACTOR

@@ -24,6 +24,7 @@ Tile.colorPlayable = "#717070";
 Tile.colorNonplayable = "#d9d9d9";
 Tile.colorAllowed = "#38b321";
 Tile.colorMovingToNow = "#b8c153";
+Tile.colorAllowedForBeat = "#cf4545";
 
 Tile.TileType = {
   PLAYABLE: 0,
@@ -41,6 +42,17 @@ Tile.prototype.clearMan = function() {
 Tile.prototype.setAsAllowed = function() {
   var graphic = this.graphic;
   fabric.util.animateColor(this.graphic.fill, Tile.colorAllowed, colorAnimationTime, {
+    onChange: function(val) {
+      graphic.setFill(val);
+      canvas.renderAll();
+    }
+  });
+  this.isAllowed = true;
+};
+
+Tile.prototype.setAsAllowedForBeat = function() {
+  var graphic = this.graphic;
+  fabric.util.animateColor(this.graphic.fill, Tile.colorAllowedForBeat, colorAnimationTime, {
     onChange: function(val) {
       graphic.setFill(val);
       canvas.renderAll();
