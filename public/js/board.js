@@ -206,7 +206,7 @@ Board.prototype.moveMan = function(from, to, manToBeat) {
 
   fromTile.man.moveToTile(toTile, false);
   if (manToBeat)
-    this.destroy(this.tiles[manToBeat.x][manToBeat.y].man);
+    this.destroyMan(this.tiles[manToBeat.x][manToBeat.y].man);
 };
 
 

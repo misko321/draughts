@@ -150,8 +150,7 @@ function move(socket, msg) {
   if (processedMove) {
     socket.broadcast.to(msg.token).emit('move', {
       status: 'OK',
-      move: processedMove,
-      changeTurn: true
+      move: processedMove
     });
   } else {
     console.log('disallowed move');

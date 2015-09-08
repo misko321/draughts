@@ -43,10 +43,10 @@ Game.prototype.join = function(player) {
   ++this.playersCount;
   this.players.push(player);
   player.game = this;
-  if (player.color === 'W')
-    this.playerWhite = player;
-  else
-    this.playerBlack = player;
+  // if (player.color === 'W')
+  //   this.playerWhite = player;
+  // else
+  //   this.playerBlack = player;
 };
 
 Game.prototype.changeTurn = function() {
@@ -63,7 +63,7 @@ Game.prototype.leave = function(player) {
 
 Game.prototype.rejoin = function(color) {
   // console.log(this.playersCount);
-  if (color === 'W') {
+  if (color === 'white') {
     // console.log('c W');
     if (this.playerWhite.disconnected) {
       ++this.playersCount;
@@ -93,15 +93,19 @@ Game.prototype.start = function() {
 //TODO check server-side if move is allowed +STD_FEATURE
 Game.prototype.makeMove = function(move, player) {
   //validate data format
-  if (!(move && move.from && move.from.x && move.from.y && move.to.x && move.to.y &&
-    move.from.x >= 0 && move.from.x <= 9 && move.from.y >= 0 && move.from.y <= 9) &&
-    move.to.x >= 0 && move.to.x <= 9 && move.to.y >= 0 && move.to.y <= 9 &&
-    move.from.x !== move.to.x && move.from.y !== move.to.y)
+  if (move.to.x >= 0)
+    console.log('strange');
+  console.log(move);
+  if (!(move && move.from && move.from.x !== undefined && move.from.y !== undefined &&
+    move.to.x !== undefined && move.to.y !== undefined &&
+    +move.from.x >= 0 && +move.from.x <= 9 && +move.from.y >= 0 && +move.from.y <= 9 &&
+    +move.to.x >= 0 && +move.to.x <= 9 && +move.to.y >= 0 && +move.to.y <= 9 &&
+    +move.from.x !== +move.to.x && +move.from.y !== +move.to.y))
       return false;
   console.log('1');
   //check if move has sense
-  var stepX = move.from.x - move.to.x,
-      stepY = move.from.y - move.to.y,
+  var stepX = move.to.x - move.from.x,
+      stepY = move.to.y - move.from.y,
       absStepX = Math.abs(stepX),
       absStepY = Math.abs(stepY);
   if (absStepX > 2 || absStepY > 2 || absStepX !== absStepY)
@@ -114,24 +118,35 @@ Game.prototype.makeMove = function(move, player) {
   //check if men is present at source and can move to its destination
   if (this.turn !== player.color || from !== player.color || to !== 'E')
     return false;
-    console.log('3');
+  console.log('3');
 
   //one step move
-  if (absStepX === 1 && player.color === 'W' && stepX !== -1) return false;
-  if (absStepX === 1 && player.color === 'B' && stepX !== 1) return false;
+  console.log(absStepX + ', ' + absStepY + ', ' + stepX + ', ' + stepY + ', ');
+  if (absStepY === 1 && player.color === 'W' && stepY !== -1) return false;
+  if (absStepY === 1 && player.color === 'B' && stepY !== 1) return false;
   console.log('4');
 
   //two step move
+  var opp, oppX, oppY;
   if (absStepX === 2) {
-    var oppX = move.from.x + stepX / 2;
-    var oppY = move.from.y + stepY / 2;
-    if (player.color === 'W' && this.tiles[oppX][oppY] !== 'B') return false;
-    if (player.color === 'B' && this.tiles[oppX][oppY] !== 'W') return false;
+    console.log('a ' + move.from.x + ', ' + stepX + ', ' + (+move.from.x + stepX / 2));
+    oppX = +move.from.x + stepX / 2;
+    oppY = +move.from.y + stepY / 2;
+    opp = this.tiles[oppX][oppY];
+    console.log('b ' + oppX + ', ' + oppY + ', ' + player.color + ', ' + opp);
+    if (player.color === 'W' && opp !== 'B') return false;
+    if (player.color === 'B' && opp !== 'W') return false;
   }
-
-  var man = this.tiles[move.from.x][move.from.y];
+  console.log('5');
+  var man = from;
+  console.log(from + ', ' + to);
   this.tiles[move.from.x][move.from.y] = 'E';
   this.tiles[move.to.x][move.to.y] = man;
+  to = man;
+  if (absStepX === 2) {
+    this.tiles[oppX][oppY] = 'E';
+    move.manToBeat = { x: oppX, y: oppY };
+  }
 
   return move;
 };
