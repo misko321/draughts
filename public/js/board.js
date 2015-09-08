@@ -6,7 +6,7 @@ var Board = function(tiles) {
   Man.board = this; //TODO capitalize or not? +REFACTOR
   Tile.board = this; //TODO capitalize or not? +REFACTOR
   this.selectedMan = undefined;
-  this.myMove = undefined;
+  this.myTurn = undefined;
 
   //TODO method too long? +REFACTOR
   for (var i = 0; i < tiles.length; ++i) {
@@ -141,6 +141,7 @@ Board.prototype.moveSelectedManTo = function(tile) {
   tile.setAsMovingToNow();
 
   this.selectedMan.moveToTile(tile, true);
+  changeTurn();
 };
 
 //TODO -> moveManTo(man, tile) +RETHINK +REFACTOR
@@ -159,6 +160,8 @@ Board.prototype.onMoveCompleted = function(tile) {
   for (var j in allowed)
     allowed[j].setAsAllowed();
   this.tilesAllowed = allowed;
+
+  this.selectedMan.unselect();
 };
 
 // Board.prototype.getJumpCoords = function(x, y) {

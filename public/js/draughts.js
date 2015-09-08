@@ -63,7 +63,7 @@ function joinGame() {
 
 function showPlayerJoinedOnModal(opponentUsername, yourColor) {
   var fadeTime = 500;
-  var msgTime = 1000;
+  var msgTime = 2500;
 
   if (yourColor === "white") {
     $("#turnWhite").html(username);
@@ -90,6 +90,8 @@ function changeTurn() {
   $(turn).fadeTo(500, 0); //TODO turn +REFACTOR
   turn = (turn === "#turnWhiteGlyph" ? "#turnBlackGlyph" : "#turnWhiteGlyph");
   $(turn).fadeTo(500, 1);
+
+  board.myTurn = (board.myTurn ? false : true);
 }
 
 $(document).ready(function() {

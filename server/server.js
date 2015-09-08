@@ -69,7 +69,7 @@ function joinNewGame(socket, msg) {
   var player = new Player(msg.username, socket);
   socket.player = player;
 
-  if (lastGame === undefined || lastGame.playersCount == 2) {
+  if (lastGame === undefined || lastGame.hasStarted) {
     lastFreeToken = randomstring.generate();
     lastGame = game = new Game(lastFreeToken);
     games[lastFreeToken] = game;
@@ -149,7 +149,8 @@ function move(socket, msg) {
   game.makeMove(msg.move);
   socket.broadcast.to(msg.token).emit('move', {
     status: 'OK',
-    move: msg.move
+    move: msg.move,
+    changeTurn: true
   });
 }
 

@@ -101,6 +101,8 @@ Websocket.prototype.disconnectAck = function(msg) {
 Websocket.prototype.applyMove = function(msg) {
   //TODO don't perform action if it came out of this host +RETHINK +STD_FEATURE
   board.moveMan(msg.move.fromX, msg.move.fromY, msg.move.toX, msg.move.toY);
+  if (msg.changeTurn)
+    changeTurn();
   console.log('move');
 };
 

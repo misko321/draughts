@@ -14,7 +14,7 @@
 <body>
   <div class="game-panel effect6">
     <a href="/">New game</a>
-    <table>
+    <table style="width: 100%;">
       <tr class="game-tr">
         <td class="fade-in">
           <canvas width="500px" height="500px" id="draughts-canvas" class="effect6 draughts-canvas">
@@ -41,10 +41,10 @@
       </tr>
       <!-- TODO bootstrap alert? +RETHINK +ADD_FEATURE -->
       <tr class="game-not-found-tr">
-        <td class="players-td" style="padding: 0; text-align: center">
+        <td style="padding: 0; text-align: center">
           <div class="game-not-found">
-            It seems that the game you're trying to join, <u>does not exist any more</u>,<br />
-            <u>the token you use is invalid</u> or <u>the game is already occupied.</u>.
+            It seems that the game you're trying to join, <u>does not exist any more</u>,
+            <u>the token you use is invalid</u> or <u>the game is already occupied.</u>
             <br/> Would you like to search for a new game?
           </div>
           <a class="btn new-game-button" href="/">FIND NEW GAME</a>

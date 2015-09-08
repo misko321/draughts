@@ -62,7 +62,7 @@ Man.prototype.onMouseOut = function() {
 
 Man.prototype.select = function() {
   //if already selected, don't play animation
-  if (!Man.board.myMove || Man.board.selectedMan === this)
+  if (!Man.board.myTurn || Man.board.selectedMan === this)
     return;
 
   Man.board.select(this);
