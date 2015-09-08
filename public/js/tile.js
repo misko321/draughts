@@ -3,6 +3,7 @@ var Tile = function (type, x, y) {
   this.tint = 0;
   this.hover = false;
   this.isAllowed = undefined;
+  this.isAllowedForBeat = undefined;
   this.x = x;
   this.y = y;
 
@@ -24,7 +25,7 @@ Tile.colorPlayable = "#717070";
 Tile.colorNonplayable = "#d9d9d9";
 Tile.colorAllowed = "#38b321";
 Tile.colorMovingToNow = "#b8c153";
-Tile.colorAllowedForBeat = "#cf4545";
+Tile.colorAllowedForBeat = "#cf3a3a";
 
 Tile.TileType = {
   PLAYABLE: 0,
@@ -58,7 +59,7 @@ Tile.prototype.setAsAllowedForBeat = function() {
       canvas.renderAll();
     }
   });
-  this.isAllowed = true;
+  this.isAllowedForBeat = true;
 };
 
 Tile.prototype.clearHighlights = function() {
@@ -70,6 +71,7 @@ Tile.prototype.clearHighlights = function() {
     }
   });
   this.isAllowed = false;
+  this.isAllowedForBeat = false;
 };
 
 Tile.prototype.setAsMovingToNow = function() {
@@ -83,10 +85,10 @@ Tile.prototype.setAsMovingToNow = function() {
 };
 
 Tile.prototype.onMouseOver = function() {
-  if (this.isAllowed) {
+  if (this.isAllowedForMove()) {
     var graphic = this.graphic;
-    fabric.util.animateColor(Tile.colorAllowed, //TODO: colorAllowed/this.fill +REFACTOR
-      Color(Tile.colorAllowed).lightenByRatio(0.2).toString(), hoverAnimationTime, {
+    fabric.util.animateColor(graphic.fill, //TODO: colorAllowed/this.fill +REFACTOR
+      Color(graphic.fill).lightenByRatio(0.2).toString(), hoverAnimationTime, {
       onChange: function(val) {
         graphic.setFill(val);
         canvas.renderAll();
@@ -95,10 +97,15 @@ Tile.prototype.onMouseOver = function() {
   }
 };
 
+Tile.prototype.isAllowedForMove = function() {
+  return this.isAllowed || this.isAllowedForBeat;
+};
+
 Tile.prototype.onMouseOut = function() {
-  if (this.isAllowed) {
+  if (this.isAllowedForMove()) {
     var graphic = this.graphic;
-    fabric.util.animateColor(this.graphic.fill, Tile.colorAllowed, hoverAnimationTime, {
+    fabric.util.animateColor(graphic.fill, Color(graphic.fill).darkenByRatio(0.2).toString(),
+     hoverAnimationTime, {
       onChange: function(val) {
         graphic.setFill(val);
         canvas.renderAll();
@@ -108,7 +115,7 @@ Tile.prototype.onMouseOut = function() {
 };
 
 Tile.prototype.onMouseDown = function() {
-  if (this.isAllowed) {
+  if (this.isAllowedForMove()) {
     //move men to selected (this) tile
     websocket.emit(board.selectedMan.tile, this);
     Tile.board.moveSelectedManTo(this);
