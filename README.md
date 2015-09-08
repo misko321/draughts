@@ -18,10 +18,10 @@
 + Show message if 2 players already connected to a game*/join as spectator +STD_FEATURE
 + rotate canvas for black? +ADD_FEATURE
 + glyphicons with turns at half screen
++ socket.io show when problem with connection, server is down
 
 #### TODO:
 + moves validity is checked server-side +STD_FEATURE
 + rules, jumping over, taking turns, not-must: KINGS, FINAL_RESULT
 + store whose turn it is server-side
-+ socket.io show when problem with connection, server is down
 + disable selection of man after turn ends

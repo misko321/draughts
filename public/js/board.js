@@ -86,28 +86,32 @@ Board.prototype.select = function(man) {
 
   //apply new selection
   this.selectedMan = man;
-  var allowed;
-  if (man instanceof ManWhite)
-    allowed = this.findAllowedMovesForWhite(man);
-  else
-    allowed = this.findAllowedMovesForBlack(man);
+  this.findAllowedMoves(this.selectedMan);
+};
 
+Board.prototype.onMoveCompleted = function(tile) {
+  tile.clearHighlights();
+  this.findAllowedMoves(this.selectedMan);
+
+  // this.selectedMan.unselect();
+};
+
+Board.prototype.findAllowedMoves = function(man) {
+  var allowed,
+      relativePos;
+
+  if (man instanceof ManWhite)
+    relativePos = [ [1, -1], [-1, -1] ];
+  else
+    relativePos = [ [1, 1], [-1, 1] ];
+
+  allowed = this.findAllowedMovesForMan(man, relativePos, null);
   for (var j in allowed)
     allowed[j].setAsAllowed();
   this.tilesAllowed = allowed;
 };
 
-Board.prototype.findAllowedMovesForWhite = function(man, beat) {
-  var relativePos = [ [1, -1], [-1, -1] ];
-  return this.checkIfMovesPossible(man, relativePos, beat);
-};
-
-Board.prototype.findAllowedMovesForBlack = function(man, beat) {
-  var relativePos = [ [1, 1], [-1, 1] ];
-  return this.checkIfMovesPossible(man, relativePos, beat);
-};
-
-Board.prototype.checkIfMovesPossible = function(man, relativePos, beat) {
+Board.prototype.findAllowedMovesForMan = function(man, relativePos, beat) {
   var relativePosBeat = [ [-2, -2], [-2, 2], [2, -2], [ 2, 2] ]; //always the same
   var allowed = [];
 
@@ -165,16 +169,6 @@ Board.prototype.moveMan = function(fromX, fromY, toX, toY) {
     fromTile.man.moveToTile(toTile, false);
 };
 
-Board.prototype.onMoveCompleted = function(tile) {
-  //FIXME DRY select() method +REFACTOR
-  tile.clearHighlights();
-  var allowed = this.findAllowedMovesForWhite(this.selectedMan);
-  for (var j in allowed)
-    allowed[j].setAsAllowed();
-  this.tilesAllowed = allowed;
-
-  // this.selectedMan.unselect();
-};
 
 // Board.prototype.getJumpCoords = function(x, y) {
 //   var x = man.tile.x + xRelative;
