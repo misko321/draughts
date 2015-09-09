@@ -104,7 +104,7 @@ function showPlayerJoinedOnModal(opponentUsername, yourColor) {
   }
 
   $("#opponentUsername").html(opponentUsername);
-  $("#yourColor").html(yourColor).addClass("color-" + yourColor);
+  $("#yourColor").html(yourColor).addClass("color-label-" + yourColor);
 
   $('#waitModalBody').fadeOut(fadeTime, function() {
     $('#enjoyModalBody').fadeIn(fadeTime, function() {

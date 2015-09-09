@@ -29,8 +29,6 @@ body {
 }
 
 /* Causes problems when opacity changes */
-
-
 /*.effect6:before, .effect6:after {
   content: "";
   position: absolute;
@@ -107,20 +105,20 @@ body {
 .new-game-button:hover {
   background-color: #84ccc9;
 }
-.opponent {
+.opponent-name {
   font-weight: bold;
   font-size: 16px;
 }
-.color {
+.color-label {
   border-radius: 2px;
   padding: 1px 8px;
   font-weight: bold
 }
-.color-white {
+.color-label-white {
   color: black;
   background-color: #e7e7e7;
 }
-.color-black {
+.color-label-black {
   color: #e7e7e7;
   background-color: black;
 }
