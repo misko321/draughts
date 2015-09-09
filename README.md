@@ -21,5 +21,5 @@
 + socket.io show when problem with connection, server is down
 
 #### TODO:
-+ close modals when connection error
 + clean code
++ more meaningful console logs

@@ -89,7 +89,7 @@ Websocket.prototype.joinExistingGame = function(token, color) {
 
 Websocket.prototype.disconnectIssue = function(msg) {
   console.log('disconnect issue');
-  opponentDisconnectIssue();
+  showOpponentDisconnectedModal();
 };
 
 Websocket.prototype.disconnect = function(msg) {

@@ -6,6 +6,11 @@ var Color = net.brehaut.Color;
 var hoverAnimationTime = 100;
 var colorAnimationTime = 300;
 var manAnimationTime = 700;
+
+var waitTillMsgTime = 500;
+var fadeTime = 500;
+var msgTime = 2500;
+
 var username;
 var turn = 'white';
 
@@ -15,7 +20,27 @@ var socketURL = document.location.origin;
 //TODO make clear where's the entire application's entry point +STD_FEATURE
 var websocket = new Websocket(socketURL);
 
-function initializeGame(status, tiles) {//}, turn) {
+$(document).ready(init);
+
+function init() {
+  $("#usernameInput").keypress(function(e) {
+    if (e.which == 13) {
+      e.preventDefault();
+      joinGame();
+    }
+  });
+  $("#joinGameButton").click(function() {
+    joinGame();
+  });
+
+  if (UrlManager.getToken()) { //rejoin -> don't ask for username
+    websocket.connect();
+  }
+  else
+    setTimeout(showJoinGameModal, waitTillMsgTime);
+}
+
+function initializeGame(status, tiles) {
   if (status === "OK") {
     board = new Board(tiles);
     $(".game-not-found-tr").hide();
@@ -26,8 +51,6 @@ function initializeGame(status, tiles) {//}, turn) {
 
     closeAllModals();
   }
-
-  // board.myTurn = (board.myTurn ? false : true);
 }
 
 function closeAllModals() {
@@ -35,7 +58,7 @@ function closeAllModals() {
   $('#waitingForOtherPlayerModal').modal('hide');
 }
 
-function showModalUsername() {
+function showJoinGameModal() {
   $("#usernameInput").val(localStorage.getItem('username'));
   $('#joinGameModal').modal('show');
   setTimeout(function() {
@@ -43,13 +66,15 @@ function showModalUsername() {
   }, 500);
 }
 
-function opponentDisconnectIssue() {
+function showOpponentDisconnectedModal() {
+  $("#enjoyModalBody").hide();
+
   $("#waitingForOtherPlayerModal .modal-title").html("Your opponent has disconnected...");
-  $("#modalEnjoy").hide();
-  $("#modalWaitSpan").html("It seems that your opponent has some problems with Internet connection <br>" +
+  $("#waitModalBodySpan").html("It seems that your opponent has some problems with Internet connection <br>" +
     "or has abandoned the game.<br />" +
     "Please, wait a moment until your opponent rejoins the game or find a <a href='/'>new one</a>.");
-  $("#modalWait").show();
+
+  $("#waitModalBody").show();
   $("#waitingForOtherPlayerModal").modal('show');
 }
 
@@ -58,21 +83,15 @@ function showWaitingModal() {
 }
 
 //TODO rename methods, \@object +REFACTOR
-$("#joinGameButton").click(function() {
-  joinGame();
-});
-
 function joinGame() {
   username = $("#usernameInput").val();
   localStorage.setItem('username', username);
   websocket.connect(username);
-  $('#joinGameModal').modal('hide');
+  closeAllModals();
   showWaitingModal();
 }
 
 function showPlayerJoinedOnModal(opponentUsername, yourColor) {
-  var fadeTime = 500;
-  var msgTime = 500;
 
   if (yourColor === "white") {
     $("#turnWhite").html(username);
@@ -85,20 +104,19 @@ function showPlayerJoinedOnModal(opponentUsername, yourColor) {
   $("#opponentUsername").html(opponentUsername);
   $("#yourColor").html(yourColor).addClass("color-" + yourColor);
 
-  $('#modalWait').fadeOut(fadeTime, function() {
-    $('#modalEnjoy').fadeIn(fadeTime, function() {
+  $('#waitModalBody').fadeOut(fadeTime, function() {
+    $('#enjoyModalBody').fadeIn(fadeTime, function() {
       setTimeout(function() {
         $('#waitingForOtherPlayerModal').modal('hide');
-        $('body').css('padding-left', '0 !important');
       }, msgTime);
     });
   });
 }
 
 function setTurn(turn_) {
-  $('#' + turn).fadeTo(500, 0);
+  $('#' + turn).fadeTo(fadeTime, 0);
   turn = turn_;
-  $('#' + turn).fadeTo(500, 1);
+  $('#' + turn).fadeTo(fadeTime, 1);
 }
 
 function changeTurn() {
@@ -106,22 +124,6 @@ function changeTurn() {
   setTurn(newTurn);
   board.myTurn = (board.myTurn ? false : true);
 }
-
-$(document).ready(function() {
-  $("#usernameInput").keypress(function(e) {
-    if (e.which == 13) {
-      e.preventDefault();
-      joinGame();
-    }
-  });
-  var waitTillMsgTime = 0;
-  if (UrlManager.getToken()) {
-    // showWaitingModal();
-    websocket.connect();
-  }
-  else
-    setTimeout(showModalUsername, waitTillMsgTime);
-});
 
 //TODO DRY +REFACTOR
 canvas.on('mouse:over', function(e) {
