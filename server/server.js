@@ -86,6 +86,7 @@ function joinNewGame(socket, msg) {
     status: 'OK',
     message: 'A new game was created',
     token: lastFreeToken,
+    turn: game.turn === 'W' ? 'white' : 'black',
     tiles: game.tiles
   });
 
@@ -130,7 +131,7 @@ function joinExistingGame(socket, msg) {
       "username": player.username,
       color: player.color === 'W' ? 'white' : 'black',
       tiles: game.tiles,
-      turn: game.turn
+      turn: game.turn === 'W' ? 'white' : 'black'
     });
     if (game.playersCount === 2) {
       sendSecondPlayerJoins(game.playerWhite, game.playerBlack.username);

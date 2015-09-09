@@ -7,7 +7,7 @@ var hoverAnimationTime = 100;
 var colorAnimationTime = 300;
 var manAnimationTime = 700;
 var username;
-var turn = "#turnWhiteGlyph";
+var turn = 'white';
 
 var socketURL = document.location.origin;
 
@@ -88,11 +88,15 @@ function showPlayerJoinedOnModal(opponentUsername, yourColor) {
   });
 }
 
-function changeTurn() {
-  $(turn).fadeTo(500, 0); //TODO turn +REFACTOR
-  turn = (turn === "#turnWhiteGlyph" ? "#turnBlackGlyph" : "#turnWhiteGlyph");
-  $(turn).fadeTo(500, 1);
+function setTurn(turn_) {
+  $('#' + turn).fadeTo(500, 0);
+  turn = turn_;
+  $('#' + turn).fadeTo(500, 1);
+}
 
+function changeTurn() {
+  var newTurn = (turn === 'white' ? 'black' : 'white');
+  setTurn(newTurn);
   board.myTurn = (board.myTurn ? false : true);
 }
 

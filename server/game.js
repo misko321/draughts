@@ -117,6 +117,7 @@ Game.prototype.makeMove = function(move, player) {
   to = this.tiles[move.to.x][move.to.y];
 
   //check if men is present at source and can move to its destination
+  console.log(this.turn + ', ' + player.color + ', '+ from + ', ' + to);
   if (this.turn !== player.color || from !== player.color || to !== 'E')
     return false;
   console.log('3');
@@ -162,6 +163,10 @@ Game.prototype.makeMove = function(move, player) {
       this.lastBeatMove = undefined;
     }
     move.manToBeat = { x: oppX, y: oppY };
+  }
+  if (absStepX === 1) {
+    this.changeTurn();
+    move.changeTurn = true;
   }
 
   return move;

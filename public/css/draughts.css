@@ -129,6 +129,6 @@ body {
   padding-right: 10px;
   font-size: 30px;
 }
-#turnBlackGlyph {
+#white, #black {
   opacity: 0;
 }

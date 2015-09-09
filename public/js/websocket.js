@@ -28,7 +28,7 @@ Websocket.prototype.connect = function(gameUsername) {
     that.client.on('second-player-joins', function(msg) {
       console.log('second-player-joins');
       if (board.playerColor === undefined) //false if opponent reconnected
-        board.setPlayerColor(msg.color);
+        board.setPlayerColor(msg.color, this.turn);
       showPlayerJoinedOnModal(msg.username, msg.color);
       UrlManager.color = msg.color;
       UrlManager.applyUrl();
@@ -61,6 +61,7 @@ Websocket.prototype.joinNewGame = function() {
     console.log(msg.status + ': ' + msg.message + ', token: ' + msg.token);
     board = new Board(msg.tiles);
     UrlManager.token = msg.token;
+    this.turn = msg.turn;
     initializeGame(msg.status, msg.tiles);
   });
 };
@@ -76,6 +77,7 @@ Websocket.prototype.joinExistingGame = function(token, color) {
     console.log(msg.status + ": " + msg.message + ', token: ' + msg.token);
     initializeGame(msg.status, msg.tiles);//, msg.turn);
     that.gameUsername = msg.username; //TODO username spaghetti +REFACTOR
+    this.turn = msg.turn;
     username = msg.username;
     if (msg.status === "OK")
       showWaitingModal();
@@ -100,8 +102,8 @@ Websocket.prototype.disconnectAck = function(msg) {
 
 Websocket.prototype.applyMove = function(move) {
   //TODO don't perform action if it came out of this host +RETHINK +STD_FEATURE
-  board.moveMan({ x: move.from.x, y: move.from.y}, { x: move.to.x, y: move.to.y },
-    { x: move.manToBeat.x, y: move.manToBeat.y });
+  var manToBeat = move.manToBeat ? { x: move.manToBeat.x, y: move.manToBeat.y } : undefined;
+  board.moveMan({ x: move.from.x, y: move.from.y}, { x: move.to.x, y: move.to.y }, manToBeat);
   if (move.changeTurn) {
     console.log('change turn');
     changeTurn();

@@ -63,22 +63,20 @@ Board.prototype.getMen = function(type) {
   return men;
 };
 
-Board.prototype.setPlayerColor = function(color) {
+Board.prototype.setPlayerColor = function(color, turn) {
   this.playerColor = color;
-  this.myTurn = true;
-  // var men;
-  //
-  // if (this.playerColor === "black") {
-  //   men = this.getMen(ManWhite);
-  //   this.myTurn = false;
-  // }
-  // else {
-  //   men = this.getMen(ManBlack);
-  //   this.myTurn = true;
-  // }
-  //
-  // for (var i = 0; i < men.length; ++i)
-  //   men[i].disableSelectable();
+  if(color === turn)
+    this.myTurn = true;
+  setTurn(turn);
+
+  var men;
+  if (color === "white")
+    men = this.getMen(ManBlack);
+  else
+    men = this.getMen(ManWhite);
+
+  for (var i = 0; i < men.length; ++i)
+    men[i].disableSelectable();
 };
 
 Board.prototype.select = function(man) {
