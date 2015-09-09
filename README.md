@@ -21,7 +21,7 @@
 + socket.io show when problem with connection, server is down
 
 #### TODO:
-+ clean code (10/15)
-+ more meaningful console logs (mainly in websocket.js)
++ clean code (13/15)
 + remove TODOs, check first if it's something to do now
 + remove logs from game.js
++ restore message times

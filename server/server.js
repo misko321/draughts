@@ -93,8 +93,8 @@ function joinNewGame(socket, msg) {
   //if two players joined and game can be started
   if (game.playersCount === 2) {
     game.start();
-    sendSecondPlayerJoins(game.playerWhite, game.playerBlack.username);
-    sendSecondPlayerJoins(game.playerBlack, game.playerWhite.username);
+    sendSecondPlayerJoins(game.players.white, game.players.black.username);
+    sendSecondPlayerJoins(game.players.black, game.players.white.username);
   }
 }
 
@@ -134,8 +134,8 @@ function joinExistingGame(socket, msg) {
       turn: game.turn === 'W' ? 'white' : 'black'
     });
     if (game.playersCount === 2) {
-      sendSecondPlayerJoins(game.playerWhite, game.playerBlack.username);
-      sendSecondPlayerJoins(game.playerBlack, game.playerWhite.username);
+      sendSecondPlayerJoins(game.players.white, game.players.black.username);
+      sendSecondPlayerJoins(game.players.black, game.players.white.username);
     }
   } else {
     socket.emit('join-existing-game-ack', {
