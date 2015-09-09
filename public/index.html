@@ -13,7 +13,9 @@
 
 <body>
   <div class="game-panel effect6">
-    <a href="/">New game</a>
+    <div style="padding: 0 0 15px 50px">
+      <a href="/">New game</a>
+    </div>
     <table style="width: 100%;">
       <tr class="game-tr">
         <td class="fade-in">
@@ -27,13 +29,13 @@
             <div class="player player-black">
               <div class="player-label">
                 <span id="black" class="glyphicon glyphicon-play glyphicon-turn"></span>
-                <span id="turnBlack">Player1 (12 men left)</span>
+                <span id="turnBlack"></span>
               </div>
             </div>
             <div class="player player-white">
               <div class="player-label">
                 <span id="white" class="glyphicon glyphicon-play glyphicon-turn"></span>
-                <span id="turnWhite">Player2 (8 men left)</span>
+                <span id="turnWhite"></span>
               </div>
             </div>
           </div>
@@ -67,8 +69,7 @@
                   <div class="input-group-addon">
                     <span class="glyphicon glyphicon-user"></span>
                   </div>
-                  <input class="form-control" id="usernameInput" type="text"
-                  placeholder="Your username" style="min-width: 300px;">
+                  <input class="form-control" id="usernameInput" type="text" placeholder="Your username" style="min-width: 300px;">
                 </div>
               </div>
             </form>
@@ -86,14 +87,16 @@
             <h4 class="modal-title">Waiting for an opponent...</h4>
           </div>
           <div class="modal-body modal-center">
-            <div id="waitModalBody" style="padding-top: 20px;"><span id="waitModalBodySpan">Please,
-              hang tight while we're waiting for your opponent...</span>
+            <div id="waitModalBody" style="padding-top: 20px;">
+              <span id="waitModalBodySpan">Please, hang tight while we're waiting for your opponent...</span>
               <span class="glyphicon glyphicon-status glyphicon-refresh glyphicon-refresh-animate"></span>
             </div>
             <!-- TODO show name of the user who just connected +ADD_FEATURE -->
             <div id="enjoyModalBody" style="display: none; padding-top: 20px;"><u>The second player just joined!</u>
               <div id="opponentUsername" class="opponent"></div>
-              <div>You play with <span id="yourColor" class="color"></span></div>
+              <div>You play with
+                <span id="yourColor" class="color"></span>
+              </div>
               <br />Enjoy the game!
               <span class="glyphicon glyphicon-status glyphicon-ok" style="color: #52b43e"></span>
             </div>
