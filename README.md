@@ -19,9 +19,3 @@
 + rotate canvas for black? +ADD_FEATURE
 + glyphicons with turns at half screen
 + socket.io show when problem with connection, server is down
-
-#### TODO:
-+ clean code (13/15)
-+ remove TODOs, check first if it's something to do now
-+ remove logs from game.js
-+ restore message times
