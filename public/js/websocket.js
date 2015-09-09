@@ -12,7 +12,10 @@ Websocket.prototype.connect = function(gameUsername) {
     that.joinGame();
 
     that.client.on('move', function(msg) {
-      that.applyMoveFromOpponent(msg.move);
+      if (msg.status === "OK")
+        that.applyMoveFromOpponent(msg.move);
+      else
+        console.log('You\'ve tried to perform forbidden move!');
     });
 
     that.client.on('opponent-disconnected', function() {

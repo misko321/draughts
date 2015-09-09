@@ -7,9 +7,9 @@ var hoverAnimationTime = 100;
 var colorAnimationTime = 300;
 var manAnimationTime = 700;
 
-var waitTillMsgTime = 0;
+var waitTillMsgTime = 500;
 var fadeTime = 500;
-var msgTime = 200;
+var msgTime = 2500;
 
 var localUsername;
 var turn = 'white';
