@@ -8,11 +8,12 @@ var Game = require('./game.js');
 var Player = require('./player.js');
 app.use(bodyParser.json());
 app.use(bodyParser.text());
-
 var options = {
   root: __dirname + "/../"
 };
 
+
+//URL mappings
 app.use('/public', express.static('./public/'));
 app.use('/bower_components', express.static('./bower_components/'));
 
@@ -27,8 +28,9 @@ app.get('/*', function(req, res) {
   res.redirect('/');
 });
 
-var someoneWaitsInQueue = false;
-var lastFreeToken;
+
+//game creation
+var tokenRand;
 var lastGame;
 var games = [];
 
@@ -36,7 +38,6 @@ io.on('connection', function(socket) {
 
   connect(socket);
 
-  //FIXME: throw everything to separate functions +REFACTOR
   socket.on('join-new-game', function(msg) {
     joinNewGame(socket, msg);
   });
@@ -49,7 +50,6 @@ io.on('connection', function(socket) {
     move(socket, msg);
   });
 
-  //TODO notify the other player if connection with the first one is broken +STD_FEATURE
   socket.on('disconnect', function(msg) {
     disconnect(socket, msg);
   });
@@ -70,31 +70,27 @@ function joinNewGame(socket, msg) {
   socket.player = player;
 
   if (lastGame === undefined || lastGame.hasStarted) {
-    lastFreeToken = randomstring.generate();
-    lastGame = game = new Game(lastFreeToken);
-    games[lastFreeToken] = game;
+    tokenRand = randomstring.generate();
+    lastGame = game = new Game(tokenRand);
+    games[tokenRand] = game;
     game.join(player);
-    someoneWaitsInQueue = true; //I'm waiting
   } else {
-    game = games[lastFreeToken];
+    game = games[tokenRand];
     game.join(player);
-    someoneWaitsInQueue = false;
   }
 
-  socket.join(lastFreeToken);
+  socket.join(tokenRand);
   socket.emit('join-new-game-ack', {
     status: 'OK',
     message: 'A new game was created',
-    token: lastFreeToken,
+    token: tokenRand,
     turn: game.turn === 'W' ? 'white' : 'black',
     tiles: game.tiles
   });
 
   //if two players joined and game can be started
   if (game.playersCount === 2) {
-    game.start();
-    sendSecondPlayerJoins(game.players.white, game.players.black.username);
-    sendSecondPlayerJoins(game.players.black, game.players.white.username);
+    sendBothPlayersReady(game);
   }
 }
 
@@ -107,13 +103,17 @@ function sendSecondPlayerJoins(player, opponentUsername) {
   });
 }
 
+function sendBothPlayersReady(game) {
+  if (!game.hasStarted)
+    game.start();
+  sendSecondPlayerJoins(game.players.white, game.players.black.username);
+  sendSecondPlayerJoins(game.players.black, game.players.white.username);
+}
+
 function joinExistingGame(socket, msg) {
-  // var player = new Player(msg.username, socket);
-  // socket.player = player;
   var game = games[msg.token];
   if (game) {
-    // console.log('rejoin ' + msg.color);
-    var player = game.rejoin(msg.color); //TODO would be more reliable if white/blackPresent was used +RETHINK
+    var player = game.rejoin(msg.color);
     if (player === undefined) {
       socket.emit('join-existing-game-ack', {
         status: 'ERROR',
@@ -123,6 +123,7 @@ function joinExistingGame(socket, msg) {
     }
     socket.player = player;
     player.socket = socket;
+
     socket.join(game.token);
     socket.emit('join-existing-game-ack', {
       status: 'OK',
@@ -133,9 +134,9 @@ function joinExistingGame(socket, msg) {
       tiles: game.tiles,
       turn: game.turn === 'W' ? 'white' : 'black'
     });
+
     if (game.playersCount === 2) {
-      sendSecondPlayerJoins(game.players.white, game.players.black.username);
-      sendSecondPlayerJoins(game.players.black, game.players.white.username);
+      sendBothPlayersReady(game);
     }
   } else {
     socket.emit('join-existing-game-ack', {
@@ -146,7 +147,6 @@ function joinExistingGame(socket, msg) {
 }
 
 function move(socket, msg) {
-  // console.log(msg.token);
   var game = games[msg.token];
   var processedMove = game.makeMove(msg.move, socket.player);
   if (processedMove) {
@@ -155,10 +155,10 @@ function move(socket, msg) {
       move: processedMove
     });
   } else {
-    console.log('disallowed move');
+    console.log('Player ' + socket.player.username + ' tried to perform forbidden move!');
     socket.emit('move', {
       status: 'ERROR',
-      msg: 'Disallowed move'
+      msg: 'You\'ve tried to perform disallowed move!'
     });
   }
 }
