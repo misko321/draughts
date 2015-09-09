@@ -4,19 +4,18 @@ var UrlManager = function() {
 };
 
 UrlManager.getToken = function() {
-  var array = window.location.pathname.replace(/\/$/, '').split('/');
-  var token = array[array.length-2];
-  token = (token === "" ? undefined : token);
-
-  return token;
+  return UrlManager.getPathFragment(2);
 };
 
 UrlManager.getColor = function() {
-  var array = window.location.pathname.replace(/\/$/, '').split('/');
-  var color = array[array.length-1];
-  color = (color === "" ? undefined : color);
+  return UrlManager.getPathFragment(1);
+};
 
-  return color;
+UrlManager.getPathFragment = function(indexFromEnd) {
+  //remove trailing '/' and split
+  var array = window.location.pathname.replace(/\/$/, '').split('/');
+  var fragment = array[array.length - indexFromEnd];
+  return (fragment === "" ? undefined : fragment);
 };
 
 UrlManager.applyUrl = function() {
