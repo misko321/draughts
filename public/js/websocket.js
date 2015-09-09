@@ -75,7 +75,6 @@ Websocket.prototype.joinExistingGame = function(token, color) {
     color: color
   });
   this.client.on('join-existing-game-ack', function(msg) {
-    //TODO Logger class? +ADD_FEATURE
     console.log(msg.status + ": " + msg.message + ', token: ' + msg.token);
     initializeGame(msg.status, msg.tiles);//, msg.turn);
     localUsername = msg.username;
@@ -99,7 +98,6 @@ Websocket.prototype.disconnectAck = function(msg) {
 };
 
 Websocket.prototype.applyMoveFromOpponent = function(move) {
-  //TODO don't perform action if it came out of this host +RETHINK +STD_FEATURE
   console.log('Received move from opponent: ', move);
   var manToBeat = move.manToBeat ? { x: move.manToBeat.x, y: move.manToBeat.y } : undefined;
   board.moveOpponentsMan({ x: move.from.x, y: move.from.y}, { x: move.to.x, y: move.to.y }, manToBeat);

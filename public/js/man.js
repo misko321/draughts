@@ -5,7 +5,7 @@ var Man = function(tile) {
   this.graphic = new fabric.Circle({
     radius: Man.Radius,
     fill: Object.getPrototypeOf(this).constructor.Color,
-    left: Tile.size * (tile.x + 0.5) - Man.Radius, //TODO originX, originY +REFACTOR
+    left: Tile.size * (tile.x + 0.5) - Man.Radius,
     top: Tile.size * (tile.y + 0.5) - Man.Radius,
     selectable: false,
     obj: this
@@ -15,7 +15,7 @@ var Man = function(tile) {
 };
 
 Man.Radius = undefined;
-Man.StrokeWidth = undefined; //TODO capitalize or not? +REFACTOR
+Man.StrokeWidth = undefined;
 
 Man.ManPower = {
   STANDARD: 0,
@@ -108,7 +108,6 @@ Man.prototype.unselect = function() {
   });
 };
 
-//TODO isSelected as a parameter or Man's property? +RETHINK +REFACTOR
 Man.prototype.moveToTile = function(tileTo, isSelected) {
   this.moveToTileAnimation(tileTo, isSelected);
   this.moveToTileLogic(tileTo);
@@ -117,7 +116,6 @@ Man.prototype.moveToTile = function(tileTo, isSelected) {
 Man.prototype.moveToTileAnimation = function(tileTo, isSelected) {
   //due to drawing order some men might end up hidden beneath tiles
   canvas.bringToFront(this.graphic);
-  //TODO change object center? +REFACTOR +MINOR
   this.graphic.animate({
     left: Tile.size * (tileTo.x + 0.5) - Man.Radius - (isSelected ? Man.StrokeWidth / 2 : 0),
     top: Tile.size * (tileTo.y + 0.5) - Man.Radius - (isSelected ? Man.StrokeWidth / 2 : 0)

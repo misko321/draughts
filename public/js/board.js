@@ -171,7 +171,6 @@ Board.prototype.canBeat = function(tile, oppTile, man) {
     this.tiles[oppTile.x][oppTile.y].man.Color === man.oppositeColor();
 };
 
-//TODO ->moveOpponentsManTo(selectedMan, tile) +RETHINK +REFACTOR
 Board.prototype.moveSelectedManTo = function(tile) {
   this.lastMoveWasBeat = (tile.isAllowedForBeat ? true : false);
   if (tile.isAllowedForBeat) {
@@ -195,7 +194,6 @@ Board.prototype.clearAllHighlights = function() {
     this.tilesAllowed[i].clearHighlights();
 };
 
-//TODO -> moveOpponentsManTo(man, tile) +RETHINK +REFACTOR
 //opponent's move received through WebSocket
 Board.prototype.moveOpponentsMan = function(from, to, manToBeat) {
   var fromTile = this.tiles[from.x][from.y];

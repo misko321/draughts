@@ -1,6 +1,5 @@
 var canvas = new fabric.Canvas('draughts-canvas');
 canvas.setBackgroundColor("#ffffff");
-//TODO manage all properties in proper files +REFACTOR
 var board;
 var Color = net.brehaut.Color;
 var hoverAnimationTime = 100;
@@ -16,8 +15,6 @@ var turn = 'white';
 
 var socketURL = document.location.origin;
 
-//TODO will 'window.requestAnimationFrame(draw)' ever be needed? +RETHINK
-//TODO make clear where's the entire application's entry point +STD_FEATURE
 var websocket = new Websocket(socketURL);
 
 $(document).ready(init);
@@ -84,7 +81,6 @@ function showWaitingModal() {
   $('#waitingForOtherPlayerModal').modal('show');
 }
 
-//TODO rename methods, \@object +REFACTOR
 function joinGame() {
   localUsername = $("#usernameInput").val();
   localStorage.setItem('username', localUsername);
@@ -127,7 +123,6 @@ function changeTurn() {
   board.myTurn = (board.myTurn ? false : true);
 }
 
-//TODO DRY +REFACTOR
 canvas.on('mouse:over', function(e) {
   if (e.target.obj.onMouseOver) {
     e.target.obj.onMouseOver();

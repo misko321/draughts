@@ -21,7 +21,6 @@ app.get('/', function(req, res) {
   res.sendFile('./public/index.html', options);
 });
 app.get('/[a-zA-Z0-9]+/:color(black|white)', function(req, res) {
-  // console.log(req.params.color);
   res.sendFile('./public/index.html', options);
 });
 app.get('/*', function(req, res) {
@@ -164,7 +163,6 @@ function move(socket, msg) {
 }
 
 function disconnect(socket, msg) {
-  //TODO 5 sec timeout +ADD_FEATURE
   var player = socket.player;
   if (player && player.game) { //if joining completed
     player.game.leave(player);

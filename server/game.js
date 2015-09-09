@@ -11,7 +11,7 @@ var Game = function(token) {
   //   this.tiles[i] = [];
   //   for (var j = 0; j < Game.tilesCount; ++j) {
   //     if ((i + j) % 2 === 0)
-  //       this.tiles[i][j] = 'N'; //TODO enum instead of char? +RETHINK
+  //       this.tiles[i][j] = 'N';
   //     else if (j < 4)
   //       this.tiles[i][j] = 'B';
   //     else if (j < 6)
@@ -27,7 +27,7 @@ var Game = function(token) {
     this.tiles[i] = [];
     for (var j = 0; j < Game.tilesCount; ++j) {
       if ((i + j) % 2 === 0)
-        this.tiles[i][j] = 'N'; //TODO enum instead of char? +RETHINK
+        this.tiles[i][j] = 'N';
       else if (j === 2 || j === 4 || j === 0)
         this.tiles[i][j] = 'B';
       else if (j === 5 || j === 7 || j === 9)
@@ -41,7 +41,6 @@ var Game = function(token) {
 
 Game.tilesCount = 10;
 
-//TODO array[color] +REFACTOR
 Game.prototype.join = function(player) {
   console.log('Player ' + player.username + ' joined ' + this.token + ' game');
   ++this.playersCount;
