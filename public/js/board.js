@@ -3,7 +3,6 @@ var Board = function(tiles) {
   Tile.size = canvas.getWidth() / Board.tilesCount;
   Man.Radius = Tile.size * 0.4;
   Man.StrokeWidth = Man.Radius / 4;
-  Man.board = this; //TODO capitalize or not? +REFACTOR
   Tile.board = this; //TODO capitalize or not? +REFACTOR
 
   //initialize this

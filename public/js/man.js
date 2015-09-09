@@ -16,7 +16,6 @@ var Man = function(tile) {
 
 Man.Radius = undefined;
 Man.StrokeWidth = undefined; //TODO capitalize or not? +REFACTOR
-Man.board = undefined; //TODO capitalize or not? +REFACTOR
 
 Man.ManPower = {
   STANDARD: 0,
@@ -79,7 +78,7 @@ Man.prototype.onMouseOut = function() {
 };
 
 Man.prototype.select = function() {
-  Man.board.select(this);
+  board.select(this);
 };
 
 Man.prototype.selectAnimation = function() {
@@ -126,7 +125,7 @@ Man.prototype.moveToTileAnimation = function(tileTo, isSelected) {
     onChange: canvas.renderAll.bind(canvas),
     onComplete: function() {
       if (isSelected) {
-        Tile.board.onMoveCompleted(tileTo);
+        board.onMoveCompleted(tileTo);
         canvas.renderAll();
       }
     },
