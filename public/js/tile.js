@@ -117,7 +117,7 @@ Tile.prototype.onMouseOut = function() {
 Tile.prototype.onMouseDown = function() {
   if (this.isAllowedForMove()) {
     //move men to selected (this) tile
-    websocket.emit(board.selectedMan.tile, this);
+    websocket.sendMove(board.selectedMan.tile, this); //TODO let board set move +NOW
     Tile.board.moveSelectedManTo(this);
   } else {
     //or unselect man, if clicked on empty tile

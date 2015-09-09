@@ -22,5 +22,6 @@
 
 #### TODO:
 + clean code (2/15)
-+ more meaningful console logs
-+ remove TODOs
++ more meaningful console logs (mainly in websocket.js)
++ remove TODOs, check first if it's something to do now
++ remove logs from game.js

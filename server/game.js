@@ -41,6 +41,7 @@ Game.tilesCount = 10;
 
 //TODO array[color] +REFACTOR
 Game.prototype.join = function(player) {
+  //TODO show message log +NOW
   ++this.playersCount;
   this.players.push(player);
   player.game = this;
@@ -63,6 +64,7 @@ Game.prototype.leave = function(player) {
 };
 
 Game.prototype.rejoin = function(color) {
+  //TODO show message log +NOW
   // console.log(this.playersCount);
   if (color === 'white') {
     // console.log('c W');
@@ -82,6 +84,7 @@ Game.prototype.rejoin = function(color) {
 };
 
 Game.prototype.start = function() {
+  //TODO show message log +NOW
   var rand = Math.floor(Math.random() * 2);
   this.players[rand].color = 'B';
   this.playerBlack = this.players[rand];

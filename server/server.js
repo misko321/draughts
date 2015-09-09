@@ -168,12 +168,12 @@ function disconnect(socket, msg) {
   var player = socket.player;
   if (player && player.game) { //if joining completed
     player.game.leave(player);
-    socket.broadcast.to(player.game.token).emit('disconnect-issue', null);
+    socket.broadcast.to(player.game.token).emit('opponent-disconnected', null);
     socket.emit('disconnect-ack', {
       status: 'OK',
       message: 'You have been disconnected from the server'
     });
-    console.log('user disconnected');
+    console.log('User disconnected from the server (game: ' + player.game.token + ')');
   }
 }
 

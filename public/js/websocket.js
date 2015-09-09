@@ -3,31 +3,30 @@ var Websocket = function(url) {
 };
 
 Websocket.prototype.connect = function(gameUsername) {
-  this.gameUsername = gameUsername;
   this.client = io.connect(this.url);
 
   var that = this;
   this.client.on('connect', function(socket) {
 
-    that.connectToServer();
+    that.finishConnecting();
     that.joinGame();
 
     that.client.on('move', function(msg) {
-      that.applyMove(msg.move);
+      that.applyMoveFromOpponent(msg.move);
     });
 
-    that.client.on('disconnect-issue', function(msg) {
-      that.disconnectIssue(msg);
+    that.client.on('opponent-disconnected', function() {
+      that.opponentDisconnected();
     });
 
-    //TODO move to disconnect method +RETHINK
+    //in case of manual disconnecting
     that.client.on('disconnect-ack', function(msg) {
       that.disconnectAck(msg);
     });
 
     that.client.on('second-player-joins', function(msg) {
       console.log('second-player-joins');
-      if (board.playerColor === undefined) //false if opponent reconnected
+      if (board.playerColor === undefined) //don't needed if it's just the opponent who reconnected
         board.setPlayerColor(msg.color, this.turn);
       showPlayerJoinedOnModal(msg.username, msg.color);
       UrlManager.color = msg.color;
@@ -36,7 +35,7 @@ Websocket.prototype.connect = function(gameUsername) {
   });
 };
 
-Websocket.prototype.connectToServer = function() {
+Websocket.prototype.finishConnecting = function() {
   var that = this;
   console.log('Trying to connect...');
   this.client.on('connect-ack', function(msg) {
@@ -55,7 +54,7 @@ Websocket.prototype.joinGame = function() {
 
 Websocket.prototype.joinNewGame = function() {
   this.client.emit('join-new-game', {
-    "username": this.gameUsername
+    "username": localUsername
   });
   this.client.on('join-new-game-ack', function(msg) {
     console.log(msg.status + ': ' + msg.message + ', token: ' + msg.token);
@@ -76,19 +75,15 @@ Websocket.prototype.joinExistingGame = function(token, color) {
     //TODO Logger class? +ADD_FEATURE
     console.log(msg.status + ": " + msg.message + ', token: ' + msg.token);
     initializeGame(msg.status, msg.tiles);//, msg.turn);
-    that.gameUsername = msg.username; //TODO username spaghetti +REFACTOR
+    localUsername = msg.username;
     this.turn = msg.turn;
-    username = msg.username;
     if (msg.status === "OK")
       showWaitingModal();
-    // if (board.playerColor === undefined) //false if opponent reconnected
-    // board.setPlayerColor(msg.color);
-    // showPlayerJoinedOnModal(msg.username, msg.color);
   });
 };
 
-Websocket.prototype.disconnectIssue = function(msg) {
-  console.log('disconnect issue');
+Websocket.prototype.opponentDisconnected = function() {
+  console.log('Your opponent has disconnected from the game');
   showOpponentDisconnectedModal();
 };
 
@@ -100,23 +95,26 @@ Websocket.prototype.disconnectAck = function(msg) {
   console.log('Success: ' + msg.message);
 };
 
-Websocket.prototype.applyMove = function(move) {
+Websocket.prototype.applyMoveFromOpponent = function(move) {
   //TODO don't perform action if it came out of this host +RETHINK +STD_FEATURE
+  console.log('Received move from opponent: ', move);
   var manToBeat = move.manToBeat ? { x: move.manToBeat.x, y: move.manToBeat.y } : undefined;
   board.moveOpponentsMan({ x: move.from.x, y: move.from.y}, { x: move.to.x, y: move.to.y }, manToBeat);
   if (move.changeTurn) {
-    console.log('change turn');
+    console.log('Changing turn...');
     changeTurn();
   }
-  console.log('move');
 };
 
-Websocket.prototype.emit = function(from, to) {
+Websocket.prototype.sendMove = function(from, to) {
+  var yourMove = {
+    'from': { x: from.x, y: from.y },
+    'to': { x: to.x, y: to.y }
+  };
+
+  console.log('Sending move to your opponent:', yourMove);
   this.client.emit('move', {
     token: UrlManager.getToken(),
-    move: {
-      'from': { x: from.x, y: from.y },
-      'to': { x: to.x, y: to.y }
-    }
+    move: yourMove
   });
 };

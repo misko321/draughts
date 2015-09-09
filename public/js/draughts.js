@@ -11,7 +11,7 @@ var waitTillMsgTime = 500;
 var fadeTime = 500;
 var msgTime = 2500;
 
-var username;
+var localUsername;
 var turn = 'white';
 
 var socketURL = document.location.origin;
@@ -70,9 +70,11 @@ function showOpponentDisconnectedModal() {
   $("#enjoyModalBody").hide();
 
   $("#waitingForOtherPlayerModal .modal-title").html("Your opponent has disconnected...");
-  $("#waitModalBodySpan").html("It seems that your opponent has some problems with Internet connection <br>" +
+  $("#waitModalBodySpan")
+    .html("It seems that your opponent has some problems with Internet connection <br>" +
     "or has abandoned the game.<br />" +
-    "Please, wait a moment until your opponent rejoins the game or find a <a href='/'>new one</a>.");
+    "Please, wait a moment until your opponent rejoins the game or find a " +
+    "<a href='/'>new one</a>.");
 
   $("#waitModalBody").show();
   $("#waitingForOtherPlayerModal").modal('show');
@@ -84,9 +86,9 @@ function showWaitingModal() {
 
 //TODO rename methods, \@object +REFACTOR
 function joinGame() {
-  username = $("#usernameInput").val();
-  localStorage.setItem('username', username);
-  websocket.connect(username);
+  localUsername = $("#usernameInput").val();
+  localStorage.setItem('username', localUsername);
+  websocket.connect(localUsername);
   closeAllModals();
   showWaitingModal();
 }
@@ -94,10 +96,10 @@ function joinGame() {
 function showPlayerJoinedOnModal(opponentUsername, yourColor) {
 
   if (yourColor === "white") {
-    $("#turnWhite").html(username);
+    $("#turnWhite").html(localUsername);
     $("#turnBlack").html(opponentUsername);
   } else {
-    $("#turnBlack").html(username);
+    $("#turnBlack").html(localUsername);
     $("#turnWhite").html(opponentUsername);
   }
 
