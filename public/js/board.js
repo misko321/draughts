@@ -203,3 +203,7 @@ Board.prototype.moveOpponentsMan = function(from, to, manToBeat) {
   if (manToBeat)
     this.destroyMan(this.tiles[manToBeat.x][manToBeat.y].man);
 };
+
+Board.prototype.sendMove = function(from, to) {
+  websocket.sendMove(from, to);
+};
