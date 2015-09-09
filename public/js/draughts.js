@@ -23,9 +23,16 @@ function initializeGame(status, tiles) {//}, turn) {
   } else {
     $(".game-tr").hide();
     $(".game-not-found-tr").show();
+
+    closeAllModals();
   }
 
   // board.myTurn = (board.myTurn ? false : true);
+}
+
+function closeAllModals() {
+  $('#joinGameModal').modal('hide');
+  $('#waitingForOtherPlayerModal').modal('hide');
 }
 
 function showModalUsername() {
