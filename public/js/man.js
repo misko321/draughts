@@ -77,7 +77,7 @@ Man.prototype.onMouseOut = function() {
   });
 };
 
-Man.prototype.select = function() {
+Man.prototype.onMouseDown = function() {
   board.select(this);
 };
 

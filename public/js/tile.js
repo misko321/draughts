@@ -10,7 +10,7 @@ var Tile = function (type, x, y) {
   this.graphic = new fabric.Rect({
     left: Tile.size * x,
     top: Tile.size * y,
-    fill: type === Tile.TileType.NONPLAYABLE ? Tile.colorNonplayable : Tile.colorPlayable,
+    fill: type === Tile.TileType.NONPLAYABLE ? Tile.ColorNonplayable : Tile.ColorPlayable,
     width: Tile.size,
     height: Tile.size,
     selectable: false,
@@ -21,11 +21,11 @@ var Tile = function (type, x, y) {
 };
 
 Tile.size = undefined;
-Tile.colorPlayable = "#717070";
-Tile.colorNonplayable = "#d9d9d9";
-Tile.colorAllowed = "#38b321";
-Tile.colorMovingToNow = "#b8c153";
-Tile.colorAllowedForBeat = "#cf3a3a";
+Tile.ColorPlayable = "#717070";
+Tile.ColorNonplayable = "#d9d9d9";
+Tile.ColorAllowed = "#38b321";
+Tile.ColorMovingToNow = "#b8c153";
+Tile.ColorAllowedForBeat = "#cf3a3a";
 
 Tile.TileType = {
   PLAYABLE: 0,
@@ -42,7 +42,7 @@ Tile.prototype.clearMan = function() {
 
 Tile.prototype.setAsAllowed = function() {
   var graphic = this.graphic;
-  fabric.util.animateColor(this.graphic.fill, Tile.colorAllowed, colorAnimationTime, {
+  fabric.util.animateColor(this.graphic.fill, Tile.ColorAllowed, colorAnimationTime, {
     onChange: function(val) {
       graphic.setFill(val);
       canvas.renderAll();
@@ -53,7 +53,7 @@ Tile.prototype.setAsAllowed = function() {
 
 Tile.prototype.setAsAllowedForBeat = function() {
   var graphic = this.graphic;
-  fabric.util.animateColor(this.graphic.fill, Tile.colorAllowedForBeat, colorAnimationTime, {
+  fabric.util.animateColor(this.graphic.fill, Tile.ColorAllowedForBeat, colorAnimationTime, {
     onChange: function(val) {
       graphic.setFill(val);
       canvas.renderAll();
@@ -64,7 +64,7 @@ Tile.prototype.setAsAllowedForBeat = function() {
 
 Tile.prototype.clearHighlights = function() {
   var graphic = this.graphic;
-  fabric.util.animateColor(this.graphic.fill, Tile.colorPlayable, colorAnimationTime, {
+  fabric.util.animateColor(this.graphic.fill, Tile.ColorPlayable, colorAnimationTime, {
     onChange: function(val) {
       graphic.setFill(val);
       canvas.renderAll();
@@ -76,12 +76,16 @@ Tile.prototype.clearHighlights = function() {
 
 Tile.prototype.setAsMovingToNow = function() {
   var graphic = this.graphic;
-  fabric.util.animateColor(this.graphic.fill, Tile.colorMovingToNow, colorAnimationTime, {
+  fabric.util.animateColor(this.graphic.fill, Tile.ColorMovingToNow, colorAnimationTime, {
     onChange: function(val) {
       graphic.setFill(val);
       canvas.renderAll();
     }
   });
+};
+
+Tile.prototype.isAllowedForMove = function() {
+  return this.isAllowed || this.isAllowedForBeat;
 };
 
 Tile.prototype.onMouseOver = function() {
@@ -95,10 +99,6 @@ Tile.prototype.onMouseOver = function() {
       }
     });
   }
-};
-
-Tile.prototype.isAllowedForMove = function() {
-  return this.isAllowed || this.isAllowedForBeat;
 };
 
 Tile.prototype.onMouseOut = function() {
@@ -118,9 +118,9 @@ Tile.prototype.onMouseDown = function() {
   if (this.isAllowedForMove()) {
     //move men to selected (this) tile
     websocket.sendMove(board.selectedMan.tile, this); //TODO let board set move +NOW
-    Tile.board.moveSelectedManTo(this);
+    board.moveSelectedManTo(this);
   } else {
     //or unselect man, if clicked on empty tile
-    Tile.board.unselect();
+    board.unselect();
   }
 };

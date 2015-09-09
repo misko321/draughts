@@ -148,10 +148,3 @@ canvas.on('mouse:down', function(e) {
     canvas.renderAll();
   }
 });
-
-canvas.on('mouse:up', function(e) {
-  if (e.target.obj.select) {
-    e.target.obj.select();
-    canvas.renderAll();
-  }
-});
