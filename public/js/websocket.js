@@ -103,7 +103,7 @@ Websocket.prototype.disconnectAck = function(msg) {
 Websocket.prototype.applyMove = function(move) {
   //TODO don't perform action if it came out of this host +RETHINK +STD_FEATURE
   var manToBeat = move.manToBeat ? { x: move.manToBeat.x, y: move.manToBeat.y } : undefined;
-  board.moveMan({ x: move.from.x, y: move.from.y}, { x: move.to.x, y: move.to.y }, manToBeat);
+  board.moveOpponentsMan({ x: move.from.x, y: move.from.y}, { x: move.to.x, y: move.to.y }, manToBeat);
   if (move.changeTurn) {
     console.log('change turn');
     changeTurn();

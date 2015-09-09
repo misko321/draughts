@@ -21,5 +21,6 @@
 + socket.io show when problem with connection, server is down
 
 #### TODO:
-+ clean code
++ clean code (2/15)
 + more meaningful console logs
++ remove TODOs
